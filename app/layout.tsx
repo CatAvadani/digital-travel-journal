@@ -28,12 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen `}
       >
         <Header />
-        <main className="flex flex-1  gap-8 items-center justify-center">
+        <main className='flex flex-1  gap-8 items-center justify-center'>
           {children}
         </main>
         <Footer />
