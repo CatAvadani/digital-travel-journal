@@ -1,39 +1,47 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import useAuthStore from '../lib/store';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuthStore } from '../lib/store';
+
+interface FormData {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
-
-  const { signIn, signUp, loading, error } = useAuthStore();
+  const [isLogin, setIsLogin] = useState(true);
+  const { user, signIn, signUp, error, loading } = useAuthStore();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    mode: 'onChange',
+  });
+
+  const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
-      if (isSignUp) {
-        await signUp(email, password);
+      if (isLogin) {
+        await signIn(email, password, router);
       } else {
-        await signIn(email, password);
-        if (!error) {
-          router.push('/explore');
-        }
+        await signUp(email, password, router);
       }
     } catch (err) {
-      console.error('Error during authentication', err);
+      console.error('Authentication Error:', err);
     }
   };
 
   return (
     <div className='min-h-screen flex items-center justify-center'>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className='bg-white p-8 rounded shadow-md w-96'
       >
-        <h2 className='text-2xl mb-4'>{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+        <h2 className='text-2xl mb-4'>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
 
         {error && <p className='text-red-500 mb-4'>{error}</p>}
 
@@ -44,11 +52,18 @@ export default function Login() {
           <input
             type='email'
             id='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: 'Invalid email address',
+              },
+            })}
             className='w-full px-3 py-2 border rounded'
           />
+          {errors.email && (
+            <p className='text-red-500 text-sm'>{errors.email.message}</p>
+          )}
         </div>
 
         <div className='mb-4'>
@@ -58,29 +73,40 @@ export default function Login() {
           <input
             type='password'
             id='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters long',
+              },
+            })}
             className='w-full px-3 py-2 border rounded'
           />
+          {errors.password && (
+            <p className='text-red-500 text-sm'>{errors.password.message}</p>
+          )}
         </div>
 
         <button
           type='submit'
-          disabled={loading}
-          className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'
+          disabled={!isValid || loading}
+          className={`w-full py-2 rounded ${
+            !isValid || loading
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600 text-white'
+          }`}
         >
-          {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}
+          {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
         </button>
 
         <p className='mt-4 text-center'>
-          {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
+          {isLogin ? "Don't have an account? " : 'Already have an account? '}
           <button
             type='button'
-            onClick={() => setIsSignUp(!isSignUp)}
+            onClick={() => setIsLogin(!isLogin)}
             className='text-blue-500 hover:underline'
           >
-            {isSignUp ? 'Sign In' : 'Sign Up'}
+            {isLogin ? 'Sign Up' : 'Sign In'}
           </button>
         </p>
       </form>

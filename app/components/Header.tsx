@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import useAuthStore from '../lib/store';
+import { useAuthStore } from '../lib/store';
 
 const links = [
   { href: '/myAdventures', label: 'My Adventures' },
