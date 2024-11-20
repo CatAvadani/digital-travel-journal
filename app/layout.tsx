@@ -4,6 +4,7 @@ import React from 'react';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import './globals.css';
+import { Providers } from './providers';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -32,10 +33,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen `}
       >
-        <Header />
-        <main className='flex flex-1  gap-8 items-center justify-center'>
-          {children}
-        </main>
+        <Providers>
+          <Header />
+          <main className='flex flex-1  gap-8 items-center justify-center'>
+            {children}
+          </main>
+        </Providers>
         <Footer />
       </body>
     </html>
