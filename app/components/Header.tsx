@@ -114,14 +114,14 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className='border border-white bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700'
+            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-lg shadow-lg px-4 py-2 flex items-center justify-center'
           >
             Logout
           </button>
         ) : (
           <Link
             href='/login'
-            className='border border-white bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700'
+            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-lg shadow-lg px-4 py-2 flex items-center justify-center'
           >
             Login
           </Link>

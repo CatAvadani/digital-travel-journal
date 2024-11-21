@@ -1,3 +1,6 @@
+import GlassCard from './components/GlassCard';
+import cardData from './data/cardData';
+
 export default function Home() {
   return (
     <div className='relative w-full h-screen overflow-hidden'>
@@ -18,11 +21,19 @@ export default function Home() {
           Turn Your Adventures into Timeless Stories
         </h1>
 
-        <button className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-lg text-white shadow-lg transition-all duration-300 ease-in-out '>
-          Get Started
+        <button className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out '>
+          Begin Your Journey
         </button>
       </div>
-
+      <div className='absolute -bottom-10 w-full flex justify-center gap-4'>
+        {cardData.map((item) => (
+          <GlassCard
+            key={item.id}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
       {/* <div className='absolute inset-0 bg-black opacity-20 z-0'></div> */}
     </div>
   );
