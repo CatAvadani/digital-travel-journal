@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAuthStore } from '../lib/store';
+import { useAuthStore } from '../lib/useAuthStore';
 
 interface FormData {
   email: string;
@@ -47,7 +47,18 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
         className='bg-white p-2 w-80  md:w-96'
       >
-        {error && <p className='text-red-500 mb-4'>{error}</p>}
+        {error && (
+          <p className='text-red-500 mb-4'>
+            {/* Todo: Temporary error messages. Replace with proper error handling. */}
+            {error === 'auth/user-not-found'
+              ? 'User not found'
+              : error === 'auth/wrong-password'
+              ? 'Invalid password'
+              : error === 'auth/email-already-in-use'
+              ? 'Email already in use'
+              : 'An error occurred. Please try again later.'}
+          </p>
+        )}
 
         <div className='mb-4'>
           <label htmlFor='email' className='block mb-2'>

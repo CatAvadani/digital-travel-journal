@@ -1,6 +1,6 @@
 'use client';
 import { redirect } from 'next/navigation';
-import { useAuthStore } from '../lib/store';
+import { useAuthStore } from '../lib/useAuthStore';
 
 export default function MyAdventures() {
   const { user } = useAuthStore();

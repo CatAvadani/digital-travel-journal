@@ -2,7 +2,7 @@
 import { AlignRight, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuthStore } from '../lib/store';
+import { useAuthStore } from '../lib/useAuthStore';
 
 const links = [
   { href: '/myAdventures', label: 'My Adventures' },
