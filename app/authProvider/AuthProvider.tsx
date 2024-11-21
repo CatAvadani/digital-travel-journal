@@ -14,11 +14,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     setLoading(true);
-
+    // The onAuthStateChanged function listens for changes in the user's authentication state. When the user logs in, the function receives the user object, and when the user logs out, the function receives null.
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
         setUser(user);
         setError(null);
+        // this is the line that redirects the user to the explore page after they log in
         router.push('/explore');
       } else {
         setUser(null);
