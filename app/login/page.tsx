@@ -36,13 +36,17 @@ export default function Login() {
   };
 
   return (
-    <div className='min-h-screen flex items-center justify-center'>
+    <div className='flex flex-col items-center justify-center gap-4'>
+      <h2 className='text-2xl font-bold'>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
+      <p className='text-gray-500'>
+        {isLogin
+          ? 'Welcome back! Please sign in to continue.'
+          : 'Create an account to start your travel journal.'}
+      </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='bg-white p-2 w-80  md:w-96'
       >
-        <h2 className='text-2xl mb-4'>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
-
         {error && <p className='text-red-500 mb-4'>{error}</p>}
 
         <div className='mb-4'>
@@ -52,6 +56,7 @@ export default function Login() {
           <input
             type='email'
             id='email'
+            placeholder='johndoe@mail.com'
             {...register('email', {
               required: 'Email is required',
               pattern: {
@@ -73,6 +78,7 @@ export default function Login() {
           <input
             type='password'
             id='password'
+            placeholder='Minimum 6 characters'
             {...register('password', {
               required: 'Password is required',
               minLength: {

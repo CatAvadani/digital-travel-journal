@@ -35,11 +35,11 @@ export default function RootLayout({
       >
         <Providers>
           <Header />
-          <main className='flex flex-1  gap-8 items-center justify-center'>
+          <main className='flex flex-grow  items-center justify-center'>
             {children}
           </main>
+          <Footer />
         </Providers>
-        <Footer />
       </body>
     </html>
   );
