@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header />
-          <main className='flex flex-grow  items-center justify-center'>
+          <main className='flex flex-grow  items-center justify-center bg-gradient-to-b from-violet-950 to-black'>
             {children}
           </main>
           <Footer />

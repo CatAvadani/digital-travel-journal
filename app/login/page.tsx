@@ -37,15 +37,17 @@ export default function Login() {
 
   return (
     <div className='flex flex-col items-center justify-center gap-4'>
-      <h2 className='text-2xl font-bold'>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
-      <p className='text-gray-500'>
+      <h2 className='text-2xl font-bold text-white'>
+        {isLogin ? 'Sign In' : 'Sign Up'}
+      </h2>
+      <p className='text-white'>
         {isLogin
           ? 'Welcome back! Please sign in to continue.'
           : 'Create an account to start your travel journal.'}
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='bg-white p-2 w-80  md:w-96'
+        className='bg-transparent p-2 w-80  md:w-96'
       >
         {error && (
           <p className='text-red-500 mb-4'>
@@ -60,7 +62,7 @@ export default function Login() {
           </p>
         )}
 
-        <div className='mb-4'>
+        <div className='mb-4 text-white'>
           <label htmlFor='email' className='block mb-2'>
             Email
           </label>
@@ -82,7 +84,7 @@ export default function Login() {
           )}
         </div>
 
-        <div className='mb-4'>
+        <div className='mb-4 text-white'>
           <label htmlFor='password' className='block mb-2'>
             Password
           </label>
@@ -116,7 +118,7 @@ export default function Login() {
           {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
         </button>
 
-        <p className='mt-4 text-center'>
+        <p className='mt-4 text-center text-white'>
           {isLogin ? "Don't have an account? " : 'Already have an account? '}
           <button
             type='button'
