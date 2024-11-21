@@ -19,7 +19,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         setUser(user);
         setError(null);
-        // this is the line that redirects the user to the explore page after they log in
         router.push('/explore');
       } else {
         setUser(null);

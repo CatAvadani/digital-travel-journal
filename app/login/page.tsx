@@ -12,7 +12,7 @@ interface FormData {
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const { user, signIn, signUp, error, loading } = useAuthStore();
+  const { signIn, signUp, error, loading } = useAuthStore();
   const router = useRouter();
 
   const {
@@ -39,7 +39,7 @@ export default function Login() {
     <div className='min-h-screen flex items-center justify-center'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='bg-white p-8 rounded shadow-md w-96'
+        className='bg-white p-2 w-80  md:w-96'
       >
         <h2 className='text-2xl mb-4'>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
 
