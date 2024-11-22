@@ -26,7 +26,7 @@ export default function GlassCard({
           rounded-full 
           p-4 
           flex items-center justify-center 
-          text-pink-500 
+          text-pink-500
           mb-4
         '
       >

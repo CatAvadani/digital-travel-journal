@@ -1,5 +1,6 @@
 'use client';
 import { AlignRight, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../lib/useAuthStore';
@@ -31,13 +32,17 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  max-w-7xl mx-auto flex justify-between items-center p-5 rounded-lg text-white md:px-8 transition-all duration-300 ${
-        isScrolled ? 'glassBackground' : 'bg-transparent'
-      }`}
+      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 rounded-lg text-white md:px-16 `}
     >
       {/* Logo */}
       <Link href='/' className=' text-xl md:text-2xl font-bold text-white'>
-        Digital Travel Journal
+        <Image
+          src='/Zantic.svg'
+          className=' object-cover'
+          width={50}
+          height={50}
+          alt='logo'
+        />
       </Link>
 
       {/* Mobile Menu Icon */}
