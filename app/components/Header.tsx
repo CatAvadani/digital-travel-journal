@@ -31,8 +31,8 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed z-40 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
-        isScrolled ? 'bg-black/80' : 'bg-transparent'
+      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  max-w-7xl mx-auto flex justify-between items-center p-5 rounded-lg text-white md:px-8 transition-all duration-300 ${
+        isScrolled ? 'glassBackground' : 'bg-transparent'
       }`}
     >
       {/* Logo */}

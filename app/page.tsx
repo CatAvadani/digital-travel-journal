@@ -1,4 +1,4 @@
-import GlassCard from './components/GlassCard';
+import GlassCard from './components/glassCard';
 import cardData from './data/cardData';
 
 export default function Home() {
@@ -31,6 +31,7 @@ export default function Home() {
             key={item.id}
             title={item.title}
             description={item.description}
+            icon={item.icon}
           />
         ))}
       </div>

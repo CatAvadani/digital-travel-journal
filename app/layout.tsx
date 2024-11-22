@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import React from 'react';
-import Footer from './components/Footer';
-import Header from './components/Header';
+import Footer from './components/footer';
+import Header from './components/header';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -31,11 +31,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Providers>
           <Header />
-          <main className='flex flex-grow  items-center justify-center bg-gradient-to-b from-violet-950 to-black'>
+          <main className='flex flex-grow  items-center justify-center defaultBackground'>
             {children}
           </main>
           <Footer />
