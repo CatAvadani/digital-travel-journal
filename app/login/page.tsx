@@ -77,7 +77,7 @@ export default function Login() {
                 message: 'Invalid email address',
               },
             })}
-            className='w-full px-3 py-2 border rounded'
+            className='w-full px-3 py-2 rounded-md bg-white/10'
           />
           {errors.email && (
             <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -99,7 +99,7 @@ export default function Login() {
                 message: 'Password must be at least 6 characters long',
               },
             })}
-            className='w-full px-3 py-2 border rounded'
+            className='w-full px-3 py-2 rounded-md bg-white/10'
           />
           {errors.password && (
             <p className='text-red-500 text-sm'>{errors.password.message}</p>
@@ -111,8 +111,8 @@ export default function Login() {
           disabled={!isValid || loading}
           className={`w-full py-2 rounded ${
             !isValid || loading
-              ? 'bg-gray-300 cursor-not-allowed'
-              : 'bg-blue-500 hover:bg-blue-600 text-white'
+              ? 'bg-fuchsia-300/20 text-white/70 cursor-not-allowed'
+              : 'bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] text-white'
           }`}
         >
           {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
@@ -123,7 +123,7 @@ export default function Login() {
           <button
             type='button'
             onClick={() => setIsLogin(!isLogin)}
-            className='text-blue-500 hover:underline'
+            className='text-pink-500 hover:underline'
           >
             {isLogin ? 'Sign Up' : 'Sign In'}
           </button>
