@@ -77,7 +77,7 @@ export default function Login() {
                 message: 'Invalid email address',
               },
             })}
-            className='w-full px-3 py-2 rounded-md bg-white/10'
+            className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
           />
           {errors.email && (
             <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -99,7 +99,7 @@ export default function Login() {
                 message: 'Password must be at least 6 characters long',
               },
             })}
-            className='w-full px-3 py-2 rounded-md bg-white/10'
+            className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
           />
           {errors.password && (
             <p className='text-red-500 text-sm'>{errors.password.message}</p>

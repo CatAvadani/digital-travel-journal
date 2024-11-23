@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className='relative w-full h-screen overflow-hidden'>
@@ -29,9 +31,12 @@ export default function Home() {
         <h1 className='text-3xl md:text-5xl lg:text-7xl mb-16'>
           Turn Your Adventures into Timeless Stories
         </h1>
-        <button className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'>
+        <Link
+          href='/explore'
+          className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+        >
           Begin Your Journey
-        </button>
+        </Link>
       </div>
     </div>
   );

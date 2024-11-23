@@ -7,7 +7,7 @@
   backdrop-blur-lg backdrop-filter;
 }
 .defaultBackground {
-  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#3a1d46] to-black;
+  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#351b3f] to-black;
   background-size: 150%;
   animation: glowMove 10s ease-in-out infinite;
 }
