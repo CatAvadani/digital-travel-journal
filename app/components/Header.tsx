@@ -2,7 +2,7 @@
 import { AlignRight, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuthStore } from '../lib/useAuthStore';
 
 const links = [
@@ -13,26 +13,10 @@ const links = [
 export default function Header() {
   const { user, logout } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
     <header
-      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 rounded-lg text-white md:px-16 `}
+      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 py-8 rounded-lg text-white md:px-16 `}
     >
       {/* Logo */}
       <Link href='/' className=' text-xl md:text-2xl font-bold text-white'>
@@ -64,7 +48,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className='absolute top-16 right-4 bg-black shadow-lg rounded-lg w-64 p-5 z-50 md:hidden'>
+        <div className='absolute top-16 right-4   bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-lg w-64 p-5 z-50 md:hidden'>
           <ul className='space-y-4'>
             {links.map((link) => (
               <li key={link.href}>
@@ -119,14 +103,14 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-lg shadow-lg px-4 py-2 flex items-center justify-center'
+            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center'
           >
             Logout
           </button>
         ) : (
           <Link
             href='/login'
-            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-lg shadow-lg px-4 py-2 flex items-center justify-center'
+            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
           >
             Login
           </Link>
