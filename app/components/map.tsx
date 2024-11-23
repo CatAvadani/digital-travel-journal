@@ -67,30 +67,93 @@ export default function Map() {
       });
     }
   };
-
   return (
-    <div className='relative w-full h-screen'>
-      <div className='absolute top-4 left-4 bg-white p-3 rounded-md shadow-md z-50'>
+    <div className='grid grid-cols-4 h-screen gap-0 w-full overflow-hidden'>
+      {/* Map Section */}
+      <div
+        ref={mapContainerRef}
+        className='col-span-3 w-full h-full object-cover'
+      />
+      <div className='absolute top-4 left-4 bg-white p-3 rounded-md shadow-md z-50 '>
         <p>
           Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
           Zoom: {zoom.toFixed(2)}
         </p>
       </div>
-      <div className='absolute top-20 left-4 flex justify-center gap-2 '>
-        <button
-          className='left-4 bg-pink-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-pink-600 z-10'
-          onClick={handleButtonClick}
-        >
-          Reset
-        </button>
+
+      {/* Form Section */}
+      <div className='glassBackground text-white px-4 py-6 flex flex-col gap-4 shadow-lg max-h-screen'>
+        <h2 className='text-xl font-bold'>Add New Entry</h2>
+        <form className='flex flex-col gap-4  text-white'>
+          <div>
+            <label htmlFor='title' className='block text-sm font-medium  '>
+              Title
+            </label>
+            <input
+              type='text'
+              id='title'
+              placeholder='Trip to Stockholm'
+              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+            />
+          </div>
+          <div>
+            <label htmlFor='date' className='block text-sm font-medium'>
+              Date
+            </label>
+            <input
+              type='date'
+              id='date'
+              placeholder='2021-12-31'
+              className='mt-1 block w-full p-2 text-gray-500 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+            />
+          </div>
+          <div className='flex flex-col gap2'>
+            <label htmlFor='location' className='block text-sm font-medium'>
+              Location
+            </label>
+            <input
+              id='location'
+              placeholder='Stockholm, Sweden'
+              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+            />
+            <label htmlFor='location' className='block text-sm font-medium'>
+              Upload Image
+            </label>
+            <input
+              id='upload'
+              placeholder='Upload Image'
+              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+            />
+            <label htmlFor='location' className='block text-sm font-medium'>
+              Description
+            </label>
+            <textarea
+              id='description'
+              placeholder='Write your experience here...'
+              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              rows={4}
+            />
+          </div>
+          <button
+            type='submit'
+            className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out'
+          >
+            Submit
+          </button>
+        </form>
         <Link
           href='/'
-          className=' bg-pink-500 text-lg text-white px-4 py-2 rounded-md shadow-md hover:bg-pink-600 z-10'
+          className='bg-gradient-to-r from-[#d92f8a] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
         >
           Home
         </Link>
       </div>
-      <div ref={mapContainerRef} className='w-full h-full' />
+      <button
+        className='absolute top-20 left-4 bg-pink-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-pink-600 z-10'
+        onClick={handleButtonClick}
+      >
+        Reset
+      </button>
     </div>
   );
 }
