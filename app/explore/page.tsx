@@ -1,19 +1,3 @@
-// 'use client';
-// import dynamic from 'next/dynamic';
-// import { redirect } from 'next/navigation';
-// import { useAuthStore } from '../lib/useAuthStore';
-
-// // Dynamically load the Map component to ensure client-side rendering
-// const Map = dynamic(() => import('../components/map'), { ssr: false });
-
-// export default function Explore() {
-//   const { user } = useAuthStore();
-//   if (!user) {
-//     redirect('/login');
-//   }
-
-//   return <Map />;
-// }
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -25,11 +9,10 @@ import { useAuthStore } from '../lib/useAuthStore';
 const Map = dynamic(() => import('../components/map'), { ssr: false });
 
 export default function Explore() {
-  const { user, loading } = useAuthStore(); // Assume `loading` exists or add it
+  const { user, loading } = useAuthStore();
   const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   useEffect(() => {
-    // Wait until the authentication status is resolved
     if (!loading) {
       setIsAuthResolved(true);
     }
