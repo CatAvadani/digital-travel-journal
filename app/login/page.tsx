@@ -39,7 +39,7 @@ export default function Login() {
   return (
     <div
       className='bg-white bg-opacity-5 border border-white border-opacity-10 
-      backdrop-blur-3xl backdrop-filter p-20 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)]'
     >
       <div className='flex flex-col items-center justify-center gap-4'>
         <h2 className='text-2xl font-bold text-white'>
@@ -136,8 +136,8 @@ export default function Login() {
           </p>
         </form>
       </div>
-      <div className='absolute right-6 -bottom-6 bg-white/10 backdrop-blur-sm rounded-lg p-2  shadow-[0_0_15px_rgba(255,255,255,0.2)]'>
-        <MapPin className='size-20 text-[#D92F91]' />
+      <div className='absolute right-[50%] -translate-[50%] sm:right-6 sm:-bottom-6 bg-white/10 backdrop-blur-sm rounded-lg p-2  shadow-[0_0_15px_rgba(255,255,255,0.2)]'>
+        <MapPin className='size-14 sm:size-20 text-[#D92F91]' />
       </div>
     </div>
   );
