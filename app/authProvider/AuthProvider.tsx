@@ -1,5 +1,4 @@
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { auth } from '../firebase/firebase';
 import { useAuthStore } from '../lib/useAuthStore';
@@ -10,7 +9,6 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { setUser, setLoading, setError } = useAuthStore();
-  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -19,7 +17,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         setUser(user);
         setError(null);
-        router.push('/mapView');
       } else {
         setUser(null);
       }
@@ -28,7 +25,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [setUser, setLoading, setError, router]);
+  }, [setUser, setLoading, setError]);
 
   return <>{children}</>;
 };
