@@ -103,14 +103,14 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center'
+            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center'
           >
             Logout
           </button>
         ) : (
           <Link
             href='/login'
-            className=' bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
+            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
           >
             Login
           </Link>

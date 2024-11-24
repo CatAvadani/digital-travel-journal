@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuthStore } from '../lib/useAuthStore';
 
 // Dynamically load the Map component to ensure client-side rendering
@@ -10,15 +10,15 @@ const Map = dynamic(() => import('../components/map'), { ssr: false });
 
 export default function Explore() {
   const { user, loading } = useAuthStore();
-  const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      setIsAuthResolved(true);
+    if (!loading && !user) {
+      redirect('/login');
     }
-  }, [loading]);
+  }, [loading, user]);
 
-  if (loading || !isAuthResolved) {
+  // Show loading screen while resolving authentication state
+  if (loading || !user) {
     return (
       <div className='z-50 flex justify-center items-center h-screen text-white text-xl'>
         <p>Loading...</p>
@@ -26,9 +26,6 @@ export default function Explore() {
     );
   }
 
-  if (!user) {
-    redirect('/login');
-  }
-
+  // Render Map component once authentication is resolved
   return <Map />;
 }
