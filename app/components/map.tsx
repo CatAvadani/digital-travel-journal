@@ -7,6 +7,21 @@ import { useEffect, useRef, useState } from 'react';
 
 const INITIAL_ZOOM = 14;
 
+// Utility: Debounce function
+function debounce<T extends (...args: unknown[]) => void>(
+  func: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  let timer: NodeJS.Timeout;
+
+  return (...args: Parameters<T>) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+}
+
 export default function Map() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -42,16 +57,17 @@ export default function Map() {
           .setLngLat([longitude, latitude])
           .addTo(mapRef.current);
 
-        // Update center and zoom on map move
-        mapRef.current.on('move', () => {
+        // Debounced state updates for `center` and `zoom`
+        const updateMapState = debounce(() => {
           if (mapRef.current) {
             const mapCenter = mapRef.current.getCenter();
             const mapZoom = mapRef.current.getZoom();
-
             setCenter([mapCenter.lng, mapCenter.lat]);
             setZoom(mapZoom);
           }
-        });
+        }, 100);
+
+        mapRef.current.on('move', updateMapState);
       }
     };
 
