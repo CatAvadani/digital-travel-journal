@@ -1,4 +1,6 @@
+'use client';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { auth } from '../firebase/firebase';
 import { useAuthStore } from '../lib/useAuthStore';
@@ -9,14 +11,20 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { setUser, setLoading, setError } = useAuthStore();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     setLoading(true);
-    // The onAuthStateChanged function listens for changes in the user's authentication state. When the user logs in, the function receives the user object, and when the user logs out, the function receives null.
+
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
         setUser(user);
         setError(null);
+
+        if (pathname === '/login') {
+          router.push('/mapView');
+        }
       } else {
         setUser(null);
       }
@@ -25,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [setUser, setLoading, setError]);
+  }, [setUser, setLoading, setError, router, pathname]);
 
   return <>{children}</>;
 };
