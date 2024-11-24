@@ -8,7 +8,7 @@ import { useAuthStore } from '../lib/useAuthStore';
 // Dynamically load the Map component to ensure client-side rendering
 const Map = dynamic(() => import('../components/map'), { ssr: false });
 
-export default function Explore() {
+export default function MapView() {
   const { user, loading } = useAuthStore();
 
   useEffect(() => {
@@ -17,7 +17,6 @@ export default function Explore() {
     }
   }, [loading, user]);
 
-  // Show loading screen while resolving authentication state
   if (loading || !user) {
     return (
       <div className='z-50 flex justify-center items-center h-screen text-white text-xl'>
@@ -26,6 +25,5 @@ export default function Explore() {
     );
   }
 
-  // Render Map component once authentication is resolved
   return <Map />;
 }

@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         setUser(user);
         setError(null);
-        router.push('/explore');
+        router.push('/mapView');
       } else {
         setUser(null);
       }

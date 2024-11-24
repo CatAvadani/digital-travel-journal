@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { create } from 'zustand';
 import { auth } from '../firebase/firebase';
 
@@ -15,8 +16,16 @@ interface AuthState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 
-  signUp: (email: string, password: string, router: any) => Promise<void>;
-  signIn: (email: string, password: string, router: any) => Promise<void>;
+  signUp: (
+    email: string,
+    password: string,
+    router: ReturnType<typeof useRouter>
+  ) => Promise<void>;
+  signIn: (
+    email: string,
+    password: string,
+    router: ReturnType<typeof useRouter>
+  ) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -38,8 +47,12 @@ export const useAuthStore = create<AuthState>((set) => ({
         password
       );
       set({ user: userCredential.user, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        set({ error: error.message, loading: false });
+      } else {
+        set({ error: 'An unknown error occurred', loading: false });
+      }
     }
   },
 
@@ -52,8 +65,12 @@ export const useAuthStore = create<AuthState>((set) => ({
         password
       );
       set({ user: userCredential.user, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        set({ error: error.message, loading: false });
+      } else {
+        set({ error: 'An unknown error occurred', loading: false });
+      }
     }
   },
 
@@ -62,8 +79,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await auth.signOut();
       set({ user: null, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        set({ error: error.message, loading: false });
+      } else {
+        set({ error: 'An unknown error occurred', loading: false });
+      }
     }
   },
 }));
