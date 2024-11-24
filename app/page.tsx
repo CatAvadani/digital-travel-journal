@@ -32,7 +32,7 @@ export default function Home() {
           Turn Your Adventures into Timeless Stories
         </h1>
         <Link
-          href='/explore'
+          href='/mapView'
           className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
         >
           Begin Your Journey

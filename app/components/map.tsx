@@ -13,6 +13,9 @@ export default function Map() {
 
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
+  const [mapStyle, setMapStyle] = useState<string>(
+    'mapbox://styles/mapbox/streets-v11'
+  );
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
@@ -24,7 +27,7 @@ export default function Map() {
           container: mapContainerRef.current,
           center: [longitude, latitude],
           zoom: zoom,
-          style: 'mapbox://styles/mapbox/streets-v11',
+          style: mapStyle,
         });
 
         // Add geolocation control
@@ -74,16 +77,19 @@ export default function Map() {
         mapRef.current.remove();
       }
     };
-  }, []);
+  }, [mapStyle, zoom]);
 
-  const handleButtonClick = () => {
+  const toggleMapStyle = () => {
     if (mapRef.current) {
-      mapRef.current.flyTo({
-        center: center || [11.91465, 57.72999],
-        zoom: INITIAL_ZOOM,
-      });
+      const newStyle =
+        mapStyle === 'mapbox://styles/mapbox/streets-v11'
+          ? 'mapbox://styles/mapbox/satellite-v9'
+          : 'mapbox://styles/mapbox/streets-v11';
+      setMapStyle(newStyle);
+      mapRef.current.setStyle(newStyle);
     }
   };
+
   return (
     <div className='grid grid-cols-4 h-[100vh] gap-0 w-[100%] overflow-hidden'>
       {/* Map Section */}
@@ -95,10 +101,12 @@ export default function Map() {
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <button
-            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] w-24'
-            onClick={handleButtonClick}
+            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] max-w-52'
+            onClick={toggleMapStyle}
           >
-            Reset
+            {mapStyle === 'mapbox://styles/mapbox/streets-v11'
+              ? 'Standard Map'
+              : 'Satellite Map'}
           </button>
         </div>
       </div>

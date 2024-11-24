@@ -7,7 +7,7 @@ import { useAuthStore } from '../lib/useAuthStore';
 
 const links = [
   { href: '/myAdventures', label: 'My Adventures' },
-  { href: '/explore', label: 'Explore' },
+  { href: '/mapView', label: 'Map View' },
 ];
 
 export default function Header() {
@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 py-8 rounded-lg text-white md:px-16 `}
+      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 py-8 rounded-lg text-white md:px-16`}
     >
       {/* Logo */}
       <Link href='/' className=' text-xl md:text-2xl font-bold text-white'>
