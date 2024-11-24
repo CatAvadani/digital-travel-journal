@@ -4,6 +4,7 @@ import {
   User,
 } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import router from 'next/router';
 import { create } from 'zustand';
 import { auth } from '../firebase/firebase';
 
@@ -28,7 +29,6 @@ interface AuthState {
   ) => Promise<void>;
   logout: () => Promise<void>;
 }
-
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: false,
@@ -47,6 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         password
       );
       set({ user: userCredential.user, loading: false });
+      router.push('/mapView');
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, loading: false });
@@ -55,7 +56,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     }
   },
-
   signIn: async (email, password) => {
     set({ loading: true, error: null });
     try {
@@ -65,6 +65,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         password
       );
       set({ user: userCredential.user, loading: false });
+      router.push('/mapView');
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, loading: false });
