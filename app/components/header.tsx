@@ -22,7 +22,7 @@ export default function Header() {
       <Link href='/' className=' text-xl md:text-2xl font-bold text-white'>
         <Image
           src='/Zantic.svg'
-          className=' object-cover'
+          className='object-cover size-10 sm:size-16'
           width={50}
           height={50}
           alt='logo'

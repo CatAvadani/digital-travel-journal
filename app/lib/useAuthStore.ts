@@ -4,7 +4,6 @@ import {
   User,
 } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import router from 'next/router';
 import { create } from 'zustand';
 import { auth } from '../firebase/firebase';
 
@@ -38,7 +37,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setLoading: (loading: boolean) => set({ loading }),
   setError: (error: string | null) => set({ error }),
 
-  signUp: async (email, password) => {
+  signUp: async (email, password, router) => {
     set({ loading: true, error: null });
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -56,7 +55,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     }
   },
-  signIn: async (email, password) => {
+  signIn: async (email, password, router) => {
     set({ loading: true, error: null });
     try {
       const userCredential = await signInWithEmailAndPassword(
