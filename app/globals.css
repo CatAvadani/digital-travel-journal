@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 .glassBackground {
   @apply bg-white bg-opacity-10 
   backdrop-blur-lg backdrop-filter;
@@ -11,6 +15,7 @@
   background-size: 150%;
   animation: glowMove 10s ease-in-out infinite;
 }
+
 .overlay-gradient {
   background: linear-gradient(
     to right,

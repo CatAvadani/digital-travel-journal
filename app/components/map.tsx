@@ -17,7 +17,6 @@ export default function Map() {
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
-
     // Initialize the map
     if (mapContainerRef.current) {
       mapRef.current = new mapboxgl.Map({
@@ -68,23 +67,28 @@ export default function Map() {
     }
   };
   return (
-    <div className='grid grid-cols-4 h-screen gap-0 w-full overflow-hidden'>
+    <div className='grid grid-cols-4 h-[100vh] gap-0 w-[100%] overflow-hidden'>
       {/* Map Section */}
-      <div
-        ref={mapContainerRef}
-        className='col-span-3 w-full h-full object-cover'
-      />
-      <div className='absolute top-4 left-4 bg-white p-3 rounded-md shadow-md z-50 '>
-        <p>
-          Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
-          Zoom: {zoom.toFixed(2)}
-        </p>
+      <div className='flex justify-center items-center col-span-3 rounded-md '>
+        <div ref={mapContainerRef} className='w-[98%] h-[96%] rounded-md' />
+        <div className='absolute  top-8 left-8 flex flex-col gap-3 z-50 '>
+          <p className=' bg-white p-3 rounded-md shadow-md'>
+            Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)}{' '}
+            | Zoom: {zoom.toFixed(2)}
+          </p>
+          <button
+            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] w-24'
+            onClick={handleButtonClick}
+          >
+            Reset
+          </button>
+        </div>
       </div>
 
       {/* Form Section */}
-      <div className='glassBackground text-white px-4 py-6 flex flex-col gap-4 shadow-lg max-h-screen'>
+      <div className='bg-transparent my-4 text-white px-4 py-6 flex flex-col gap-4  h-[96vh]'>
         <h2 className='text-xl font-bold'>Add New Entry</h2>
-        <form className='flex flex-col gap-4  text-white'>
+        <form className='flex flex-col gap-4 mx-auto  text-white w-full'>
           <div>
             <label htmlFor='title' className='block text-sm font-medium  '>
               Title
@@ -93,7 +97,7 @@ export default function Map() {
               type='text'
               id='title'
               placeholder='Trip to Stockholm'
-              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              className='text-white mt-1 block w-full p-2  rounded-md  bg-white/10 focus:outline-none focus:ring-0'
             />
           </div>
           <div>
@@ -104,33 +108,38 @@ export default function Map() {
               type='date'
               id='date'
               placeholder='2021-12-31'
-              className='mt-1 block w-full p-2 text-gray-500 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              className='mt-1 block w-full p-2 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
             />
           </div>
-          <div className='flex flex-col gap2'>
+          <div>
             <label htmlFor='location' className='block text-sm font-medium'>
               Location
             </label>
             <input
               id='location'
               placeholder='Stockholm, Sweden'
-              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
             />
+          </div>
+          <div>
             <label htmlFor='location' className='block text-sm font-medium'>
               Upload Image
             </label>
             <input
               id='upload'
+              type='file'
               placeholder='Upload Image'
-              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              className='mt-1 block w-full p-2 text-white/70 bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0 '
             />
+          </div>
+          <div>
             <label htmlFor='location' className='block text-sm font-medium'>
               Description
             </label>
             <textarea
               id='description'
               placeholder='Write your experience here...'
-              className='mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500'
+              className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
               rows={4}
             />
           </div>
@@ -148,12 +157,6 @@ export default function Map() {
           Home
         </Link>
       </div>
-      <button
-        className='absolute top-20 left-4 bg-pink-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-pink-600 z-10'
-        onClick={handleButtonClick}
-      >
-        Reset
-      </button>
     </div>
   );
 }
