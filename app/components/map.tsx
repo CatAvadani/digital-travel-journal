@@ -81,7 +81,7 @@ export default function Map() {
           setSelectedCoordinates(coordinates);
 
           // Add a new marker
-          const marker = new mapboxgl.Marker({ color: '#4748FD' })
+          new mapboxgl.Marker({ color: '#4748FD' })
             .setLngLat(coordinates)
             .addTo(mapRef.current!);
 
@@ -112,7 +112,7 @@ export default function Map() {
         mapRef.current = null;
       }
     };
-  }, [mapStyle]);
+  }, [mapStyle, setSelectedCoordinates]);
 
   // Update markers when `entries` change
   useEffect(() => {
@@ -127,24 +127,25 @@ export default function Map() {
         )},${entry.coordinates[1].toFixed(4)}`;
 
         if (!markersRef.current.has(key)) {
-          const marker = new mapboxgl.Marker({ color: '#2222bb' })
+          new mapboxgl.Marker({ color: '#2222bb' })
             .setLngLat(entry.coordinates)
             .setPopup(
               new mapboxgl.Popup({ offset: 25 }).setHTML(`
-                <div>
-                  <h3>${entry.title}</h3>
+                <div class="rounded-md">
+                  <h3 class="capitalize font-bold" >${entry.title}</h3>
                   <p>${entry.description}</p>
                   <p><b>Date:</b> ${entry.date}</p>
                   ${
                     entry.image
                       ? `<img src="${URL.createObjectURL(
                           entry.image
-                        )}" alt="Entry Image" style="max-width:100%;height:auto;" />`
+                        )}" alt="Entry Image" class="mt-4 rounded-md w-full h-auto object-cover" />`
                       : ''
                   }
                 </div>
               `)
             )
+
             .addTo(mapRef.current!);
 
           markersRef.current.add(key);
