@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useEntryStore from '../store/useEntryStore';
 
 export default function AddNewEntryForm() {
@@ -13,6 +13,18 @@ export default function AddNewEntryForm() {
     image: null as File | null,
     description: '',
   });
+
+  useEffect(() => {
+    // Update the location field when coordinates change
+    if (selectedCoordinates) {
+      setFormData((prev) => ({
+        ...prev,
+        location: `${selectedCoordinates[1].toFixed(
+          4
+        )}, ${selectedCoordinates[0].toFixed(4)}`,
+      }));
+    }
+  }, [selectedCoordinates]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -86,7 +98,18 @@ export default function AddNewEntryForm() {
             className='mt-1 block w-full p-2 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
           />
         </div>
-
+        <div>
+          <label htmlFor='location' className='block text-sm font-medium'>
+            Location
+          </label>
+          <input
+            id='location'
+            value={formData.location}
+            onChange={handleChange}
+            className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
+            readOnly
+          />
+        </div>
         <div>
           <label htmlFor='image' className='block text-sm font-medium'>
             Upload Image

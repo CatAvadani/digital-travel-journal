@@ -8,24 +8,10 @@ import AddNewEntryForm from './addNewEntryForm';
 
 const INITIAL_ZOOM = 14;
 
-// Utility: Debounce function
-function debounce<T extends (...args: unknown[]) => void>(
-  func: T,
-  delay: number
-): (...args: Parameters<T>) => void {
-  let timer: NodeJS.Timeout;
-
-  return (...args: Parameters<T>) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-}
-
 export default function Map() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const markersRef = useRef<Set<string>>(new Set()); // Track marker coordinates
 
   const { entries, setSelectedCoordinates } = useEntryStore();
   const [center, setCenter] = useState<[number, number] | null>(null);
@@ -37,7 +23,6 @@ export default function Map() {
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
-    // Initialize the map with the user's location
     const initializeMap = (latitude: number, longitude: number) => {
       if (mapContainerRef.current) {
         mapContainerRef.current.innerHTML = '';
@@ -49,7 +34,6 @@ export default function Map() {
           style: mapStyle,
         });
 
-        // Add geolocation control
         mapRef.current.addControl(
           new mapboxgl.GeolocateControl({
             positionOptions: { enableHighAccuracy: true },
@@ -57,40 +41,48 @@ export default function Map() {
           })
         );
 
-        // Add a marker for the user's current location
-        new mapboxgl.Marker({ color: '#D92F91' })
-          .setLngLat([longitude, latitude])
-          .addTo(mapRef.current!);
-
-        // Debounced state updates for `center` and `zoom`
-        const updateMapState = debounce(() => {
+        const updateMapState = () => {
           if (mapRef.current) {
             const mapCenter = mapRef.current.getCenter();
             const mapZoom = mapRef.current.getZoom();
             setCenter([mapCenter.lng, mapCenter.lat]);
             setZoom(mapZoom);
           }
-        }, 100);
+        };
 
         mapRef.current.on('move', updateMapState);
 
-        // Handle map clicks to add a marker
+        // Handle map clicks
         mapRef.current.on('click', (event) => {
+          const target = event.originalEvent.target as HTMLElement;
+
+          // Check if clicking on an existing marker
+          if (target.closest('.mapboxgl-marker')) return;
+
           const coordinates: [number, number] = [
             event.lngLat.lng,
             event.lngLat.lat,
           ];
+          const key = `${coordinates[0].toFixed(4)},${coordinates[1].toFixed(
+            4
+          )}`;
+
+          // Check if marker already exists at these coordinates
+          if (markersRef.current.has(key)) return;
+
           setSelectedCoordinates(coordinates);
 
-          // Add a marker to the clicked location
-          new mapboxgl.Marker({ color: '#4748FD' })
+          // Add a new marker
+          const marker = new mapboxgl.Marker({ color: '#4748FD' })
             .setLngLat(coordinates)
             .addTo(mapRef.current!);
+
+          // Store the marker's coordinates in the Set
+          markersRef.current.add(key);
         });
       }
     };
 
-    // Fetch user's geolocation
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -106,43 +98,53 @@ export default function Map() {
       console.error('Geolocation is not supported by this browser.');
     }
 
-    // Cleanup on component unmount
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
       }
     };
-  }, [mapStyle, zoom]);
+  }, [mapStyle]);
 
   // Update markers when `entries` change
   useEffect(() => {
-    if (mapRef.current && entries.length > 0) {
+    if (mapRef.current) {
+      // Clear previous markers
+      markersRef.current.clear();
+
+      // Add markers for entries
       entries.forEach((entry) => {
-        new mapboxgl.Marker({ color: '#D92F91' })
-          .setLngLat(entry.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setHTML(`
-              <div>
-                <h3>${entry.title}</h3>
-                <p>${entry.description}</p>
-                <p><b>Date:</b> ${entry.date}</p>
-                ${
-                  entry.image
-                    ? `<img src="${URL.createObjectURL(
-                        entry.image
-                      )}" alt="Entry Image" style="max-width:100%;height:auto;" />`
-                    : ''
-                }
-              </div>
-            `)
-          )
-          .addTo(mapRef.current!);
+        const key = `${entry.coordinates[0].toFixed(
+          4
+        )},${entry.coordinates[1].toFixed(4)}`;
+
+        if (!markersRef.current.has(key)) {
+          const marker = new mapboxgl.Marker({ color: '#D92F91' })
+            .setLngLat(entry.coordinates)
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }).setHTML(`
+                <div>
+                  <h3>${entry.title}</h3>
+                  <p>${entry.description}</p>
+                  <p><b>Date:</b> ${entry.date}</p>
+                  ${
+                    entry.image
+                      ? `<img src="${URL.createObjectURL(
+                          entry.image
+                        )}" alt="Entry Image" style="max-width:100%;height:auto;" />`
+                      : ''
+                  }
+                </div>
+              `)
+            )
+            .addTo(mapRef.current!);
+
+          markersRef.current.add(key);
+        }
       });
     }
   }, [entries]);
 
-  // Toggle map style
   const toggleMapStyle = () => {
     if (mapRef.current) {
       const newStyle =
