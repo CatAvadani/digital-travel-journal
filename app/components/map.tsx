@@ -11,7 +11,8 @@ const INITIAL_ZOOM = 14;
 export default function Map() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const markersRef = useRef<Set<string>>(new Set()); // Track marker coordinates
+  const markersRef = useRef<Set<string>>(new Set());
+  const currentLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
   const { entries, setSelectedCoordinates } = useEntryStore();
   const [center, setCenter] = useState<[number, number] | null>(null);
@@ -40,6 +41,13 @@ export default function Map() {
             trackUserLocation: true,
           })
         );
+
+        // Add a marker for the user's current location
+        currentLocationMarkerRef.current = new mapboxgl.Marker({
+          color: '#D92F91',
+        })
+          .setLngLat([longitude, latitude])
+          .addTo(mapRef.current!);
 
         const updateMapState = () => {
           if (mapRef.current) {
@@ -119,7 +127,7 @@ export default function Map() {
         )},${entry.coordinates[1].toFixed(4)}`;
 
         if (!markersRef.current.has(key)) {
-          const marker = new mapboxgl.Marker({ color: '#D92F91' })
+          const marker = new mapboxgl.Marker({ color: '#2222bb' })
             .setLngLat(entry.coordinates)
             .setPopup(
               new mapboxgl.Popup({ offset: 25 }).setHTML(`
