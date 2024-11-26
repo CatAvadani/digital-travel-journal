@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
-import { useAuthStore } from '../lib/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 // Dynamically load the Map component to ensure client-side rendering
 const Map = dynamic(() => import('../components/map'), { ssr: false });
