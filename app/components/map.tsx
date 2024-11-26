@@ -109,6 +109,16 @@ export default function Map() {
     }
   };
 
+  const addMarker = (coordinates: [number, number]) => {
+    if (mapRef.current) {
+      new mapboxgl.Marker({ color: '#4748FD' })
+        .setLngLat(coordinates)
+        .addTo(mapRef.current);
+
+      mapRef.current.flyTo({ center: coordinates, zoom: 14 });
+    }
+  };
+
   return (
     <div className='grid grid-cols-4 h-[100vh] gap-0 w-[100%] overflow-hidden'>
       {/* Map Section */}
@@ -130,7 +140,7 @@ export default function Map() {
         </div>
       </div>
 
-      <AddNewEntryForm />
+      <AddNewEntryForm onLocationSelect={addMarker} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-interface AddNewEntryFormProps {
+interface AddNewEntryProps {
   id: string;
   title: string;
   date: string;
@@ -10,8 +10,20 @@ interface AddNewEntryFormProps {
   description: string;
 }
 
-export default function AddNewEntryForm() {
-  const [formData, setFormData] = useState<AddNewEntryFormProps>({
+interface LocationSuggestion {
+  id: string;
+  name: string;
+  coordinates: [number, number];
+}
+
+interface AddNewEntryFormProps {
+  onLocationSelect: (coordinates: [number, number]) => void;
+}
+
+export default function AddNewEntryForm({
+  onLocationSelect,
+}: AddNewEntryFormProps) {
+  const [formData, setFormData] = useState<AddNewEntryProps>({
     id: '',
     title: '',
     date: '',
@@ -20,7 +32,9 @@ export default function AddNewEntryForm() {
     description: '',
   });
 
-  const [locationSuggestions, setLocationSuggestions] = useState<string[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<
+    LocationSuggestion[]
+  >([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -35,13 +49,37 @@ export default function AddNewEntryForm() {
   };
 
   const handleLocationSearch = async (query: string) => {
-    //Todo: Replace with API from Mapbox
-    const mockSuggestions = ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala'];
-    setLocationSuggestions(
-      mockSuggestions.filter((location) =>
-        location.toLowerCase().includes(query.toLowerCase())
-      )
-    );
+    const API_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+    if (!query) return;
+
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          query
+        )}.json?access_token=${API_TOKEN}&autocomplete=true&limit=5`
+      );
+
+      const data = await response.json();
+      const suggestions = data.features.map(
+        (feature: { place_name: string; center: [number, number] }) => ({
+          name: feature.place_name,
+          coordinates: feature.center,
+        })
+      );
+      setLocationSuggestions(suggestions);
+    } catch (error) {
+      console.error('Error fetching location suggestions:', error);
+      return;
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: {
+    name: string;
+    coordinates: [number, number];
+  }) => {
+    setFormData((prev) => ({ ...prev, location: suggestion.name }));
+    setLocationSuggestions([]);
+    onLocationSelect(suggestion.coordinates);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -120,12 +158,9 @@ export default function AddNewEntryForm() {
               <li
                 key={index}
                 className='px-2 py-1 hover:bg-gray-700 cursor-pointer'
-                onClick={() => {
-                  setFormData((prev) => ({ ...prev, location: suggestion }));
-                  setLocationSuggestions([]);
-                }}
+                onClick={() => handleSuggestionClick(suggestion)}
               >
-                {suggestion}
+                {suggestion.name}
               </li>
             ))}
           </ul>
