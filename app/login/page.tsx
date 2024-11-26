@@ -4,7 +4,7 @@ import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAuthStore } from '../lib/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 interface FormData {
   email: string;

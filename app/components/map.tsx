@@ -3,6 +3,7 @@
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
+import useEntryStore from '../store/useEntryStore';
 import AddNewEntryForm from './addNewEntryForm';
 
 const INITIAL_ZOOM = 14;
@@ -26,6 +27,7 @@ export default function Map() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
+  const { entries, setSelectedCoordinates } = useEntryStore();
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   const [mapStyle, setMapStyle] = useState<string>(
@@ -35,7 +37,7 @@ export default function Map() {
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
-    // Get user's location and initialize the map
+    // Initialize the map with the user's location
     const initializeMap = (latitude: number, longitude: number) => {
       if (mapContainerRef.current) {
         mapContainerRef.current.innerHTML = '';
@@ -43,7 +45,7 @@ export default function Map() {
         mapRef.current = new mapboxgl.Map({
           container: mapContainerRef.current,
           center: [longitude, latitude],
-          zoom: zoom,
+          zoom: INITIAL_ZOOM,
           style: mapStyle,
         });
 
@@ -55,9 +57,10 @@ export default function Map() {
           })
         );
 
+        // Add a marker for the user's current location
         new mapboxgl.Marker({ color: '#D92F91' })
           .setLngLat([longitude, latitude])
-          .addTo(mapRef.current);
+          .addTo(mapRef.current!);
 
         // Debounced state updates for `center` and `zoom`
         const updateMapState = debounce(() => {
@@ -70,10 +73,24 @@ export default function Map() {
         }, 100);
 
         mapRef.current.on('move', updateMapState);
+
+        // Handle map clicks to add a marker
+        mapRef.current.on('click', (event) => {
+          const coordinates: [number, number] = [
+            event.lngLat.lng,
+            event.lngLat.lat,
+          ];
+          setSelectedCoordinates(coordinates);
+
+          // Add a marker to the clicked location
+          new mapboxgl.Marker({ color: '#4748FD' })
+            .setLngLat(coordinates)
+            .addTo(mapRef.current!);
+        });
       }
     };
 
-    // Fetch user location
+    // Fetch user's geolocation
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -98,6 +115,34 @@ export default function Map() {
     };
   }, [mapStyle, zoom]);
 
+  // Update markers when `entries` change
+  useEffect(() => {
+    if (mapRef.current && entries.length > 0) {
+      entries.forEach((entry) => {
+        new mapboxgl.Marker({ color: '#D92F91' })
+          .setLngLat(entry.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setHTML(`
+              <div>
+                <h3>${entry.title}</h3>
+                <p>${entry.description}</p>
+                <p><b>Date:</b> ${entry.date}</p>
+                ${
+                  entry.image
+                    ? `<img src="${URL.createObjectURL(
+                        entry.image
+                      )}" alt="Entry Image" style="max-width:100%;height:auto;" />`
+                    : ''
+                }
+              </div>
+            `)
+          )
+          .addTo(mapRef.current!);
+      });
+    }
+  }, [entries]);
+
+  // Toggle map style
   const toggleMapStyle = () => {
     if (mapRef.current) {
       const newStyle =
@@ -109,28 +154,17 @@ export default function Map() {
     }
   };
 
-  const addMarker = (coordinates: [number, number]) => {
-    if (mapRef.current) {
-      new mapboxgl.Marker({ color: '#4748FD' })
-        .setLngLat(coordinates)
-        .addTo(mapRef.current);
-
-      mapRef.current.flyTo({ center: coordinates, zoom: 14 });
-    }
-  };
-
   return (
     <div className='grid grid-cols-4 h-[100vh] gap-0 w-[100%] overflow-hidden'>
-      {/* Map Section */}
-      <div className='flex justify-center items-center col-span-3 rounded-md '>
+      <div className='flex justify-center items-center col-span-3 rounded-md'>
         <div ref={mapContainerRef} className='w-[98%] h-[96%] rounded-md' />
-        <div className='absolute  top-8 left-8 flex flex-col gap-3 z-50 '>
-          <p className=' bg-white p-3 rounded-md shadow-md'>
+        <div className='absolute top-8 left-8 flex flex-col gap-3 z-50'>
+          <p className='bg-white p-3 rounded-md shadow-md'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <button
-            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] max-w-52'
+            className='text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] max-w-52'
             onClick={toggleMapStyle}
           >
             {mapStyle === 'mapbox://styles/mapbox/streets-v11'
@@ -140,7 +174,7 @@ export default function Map() {
         </div>
       </div>
 
-      <AddNewEntryForm onLocationSelect={addMarker} />
+      <AddNewEntryForm />
     </div>
   );
 }

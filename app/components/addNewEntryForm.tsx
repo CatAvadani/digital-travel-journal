@@ -1,40 +1,18 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import useEntryStore from '../store/useEntryStore';
 
-interface AddNewEntryProps {
-  id: string;
-  title: string;
-  date: string;
-  location: string;
-  image: File | null;
-  description: string;
-}
+export default function AddNewEntryForm() {
+  const { selectedCoordinates, addEntry } = useEntryStore();
 
-interface LocationSuggestion {
-  id: string;
-  name: string;
-  coordinates: [number, number];
-}
-
-interface AddNewEntryFormProps {
-  onLocationSelect: (coordinates: [number, number]) => void;
-}
-
-export default function AddNewEntryForm({
-  onLocationSelect,
-}: AddNewEntryFormProps) {
-  const [formData, setFormData] = useState<AddNewEntryProps>({
+  const [formData, setFormData] = useState({
     id: '',
     title: '',
     date: '',
     location: '',
-    image: null,
+    image: null as File | null,
     description: '',
   });
-
-  const [locationSuggestions, setLocationSuggestions] = useState<
-    LocationSuggestion[]
-  >([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,51 +26,23 @@ export default function AddNewEntryForm({
     setFormData((prev) => ({ ...prev, image: file }));
   };
 
-  const handleLocationSearch = async (query: string) => {
-    const API_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-    if (!query) return;
-
-    try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          query
-        )}.json?access_token=${API_TOKEN}&autocomplete=true&limit=5`
-      );
-
-      const data = await response.json();
-      const suggestions = data.features.map(
-        (feature: { place_name: string; center: [number, number] }) => ({
-          name: feature.place_name,
-          coordinates: feature.center,
-        })
-      );
-      setLocationSuggestions(suggestions);
-    } catch (error) {
-      console.error('Error fetching location suggestions:', error);
-      return;
-    }
-  };
-
-  const handleSuggestionClick = (suggestion: {
-    name: string;
-    coordinates: [number, number];
-  }) => {
-    setFormData((prev) => ({ ...prev, location: suggestion.name }));
-    setLocationSuggestions([]);
-    onLocationSelect(suggestion.coordinates);
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!selectedCoordinates) {
+      alert('Please select a location on the map.');
+      return;
+    }
+
     const newEntry = {
       ...formData,
       id: Date.now().toString(),
+      coordinates: selectedCoordinates,
     };
-    console.log('New Entry:', newEntry);
 
-    // Todo: Save the new entry to the database (Firestore)
+    addEntry(newEntry);
 
-    // reset the form data
+    // Reset the form
     setFormData({
       id: '',
       title: '',
@@ -136,37 +86,9 @@ export default function AddNewEntryForm({
             className='mt-1 block w-full p-2 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
           />
         </div>
+
         <div>
-          <label htmlFor='location' className='block text-sm font-medium'>
-            Location
-          </label>
-          <input
-            id='location'
-            placeholder='Stockholm, Sweden'
-            value={formData.location}
-            onChange={(e) => {
-              const value = e.target.value;
-              setFormData((prev) => ({ ...prev, location: value }));
-              handleLocationSearch(value);
-            }}
-            className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
-          />
-        </div>
-        {locationSuggestions.length > 0 && (
-          <ul className='bg-white/10 mt-1 rounded-md max-h-40 overflow-auto'>
-            {locationSuggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                className='px-2 py-1 hover:bg-gray-700 cursor-pointer'
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion.name}
-              </li>
-            ))}
-          </ul>
-        )}
-        <div>
-          <label htmlFor='location' className='block text-sm font-medium'>
+          <label htmlFor='image' className='block text-sm font-medium'>
             Upload Image
           </label>
           <input

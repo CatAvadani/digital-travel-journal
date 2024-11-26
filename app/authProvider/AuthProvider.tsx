@@ -3,7 +3,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { auth } from '../firebase/firebase';
-import { useAuthStore } from '../lib/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 interface AuthProviderProps {
   children: React.ReactNode;
