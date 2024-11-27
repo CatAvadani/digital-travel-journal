@@ -60,7 +60,7 @@ export default function Map() {
 
         mapRef.current.on('move', updateMapState);
 
-        // Handle map clicks
+        // Handle map clicks to place draggable markers
         mapRef.current.on('click', (event) => {
           const target = event.originalEvent.target as HTMLElement;
 
@@ -80,10 +80,19 @@ export default function Map() {
 
           setSelectedCoordinates(coordinates);
 
-          // Add a new marker
-          new mapboxgl.Marker({ color: '#4748FD' })
+          // Create a draggable marker
+          const marker = new mapboxgl.Marker({
+            color: '#4748FD',
+            draggable: true,
+          })
             .setLngLat(coordinates)
             .addTo(mapRef.current!);
+
+          // Update marker coordinates when dragged
+          marker.on('dragend', () => {
+            const newCoordinates = marker.getLngLat();
+            setSelectedCoordinates([newCoordinates.lng, newCoordinates.lat]);
+          });
 
           // Store the marker's coordinates in the Set
           markersRef.current.add(key);
@@ -127,12 +136,12 @@ export default function Map() {
         )},${entry.coordinates[1].toFixed(4)}`;
 
         if (!markersRef.current.has(key)) {
-          new mapboxgl.Marker({ color: '#2222bb' })
+          new mapboxgl.Marker({ color: '#2222bb', draggable: false })
             .setLngLat(entry.coordinates)
             .setPopup(
               new mapboxgl.Popup({ offset: 25 }).setHTML(`
                 <div class="rounded-md">
-                  <h3 class="capitalize font-bold" >${entry.title}</h3>
+                  <h3 class="capitalize font-bold">${entry.title}</h3>
                   <p>${entry.description}</p>
                   <p><b>Date:</b> ${entry.date}</p>
                   ${
@@ -145,7 +154,6 @@ export default function Map() {
                 </div>
               `)
             )
-
             .addTo(mapRef.current!);
 
           markersRef.current.add(key);
@@ -184,7 +192,6 @@ export default function Map() {
           </button>
         </div>
       </div>
-
       <AddNewEntryForm />
     </div>
   );
