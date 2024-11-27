@@ -1,10 +1,14 @@
+import { addDoc, collection } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { db, storage } from '../firebase/firebase';
 import useEntryStore from '../store/useEntryStore';
 
 export default function AddNewEntryForm() {
   const { selectedCoordinates, addEntry } = useEntryStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -38,31 +42,79 @@ export default function AddNewEntryForm() {
     setFormData((prev) => ({ ...prev, image: file }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const validateForm = () => {
+    if (
+      !formData.title ||
+      !formData.date ||
+      !formData.location ||
+      !formData.image ||
+      !formData.description
+    ) {
+      alert('Please fill all the fields');
+      return false;
+    }
+
+    if (formData.image && formData.image.size > 5 * 1024 * 1024) {
+      alert('Image size must be less than 5MB.');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     if (!selectedCoordinates) {
       alert('Please select a location on the map.');
       return;
     }
 
-    const newEntry = {
-      ...formData,
-      id: Date.now().toString(),
-      coordinates: selectedCoordinates,
-    };
+    setIsLoading(true);
 
-    addEntry(newEntry);
+    try {
+      let imageUrl = '';
+      if (formData.image) {
+        const imageRef = ref(
+          storage,
+          `images/${Date.now()}-${formData.image.name}`
+        );
+        const snapshot = await uploadBytes(imageRef, formData.image);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
 
-    // Reset the form
-    setFormData({
-      id: '',
-      title: '',
-      date: '',
-      location: '',
-      image: null,
-      description: '',
-    });
+      const newEntry = {
+        id: Date.now().toString(),
+        title: formData.title,
+        date: formData.date,
+        location: formData.location,
+        image: imageUrl,
+        description: formData.description,
+        coordinates: selectedCoordinates,
+      };
+
+      await addDoc(collection(db, 'entries'), newEntry);
+
+      addEntry(newEntry);
+
+      alert('Entry added successfully!');
+
+      // Reset the form
+      setFormData({
+        id: '',
+        title: '',
+        date: '',
+        location: '',
+        image: null,
+        description: '',
+      });
+    } catch (error) {
+      console.error('Error adding entry:', error);
+      alert('An error occurred while adding the entry. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

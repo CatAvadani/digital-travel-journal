@@ -160,9 +160,7 @@ export default function Map() {
                   <p><b>Date:</b> ${entry.date}</p>
                   ${
                     entry.image
-                      ? `<img src="${URL.createObjectURL(
-                          entry.image
-                        )}" alt="Entry Image" class="mt-4 rounded-md w-full h-auto object-cover" />`
+                      ? `<img src="${entry.image}" alt="Entry Image" class="mt-4 rounded-md w-full h-auto object-cover" />`
                       : ''
                   }
                 </div>
