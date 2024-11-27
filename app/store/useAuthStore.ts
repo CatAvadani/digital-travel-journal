@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
@@ -27,10 +28,13 @@ interface AuthState {
     router: ReturnType<typeof useRouter>
   ) => Promise<void>;
   logout: () => Promise<void>;
+
+  initializeAuth: () => void;
 }
+
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  loading: false,
+  loading: true,
   error: null,
 
   setUser: (user: User | null) => set({ user }),
@@ -55,6 +59,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     }
   },
+
   signIn: async (email, password, router) => {
     set({ loading: true, error: null });
     try {
@@ -86,5 +91,11 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ error: 'An unknown error occurred', loading: false });
       }
     }
+  },
+
+  initializeAuth: () => {
+    onAuthStateChanged(auth, (user) => {
+      set({ user, loading: false });
+    });
   },
 }));

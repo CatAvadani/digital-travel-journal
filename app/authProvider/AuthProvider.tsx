@@ -1,4 +1,5 @@
 'use client';
+
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -10,7 +11,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { setUser, setLoading, setError } = useAuthStore();
+  const { setUser, setLoading, setError, user } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,6 +28,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } else {
         setUser(null);
+
+        if (pathname !== '/login') {
+          router.push('/login');
+        }
       }
 
       setLoading(false);
@@ -34,6 +39,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     return () => unsubscribe();
   }, [setUser, setLoading, setError, router, pathname]);
+
+  if (user === null && pathname !== '/login') {
+    return <div>Loading...</div>;
+  }
 
   return <>{children}</>;
 };
