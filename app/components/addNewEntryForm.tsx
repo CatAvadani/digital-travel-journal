@@ -1,3 +1,4 @@
+import { ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useEntryStore from '../store/useEntryStore';
@@ -137,16 +138,23 @@ export default function AddNewEntryForm() {
         </div>
         <button
           type='submit'
-          className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out'
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out flex justify-center items-center gap-2'
         >
-          Submit
+          <Plus size={20} /> Add Entry
         </button>
       </form>
       <Link
         href='/'
-        className='bg-gradient-to-r from-[#d92f8a] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
+        className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
       >
         Home
+      </Link>
+      <Link
+        href='/myTrips'
+        className=' flex justify-center items-center gap-2 text-white  mt-8'
+      >
+        <p className=' font-semibold hover:underline'> My Trips </p>
+        <ArrowRight size={20} className=' hover:translate-x-1 transition-all' />
       </Link>
     </div>
   );

@@ -33,7 +33,7 @@ export default function Home() {
         </h1>
         <Link
           href='/mapView'
-          className='bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+          className='bg-gradient-to-r  from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
         >
           Begin Your Journey
         </Link>

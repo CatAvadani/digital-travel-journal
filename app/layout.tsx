@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import React from 'react';
-import ClientWrapper from './components/clientWrapper';
+import ClientWrapper from './components/ClientWrapper';
 import './globals.css';
 import { Providers } from './providers';
 

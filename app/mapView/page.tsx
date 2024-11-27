@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
 // Dynamically load the Map component to ensure client-side rendering
-const Map = dynamic(() => import('../components/map'), { ssr: false });
+const Map = dynamic(() => import('../components/Map'), { ssr: false });
 
 export default function MapView() {
   const { user, loading } = useAuthStore();

@@ -2,11 +2,12 @@
 import { AlignRight, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
 const links = [
-  { href: '/myAdventures', label: 'My Adventures' },
+  { href: '/myTrips', label: 'My Trips' },
   { href: '/mapView', label: 'Map View' },
 ];
 
@@ -14,19 +15,29 @@ export default function Header() {
   const { user, logout } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const pathname = usePathname();
+  const isMapViewPage = pathname === '/mapView';
+  const isHomePage = pathname === '/';
+
   return (
     <header
       className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 py-8 rounded-lg text-white md:px-16`}
     >
       {/* Logo */}
-      <Link href='/' className=' text-xl md:text-2xl font-bold text-white'>
+      <Link
+        href='/'
+        className=' flex justify-center items-center gap-6 text-base md:text-3xl font-bold text-white'
+      >
         <Image
           src='/Zantic.svg'
-          className='object-cover size-10 sm:size-16'
-          width={50}
-          height={50}
+          className='object-cover size-10 sm:size-12 ml-2'
+          width={40}
+          height={40}
           alt='logo'
         />
+        {!isMapViewPage && !isHomePage && (
+          <span className=' tracking-wider'>Digital Travel Journal</span>
+        )}
       </Link>
 
       {/* Mobile Menu Icon */}
@@ -48,7 +59,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className='absolute top-16 right-4   bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-lg w-64 p-5 z-50 md:hidden'>
+        <div className='absolute top-16 right-4 bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-lg w-64 p-5 z-50 md:hidden'>
           <ul className='space-y-4'>
             {links.map((link) => (
               <li key={link.href}>

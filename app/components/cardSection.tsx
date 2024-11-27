@@ -1,5 +1,5 @@
 import cardData from '../data/cardData';
-import GlassCard from './glassCard';
+import GlassCard from './GlassCard';
 
 export default function CardSection() {
   return (
