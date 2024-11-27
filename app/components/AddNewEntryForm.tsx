@@ -1,10 +1,14 @@
+import { addDoc, collection } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { db, storage } from '../firebase/firebase';
 import useEntryStore from '../store/useEntryStore';
 
 export default function AddNewEntryForm() {
   const { selectedCoordinates, addEntry } = useEntryStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -38,31 +42,79 @@ export default function AddNewEntryForm() {
     setFormData((prev) => ({ ...prev, image: file }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const validateForm = () => {
+    if (
+      !formData.title ||
+      !formData.date ||
+      !formData.location ||
+      !formData.image ||
+      !formData.description
+    ) {
+      alert('Please fill all the fields');
+      return false;
+    }
+
+    if (formData.image && formData.image.size > 5 * 1024 * 1024) {
+      alert('Image size must be less than 5MB.');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     if (!selectedCoordinates) {
       alert('Please select a location on the map.');
       return;
     }
 
-    const newEntry = {
-      ...formData,
-      id: Date.now().toString(),
-      coordinates: selectedCoordinates,
-    };
+    setIsLoading(true);
 
-    addEntry(newEntry);
+    try {
+      let imageUrl = '';
+      if (formData.image) {
+        const imageRef = ref(
+          storage,
+          `images/${Date.now()}-${formData.image.name}`
+        );
+        const snapshot = await uploadBytes(imageRef, formData.image);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
 
-    // Reset the form
-    setFormData({
-      id: '',
-      title: '',
-      date: '',
-      location: '',
-      image: null,
-      description: '',
-    });
+      const newEntry = {
+        id: Date.now().toString(),
+        title: formData.title,
+        date: formData.date,
+        location: formData.location,
+        image: imageUrl,
+        description: formData.description,
+        coordinates: selectedCoordinates,
+      };
+
+      const docRef = await addDoc(collection(db, 'entries'), newEntry);
+
+      addEntry({ ...newEntry, id: docRef.id });
+
+      alert('Entry added successfully!');
+
+      // Reset the form
+      setFormData({
+        id: '',
+        title: '',
+        date: '',
+        location: '',
+        image: null,
+        description: '',
+      });
+    } catch (error) {
+      console.error('Error adding entry:', error);
+      alert('An error occurred while adding the entry. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -82,6 +134,7 @@ export default function AddNewEntryForm() {
             placeholder='Trip to Stockholm'
             value={formData.title}
             onChange={handleChange}
+            disabled={isLoading}
             className='text-white mt-1 block w-full p-2  rounded-md  bg-white/10 focus:outline-none focus:ring-0'
           />
         </div>
@@ -94,6 +147,7 @@ export default function AddNewEntryForm() {
             id='date'
             value={formData.date}
             onChange={handleChange}
+            disabled={isLoading}
             placeholder='2021-12-31'
             className='mt-1 block w-full p-2 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
           />
@@ -118,6 +172,7 @@ export default function AddNewEntryForm() {
             id='upload'
             type='file'
             placeholder='Upload Image'
+            disabled={isLoading}
             onChange={handleImageChange}
             className='mt-1 block w-full p-2 text-white/70 bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0 '
           />
@@ -131,15 +186,23 @@ export default function AddNewEntryForm() {
             placeholder='Write your experience here...'
             value={formData.description}
             onChange={handleChange}
+            disabled={isLoading}
             className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
             rows={4}
           />
         </div>
         <button
           type='submit'
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out flex justify-center items-center gap-2'
+          disabled={isLoading}
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out '
         >
-          <Plus size={20} /> Add Entry
+          {isLoading ? (
+            'Saving...'
+          ) : (
+            <div className='flex justify-center items-center gap-2'>
+              <Plus size={20} /> Add Entry
+            </div>
+          )}
         </button>
       </form>
       <Link
