@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
 const links = [
-  { href: '/myAdventures', label: 'My Adventures' },
+  { href: '/myTrips', label: 'My Trips' },
   { href: '/mapView', label: 'Map View' },
 ];
 
