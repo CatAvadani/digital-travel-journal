@@ -14,7 +14,7 @@ interface Entry {
 interface EntryStore {
   entries: Entry[];
   selectedCoordinates: [number, number] | null;
-  setSelectedCoordinates: (coordinates: [number, number]) => void;
+  setSelectedCoordinates: (coordinates: [number, number] | null) => void;
   addEntry: (entry: Entry) => void;
 }
 

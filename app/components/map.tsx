@@ -88,10 +88,24 @@ export default function Map() {
             .setLngLat(coordinates)
             .addTo(mapRef.current!);
 
+          // Add click event listener to remove the marker
+          marker.getElement().addEventListener('click', () => {
+            marker.remove();
+            markersRef.current.delete(key);
+            setSelectedCoordinates(null);
+          });
+
           // Update marker coordinates when dragged
           marker.on('dragend', () => {
             const newCoordinates = marker.getLngLat();
             setSelectedCoordinates([newCoordinates.lng, newCoordinates.lat]);
+
+            // Update the marker's key in the Set
+            const newKey = `${newCoordinates.lng.toFixed(
+              4
+            )},${newCoordinates.lat.toFixed(4)}`;
+            markersRef.current.delete(key);
+            markersRef.current.add(newKey);
           });
 
           // Store the marker's coordinates in the Set

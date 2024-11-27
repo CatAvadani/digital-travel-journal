@@ -14,17 +14,16 @@ export default function AddNewEntryForm() {
     image: null as File | null,
     description: '',
   });
-
   useEffect(() => {
     // Update the location field when coordinates change
-    if (selectedCoordinates) {
-      setFormData((prev) => ({
-        ...prev,
-        location: `${selectedCoordinates[1].toFixed(
-          4
-        )}, ${selectedCoordinates[0].toFixed(4)}`,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      location: selectedCoordinates
+        ? `${selectedCoordinates[1].toFixed(
+            4
+          )}, ${selectedCoordinates[0].toFixed(4)}`
+        : '',
+    }));
   }, [selectedCoordinates]);
 
   const handleChange = (
