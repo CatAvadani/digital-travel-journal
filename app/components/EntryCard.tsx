@@ -3,27 +3,29 @@ import { Entry } from '../store/useEntryStore';
 
 export default function EntryCard({ entry }: { entry: Entry }) {
   return (
-    <div className='flex flex-col md:flex-row border-b border-white/10 justify-between items-center mb-2'>
+    <div className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2'>
       {/* Left: Trip Image and description */}
-      <div className='w-full md:w-1/2 flex justify-start items-center gap-4 mb-4'>
-        <div className='w-24 h-24'>
+      <div className='w-1/2 flex justify-start items-center gap-4 sm:mb-4'>
+        <div className='size-16 sm:size-24'>
           <Image
             src={entry.image}
             alt={entry.title}
-            className='rounded-md object-cover w-full h-16 md:h-full'
+            className='rounded-md object-cover w-full h-full'
             width={100}
             height={100}
           />
         </div>
-        <div className='flex flex-col gap-2'>
-          <h2 className='text-lg font-bold text-white'>{entry.title}</h2>
+        <div className='flex flex-col gap-1 sm:gap-2'>
+          <h2 className='text-base sm:text-lg font-bold text-white'>
+            {entry.title}
+          </h2>
           <p className='text-sm text-white/80'>{entry.description}</p>
         </div>
       </div>
 
       {/* Right: Trip Info and Actions */}
-      <div className='w-full md:w-1/2 flex justify-between items-center'>
-        <p className='text-sm text-white/80 flex justify-center items-start'>
+      <div className='w-1/2 flex justify-end sm:justify-between items-center'>
+        <p className='hidden text-sm text-white/80 sm:flex justify-center items-start'>
           {new Date(entry.date).toLocaleString()}
         </p>
         <div className='flex justify-center items-center gap-2'>

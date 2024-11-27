@@ -17,12 +17,12 @@ export default function MyTrips() {
   }
 
   return (
-    <div className=' flex flex-col gap-2 mt-40 w-[80%] '>
-      <div className='flex flex-col md:flex-row justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+    <div className=' flex flex-col gap-2 sm:mt-40 w-[80%] '>
+      <div className='flex justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
         <div className=' w-1/2 items-start '>
-          <h1 className='text-md font-bold text-white'>My Trips</h1>
+          <h1>My Trips</h1>
         </div>
-        <div className=' w-1/2 items-start '>
+        <div className=' hidden sm:flex sm:items-start  w-1/2'>
           <p>Date</p>
         </div>
       </div>
