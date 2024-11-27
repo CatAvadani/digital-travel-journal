@@ -1,9 +1,11 @@
 'use client';
 
+import { collection, getDocs } from 'firebase/firestore';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
-import useEntryStore from '../store/useEntryStore';
+import { db } from '../firebase/firebase';
+import useEntryStore, { Entry } from '../store/useEntryStore';
 import AddNewEntryForm from './AddNewEntryForm';
 
 const INITIAL_ZOOM = 14;
@@ -14,7 +16,7 @@ export default function Map() {
   const markersRef = useRef<Set<string>>(new Set());
   const currentLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
-  const { entries, setSelectedCoordinates } = useEntryStore();
+  const { entries, setEntries, setSelectedCoordinates } = useEntryStore();
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   const [mapStyle, setMapStyle] = useState<string>(
@@ -136,6 +138,24 @@ export default function Map() {
       }
     };
   }, [mapStyle, setSelectedCoordinates]);
+
+  // Fetch entries from Firestore when the map component loads
+  useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'entries'));
+        const fetchedEntries = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Entry[];
+        setEntries(fetchedEntries); // Update the entries in the store
+      } catch (error) {
+        console.error('Error fetching entries from Firestore:', error);
+      }
+    };
+
+    fetchEntries();
+  }, [setEntries]);
 
   // Update markers when `entries` change
   useEffect(() => {
