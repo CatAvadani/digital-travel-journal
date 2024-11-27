@@ -17,7 +17,15 @@ export default function MyTrips() {
   }
 
   return (
-    <div className=' flex flex-col gap-2 mt-28 bg-white/5 w-[80%] '>
+    <div className=' flex flex-col gap-2 mt-40 w-[80%] '>
+      <div className='flex flex-col md:flex-row justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+        <div className=' w-1/2 items-start '>
+          <h1 className='text-md font-bold text-white'>My Trips</h1>
+        </div>
+        <div className=' w-1/2 items-start '>
+          <p>Date</p>
+        </div>
+      </div>
       {entries &&
         entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)}
     </div>
