@@ -5,6 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
 
 const INITIAL_ZOOM = 14;
@@ -173,7 +174,7 @@ export default function Map() {
                       : ''
                   }
                   <h3 class="capitalize font-bold">${entry.title}</h3>
-                  <p>${entry.description}</p>
+                  <p>${truncateText(entry.description, 40)}</p>
                   <p><b>Date:</b> ${entry.date}</p>
                 </div>
               `)
@@ -198,16 +199,23 @@ export default function Map() {
   };
 
   return (
-    <div className='grid grid-cols-4 h-[100vh] gap-0 w-[100%] overflow-hidden'>
-      <div className='flex justify-center items-center col-span-3 rounded-md'>
-        <div ref={mapContainerRef} className='w-[98%] h-[96%] rounded-md' />
-        <div className='absolute top-8 left-8 flex flex-col gap-3 z-50'>
+    <div className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
+      {/* Map Section */}
+      <div className='col-span-1 sm:col-span-3 flex justify-center items-center'>
+        <div
+          ref={mapContainerRef}
+          className='w-[98%] h-[60vh] md:h-[96%] rounded-md'
+        />
+        <h3 className='text-white/90 absolute top-1 left-2 sm:hidden'>
+          Click on the map to select a new entry location
+        </h3>
+        <div className='absolute top-8 left-8 hidden sm:flex flex-col gap-3 z-50'>
           <p className='bg-white p-3 rounded-md shadow-md'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <button
-            className='text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
+            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
             onClick={toggleMapStyle}
           >
             {mapStyle === 'mapbox://styles/mapbox/streets-v11'
@@ -216,6 +224,8 @@ export default function Map() {
           </button>
         </div>
       </div>
+
+      {/* Form Section */}
       <AddNewEntryForm />
     </div>
   );

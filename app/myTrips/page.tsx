@@ -23,7 +23,7 @@ export default function MyTrips() {
   }, [loading, user, router]);
 
   return (
-    <div className=' flex flex-col gap-2 sm:mt-40 w-[80%] '>
+    <div className=' flex flex-col gap-2 sm:mt-40 w-[92%] sm:w-[80%] '>
       <div className='flex justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
         <div className=' w-1/2 items-start '>
           <h1>My Trips</h1>
