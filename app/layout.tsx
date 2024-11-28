@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 import ClientWrapper from './components/ClientWrapper';
 import './globals.css';
 import { Providers } from './providers';
@@ -35,7 +36,25 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Providers>
-          <ClientWrapper>{children}</ClientWrapper>
+          <ClientWrapper>
+            {children}
+            <Toaster
+              position='top-right'
+              toastOptions={{
+                success: {
+                  style: {
+                    background: 'green',
+                  },
+                },
+                error: {
+                  style: {
+                    background: 'red',
+                  },
+                },
+                duration: 3000,
+              }}
+            />
+          </ClientWrapper>
         </Providers>
       </body>
     </html>

@@ -1,6 +1,23 @@
+'use client';
 import Link from 'next/link';
+import { useRef, useState } from 'react';
 
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+
+  const toggleVideoPlayback = () => {
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+
+      setIsVideoPlaying((prev) => !prev);
+    }
+  };
+
   return (
     <div className='relative w-full h-screen overflow-hidden'>
       <div className='absolute z-50 top-1/2 -ml-20  transform -translate-y-1/2 -rotate-90 text-white text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest opacity-80'>
@@ -8,12 +25,14 @@ export default function Home() {
       </div>
 
       <video
+        ref={videoRef}
         className='absolute top-0 left-0 w-full h-full object-cover'
         autoPlay
         muted
         loop
         preload='auto'
         playsInline
+        aria-label='Globe Video Background'
       >
         <source src='/globe-video-1.mp4' type='video/mp4' />
         Your browser does not support the video tag.
@@ -38,6 +57,14 @@ export default function Home() {
           Begin Your Journey
         </Link>
       </div>
+      {/* Play/Pause Button */}
+      <button
+        onClick={toggleVideoPlayback}
+        className='absolute bottom-8 right-8 bg-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base px-4 py-2 rounded-full z-50 w-32 '
+        aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
+      >
+        {isVideoPlaying ? 'Pause Video' : 'Play Video'}
+      </button>
     </div>
   );
 }
