@@ -7,7 +7,7 @@ import useEntryStore from '../store/useEntryStore';
 
 export default function MyTrips() {
   const { user, loading } = useAuthStore();
-  const { entries, fetchEntries } = useEntryStore();
+  const { entries, fetchEntries, deleteEntry } = useEntryStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +37,13 @@ export default function MyTrips() {
           No trips found. Add a trip to get started!
         </p>
       ) : (
-        entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)
+        entries.map((entry) => (
+          <EntryCard
+            key={entry.id}
+            entry={entry}
+            onDelete={() => deleteEntry(entry.id)}
+          />
+        ))
       )}
     </div>
   );

@@ -63,7 +63,6 @@ export default function AddNewEntryForm() {
     }
     return true;
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -93,7 +92,6 @@ export default function AddNewEntryForm() {
       }
 
       const newEntry = {
-        id: Date.now().toString(),
         userId: user.uid,
         title: formData.title,
         date: formData.date,
@@ -103,8 +101,10 @@ export default function AddNewEntryForm() {
         coordinates: selectedCoordinates,
       };
 
+      // Add document to Firestore and get its ID
       const docRef = await addDoc(collection(db, 'entries'), newEntry);
 
+      // Use the Firestore document ID as the `id` field
       addEntry({ ...newEntry, id: docRef.id });
 
       alert('Entry added successfully!');

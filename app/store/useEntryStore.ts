@@ -1,5 +1,12 @@
 'use client';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { create } from 'zustand';
 import { db } from '../firebase/firebase';
 
@@ -21,6 +28,7 @@ interface EntryStore {
   setEntries: (entries: Entry[]) => void;
   fetchEntries: (userId: string) => void;
   clearEntries: () => void;
+  deleteEntry: (entryId: string) => void;
 }
 
 const useEntryStore = create<EntryStore>((set) => ({
@@ -46,6 +54,18 @@ const useEntryStore = create<EntryStore>((set) => ({
       set(() => ({ entries: fetchedEntries }));
     } catch (error) {
       console.error('Error fetching entries:', error);
+    }
+  },
+
+  deleteEntry: async (entryId) => {
+    try {
+      const entryRef = doc(db, 'entries', entryId);
+      await deleteDoc(entryRef);
+      set((state) => ({
+        entries: state.entries.filter((entry) => entry.id !== entryId),
+      }));
+    } catch (error) {
+      console.error('Error deleting entry from Firestore:', error);
     }
   },
 }));
