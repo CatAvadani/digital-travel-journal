@@ -16,3 +16,16 @@ export const createUserDoc = async (user: User) => {
     }
   }
 };
+
+export const fetchUserFromFirestore = async (uid: string) => {
+  try {
+    const userDoc = await getDoc(doc(db, 'users', uid));
+    if (userDoc.exists()) {
+      return userDoc.data();
+    } else {
+      console.error('No such user in Firestore');
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};

@@ -1,16 +1,18 @@
 'use client';
 
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { db } from '../firebase/firebase';
+import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore, { Entry } from '../store/useEntryStore';
 import AddNewEntryForm from './AddNewEntryForm';
 
 const INITIAL_ZOOM = 14;
 
 export default function Map() {
+  const { user } = useAuthStore();
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<Set<string>>(new Set());
@@ -140,22 +142,44 @@ export default function Map() {
   }, [mapStyle, setSelectedCoordinates]);
 
   // Fetch entries from Firestore when the map component loads
-  useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'entries'));
-        const fetchedEntries = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Entry[];
-        setEntries(fetchedEntries); // Update the entries in the store
-      } catch (error) {
-        console.error('Error fetching entries from Firestore:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchEntries = async () => {
+  //     if (!user) return;
 
-    fetchEntries();
-  }, [setEntries]);
+  //     try {
+  //       const getEntries = query(
+  //         collection(db, 'entries'),
+  //         where('userId', '==', user.uid)
+  //       );
+  //       const querySnapshot = await getDocs(getEntries);
+  //       const fetchedEntries = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       })) as Entry[];
+  //       setEntries(fetchedEntries);
+  //     } catch (error) {
+  //       console.error('Error fetching entries from Firestore:', error);
+  //     }
+  //   };
+
+  //   fetchEntries();
+  // }, [setEntries, user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(collection(db, 'entries'), where('userId', '==', user.uid));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const updatedEntries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Entry[];
+      setEntries(updatedEntries);
+    });
+
+    return () => unsubscribe();
+  }, [user, setEntries]);
 
   // Update markers when `entries` change
   useEffect(() => {

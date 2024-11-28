@@ -4,11 +4,14 @@ import { ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { db, storage } from '../firebase/firebase';
+import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import FormInput from './ui/FormInput';
 
 export default function AddNewEntryForm() {
   const { selectedCoordinates, addEntry } = useEntryStore();
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({
     id: '',
@@ -71,6 +74,11 @@ export default function AddNewEntryForm() {
       return;
     }
 
+    if (!user) {
+      alert('Please login to add an entry');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -78,7 +86,7 @@ export default function AddNewEntryForm() {
       if (formData.image) {
         const imageRef = ref(
           storage,
-          `images/${Date.now()}-${formData.image.name}`
+          `images/${user.uid}${Date.now()}-${formData.image.name}`
         );
         const snapshot = await uploadBytes(imageRef, formData.image);
         imageUrl = await getDownloadURL(snapshot.ref);
@@ -86,6 +94,7 @@ export default function AddNewEntryForm() {
 
       const newEntry = {
         id: Date.now().toString(),
+        userId: user.uid,
         title: formData.title,
         date: formData.date,
         location: formData.location,
@@ -124,60 +133,39 @@ export default function AddNewEntryForm() {
         onSubmit={handleSubmit}
         className='flex flex-col gap-4 mx-auto  text-white w-full'
       >
-        <div>
-          <label htmlFor='title' className='block text-base font-medium  '>
-            Title
-          </label>
-          <input
-            type='text'
-            id='title'
-            placeholder='Trip to Stockholm'
-            value={formData.title}
-            onChange={handleChange}
-            disabled={isLoading}
-            className='text-white block w-full p-2 h-12  rounded-md  bg-white/10 focus:outline-none focus:ring-0'
-          />
-        </div>
-        <div>
-          <label htmlFor='date' className='block text-base font-medium'>
-            Date
-          </label>
-          <input
-            type='date'
-            id='date'
-            value={formData.date}
-            onChange={handleChange}
-            disabled={isLoading}
-            placeholder='2021-12-31 / Click to select'
-            className='block w-full p-2 h-12 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
-          />
-        </div>
-        <div>
-          <label htmlFor='location' className='block text-base font-medium'>
-            Location
-          </label>
-          <input
-            id='location'
-            value={formData.location}
-            onChange={handleChange}
-            placeholder='Latitude, Longitude / Click on the map'
-            className='block w-full p-2 h-12 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
-            readOnly
-          />
-        </div>
-        <div>
-          <label htmlFor='image' className='block text-base font-medium'>
-            Upload Image
-          </label>
-          <input
-            id='upload'
-            type='file'
-            placeholder='Upload Image'
-            disabled={isLoading}
-            onChange={handleImageChange}
-            className='block w-full p-2 h-12 text-white/70 bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0 '
-          />
-        </div>
+        <FormInput
+          id='title'
+          label='Title'
+          value={formData.title}
+          placeholder='Trip to Stockholm'
+          onChange={handleChange}
+          disabled={isLoading}
+        />
+        <FormInput
+          id='date'
+          label='Date'
+          type='date'
+          value={formData.date}
+          placeholder='YYYY-MM-DD'
+          onChange={handleChange}
+          disabled={isLoading}
+        />
+        <FormInput
+          id='location'
+          label='Location'
+          value={formData.location}
+          placeholder='Latitude, Longitude / Click on the map'
+          onChange={handleChange}
+          disabled
+        />
+        <FormInput
+          id='upload'
+          label='Upload Image'
+          type='file'
+          onChange={handleImageChange}
+          disabled={isLoading}
+        />
+
         <div>
           <label htmlFor='location' className='block text-base font-medium'>
             Description
