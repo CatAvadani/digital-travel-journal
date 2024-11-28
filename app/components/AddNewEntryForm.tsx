@@ -125,7 +125,7 @@ export default function AddNewEntryForm() {
         className='flex flex-col gap-4 mx-auto  text-white w-full'
       >
         <div>
-          <label htmlFor='title' className='block text-sm font-medium  '>
+          <label htmlFor='title' className='block text-base font-medium  '>
             Title
           </label>
           <input
@@ -135,11 +135,11 @@ export default function AddNewEntryForm() {
             value={formData.title}
             onChange={handleChange}
             disabled={isLoading}
-            className='text-white mt-1 block w-full p-2  rounded-md  bg-white/10 focus:outline-none focus:ring-0'
+            className='text-white block w-full p-2 h-12  rounded-md  bg-white/10 focus:outline-none focus:ring-0'
           />
         </div>
         <div>
-          <label htmlFor='date' className='block text-sm font-medium'>
+          <label htmlFor='date' className='block text-base font-medium'>
             Date
           </label>
           <input
@@ -148,24 +148,25 @@ export default function AddNewEntryForm() {
             value={formData.date}
             onChange={handleChange}
             disabled={isLoading}
-            placeholder='2021-12-31'
-            className='mt-1 block w-full p-2 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
+            placeholder='2021-12-31 / Click to select'
+            className='block w-full p-2 h-12 text-white bg-white/10  rounded-md shadow-sm focus:outline-none focus:ring-0'
           />
         </div>
         <div>
-          <label htmlFor='location' className='block text-sm font-medium'>
+          <label htmlFor='location' className='block text-base font-medium'>
             Location
           </label>
           <input
             id='location'
             value={formData.location}
             onChange={handleChange}
-            className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
+            placeholder='Latitude, Longitude / Click on the map'
+            className='block w-full p-2 h-12 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
             readOnly
           />
         </div>
         <div>
-          <label htmlFor='image' className='block text-sm font-medium'>
+          <label htmlFor='image' className='block text-base font-medium'>
             Upload Image
           </label>
           <input
@@ -174,11 +175,11 @@ export default function AddNewEntryForm() {
             placeholder='Upload Image'
             disabled={isLoading}
             onChange={handleImageChange}
-            className='mt-1 block w-full p-2 text-white/70 bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0 '
+            className='block w-full p-2 h-12 text-white/70 bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0 '
           />
         </div>
         <div>
-          <label htmlFor='location' className='block text-sm font-medium'>
+          <label htmlFor='location' className='block text-base font-medium'>
             Description
           </label>
           <textarea
@@ -187,7 +188,7 @@ export default function AddNewEntryForm() {
             value={formData.description}
             onChange={handleChange}
             disabled={isLoading}
-            className='mt-1 block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
+            className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
             rows={4}
           />
         </div>

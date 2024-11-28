@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { create } from 'zustand';
 import { auth } from '../firebase/firebase';
+import { createUserDoc } from './firestoreHelpers';
 
 interface AuthState {
   user: User | null;
@@ -49,6 +50,9 @@ export const useAuthStore = create<AuthState>((set) => ({
         email,
         password
       );
+
+      await createUserDoc(userCredential.user);
+
       set({ user: userCredential.user, loading: false });
       router.push('/mapView');
     } catch (error: unknown) {
@@ -68,6 +72,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         email,
         password
       );
+
       set({ user: userCredential.user, loading: false });
       router.push('/mapView');
     } catch (error: unknown) {
