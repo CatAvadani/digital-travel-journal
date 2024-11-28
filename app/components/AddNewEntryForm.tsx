@@ -3,6 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { db, storage } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
@@ -53,12 +54,12 @@ export default function AddNewEntryForm() {
       !formData.image ||
       !formData.description
     ) {
-      alert('Please fill all the fields');
+      toast.error('Please fill all the fields');
       return false;
     }
 
     if (formData.image && formData.image.size > 5 * 1024 * 1024) {
-      alert('Image size must be less than 5MB.');
+      toast.error('Image size must be less than 5MB.');
       return false;
     }
     return true;
@@ -69,12 +70,12 @@ export default function AddNewEntryForm() {
     if (!validateForm()) return;
 
     if (!selectedCoordinates) {
-      alert('Please select a location on the map.');
+      toast.error('Please select a location on the map.');
       return;
     }
 
     if (!user) {
-      alert('Please login to add an entry');
+      toast.error('Please login to add an entry');
       return;
     }
 
@@ -107,7 +108,7 @@ export default function AddNewEntryForm() {
       // Use the Firestore document ID as the `id` field
       addEntry({ ...newEntry, id: docRef.id });
 
-      alert('Entry added successfully!');
+      toast.success('Entry added successfully!');
 
       // Reset the form
       setFormData({
@@ -120,7 +121,7 @@ export default function AddNewEntryForm() {
       });
     } catch (error) {
       console.error('Error adding entry:', error);
-      alert('An error occurred while adding the entry. Please try again.');
+      toast.error('An error occurred. Please try again later.');
     } finally {
       setIsLoading(false);
     }
