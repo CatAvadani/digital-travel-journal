@@ -1,20 +1,26 @@
 'use client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import EntryCard from '../components/EntryCard';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 
 export default function MyTrips() {
   const { user, loading } = useAuthStore();
-  const { entries } = useEntryStore();
+  const { entries, fetchEntries } = useEntryStore();
+  const router = useRouter();
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    if (user) {
+      fetchEntries(user.uid);
+    }
+  }, [user, fetchEntries]);
 
-  if (!user) {
-    redirect('/login');
-  }
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
 
   return (
     <div className=' flex flex-col gap-2 sm:mt-40 w-[80%] '>
@@ -26,8 +32,13 @@ export default function MyTrips() {
           <p>Date</p>
         </div>
       </div>
-      {entries &&
-        entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)}
+      {entries.length === 0 ? (
+        <p className=' text-white'>
+          No trips found. Add a trip to get started!
+        </p>
+      ) : (
+        entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)
+      )}
     </div>
   );
 }
