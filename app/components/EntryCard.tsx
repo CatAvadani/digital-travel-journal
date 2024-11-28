@@ -1,5 +1,8 @@
+import { SquarePen, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { Entry } from '../store/useEntryStore';
+import { formatDate } from '../utils/formatDate';
+import truncateText from '../utils/truncateText';
 
 interface EntryCardProps {
   entry: Entry;
@@ -10,8 +13,8 @@ export default function EntryCard({ entry, onDelete }: EntryCardProps) {
   return (
     <div className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2'>
       {/* Left: Trip Image and description */}
-      <div className='w-1/2 flex justify-start items-center gap-4 sm:mb-4'>
-        <div className='size-16 sm:size-24'>
+      <div className='w-1/2 flex justify-start items-center gap-2 sm:gap-4 sm:mb-4'>
+        <div className='flex-shrink-0 w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]'>
           <Image
             src={entry.image}
             alt={entry.title}
@@ -20,28 +23,30 @@ export default function EntryCard({ entry, onDelete }: EntryCardProps) {
             height={100}
           />
         </div>
-        <div className='flex flex-col gap-1 sm:gap-2'>
-          <h2 className='text-base sm:text-lg font-bold text-white'>
+        <div className='flex flex-col gap-1 sm:gap-2 max-w-full'>
+          <h2 className='text-sm sm:text-lg font-bold text-white truncate'>
             {entry.title}
           </h2>
-          <p className='text-sm text-white/80'>{entry.description}</p>
+          <p className='text-sm text-white/80 truncate'>
+            {truncateText(entry.description, 60)}
+          </p>
         </div>
       </div>
 
       {/* Right: Trip Info and Actions */}
-      <div className='w-1/2 flex justify-end sm:justify-between items-center'>
-        <p className='hidden text-sm text-white/80 sm:flex justify-center items-start'>
-          {new Date(entry.date).toLocaleString()}
+      <div className='w-1/2 flex justify-end lg:justify-between items-center'>
+        <p className='hidden text-sm text-white/80 lg:flex justify-center items-start'>
+          {formatDate(new Date(entry.date))}
         </p>
         <div className='flex justify-center items-center gap-2'>
-          <button className='px-4 py-2  text-[#b997ec] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'>
-            Edit
+          <button className='px-4 py-2 text-[#b997ec] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'>
+            <SquarePen className=' size-4 sm:size-6' />
           </button>
           <button
             onClick={() => onDelete(entry.id)}
-            className='px-4 py-2  text-[#ed859f] rounded-md  bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all '
+            className='px-4 py-2 text-[#ed859f] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
-            Delete
+            <Trash2 className='size-4 sm:size-6' />
           </button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
 
 const INITIAL_ZOOM = 14;
@@ -173,7 +174,7 @@ export default function Map() {
                       : ''
                   }
                   <h3 class="capitalize font-bold">${entry.title}</h3>
-                  <p>${entry.description}</p>
+                  <p>${truncateText(entry.description, 40)}</p>
                   <p><b>Date:</b> ${entry.date}</p>
                 </div>
               `)
