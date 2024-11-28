@@ -1,27 +1,36 @@
 'use client';
 
-import { collection, getDocs } from 'firebase/firestore';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
-import { db } from '../firebase/firebase';
-import useEntryStore, { Entry } from '../store/useEntryStore';
+import { useAuthStore } from '../store/useAuthStore';
+import useEntryStore from '../store/useEntryStore';
 import AddNewEntryForm from './AddNewEntryForm';
 
 const INITIAL_ZOOM = 14;
 
 export default function Map() {
+  const { user } = useAuthStore();
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<Set<string>>(new Set());
   const currentLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
-  const { entries, setEntries, setSelectedCoordinates } = useEntryStore();
+  const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
+    useEntryStore();
+  const [mapInitialized, setMapInitialized] = useState(false);
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   const [mapStyle, setMapStyle] = useState<string>(
     'mapbox://styles/mapbox/streets-v11'
   );
+
+  useEffect(() => {
+    if (user) {
+      clearEntries();
+      fetchEntries(user.uid);
+    }
+  }, [user, fetchEntries, clearEntries]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
@@ -113,6 +122,7 @@ export default function Map() {
           // Store the marker's coordinates in the Set
           markersRef.current.add(key);
         });
+        setMapInitialized(true);
       }
     };
 
@@ -139,27 +149,9 @@ export default function Map() {
     };
   }, [mapStyle, setSelectedCoordinates]);
 
-  // Fetch entries from Firestore when the map component loads
-  useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'entries'));
-        const fetchedEntries = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Entry[];
-        setEntries(fetchedEntries); // Update the entries in the store
-      } catch (error) {
-        console.error('Error fetching entries from Firestore:', error);
-      }
-    };
-
-    fetchEntries();
-  }, [setEntries]);
-
   // Update markers when `entries` change
   useEffect(() => {
-    if (mapRef.current) {
+    if (mapInitialized && mapRef.current) {
       // Clear previous markers
       markersRef.current.clear();
 
@@ -192,7 +184,7 @@ export default function Map() {
         }
       });
     }
-  }, [entries]);
+  }, [entries, mapInitialized]);
 
   const toggleMapStyle = () => {
     if (mapRef.current) {

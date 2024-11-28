@@ -5,13 +5,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { auth } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
+import useEntryStore from '../store/useEntryStore';
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { setUser, setLoading, setError, user } = useAuthStore();
+  const { setUser, setLoading, setError, loading } = useAuthStore();
+  const { clearEntries } = useEntryStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,7 +30,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } else {
         setUser(null);
-
+        clearEntries();
         if (pathname !== '/login') {
           router.push('/login');
         }
@@ -38,10 +40,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [setUser, setLoading, setError, router, pathname]);
+  }, [setUser, setLoading, setError, router, pathname, clearEntries]);
 
-  if (user === null && pathname !== '/login') {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator until auth state is ready
   }
 
   return <>{children}</>;
