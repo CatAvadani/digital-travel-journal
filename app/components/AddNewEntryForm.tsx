@@ -127,7 +127,7 @@ export default function AddNewEntryForm() {
   };
 
   return (
-    <div className='bg-transparent my-4 text-white px-4 py-6 flex flex-col gap-4  h-[96vh]'>
+    <div className='bg-transparent my-4 text-white px-4 py-6 flex flex-col gap-4  sm:h-[96vh]'>
       <h2 className='text-xl font-bold'>Add New Entry</h2>
       <form
         onSubmit={handleSubmit}
