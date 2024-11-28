@@ -167,14 +167,14 @@ export default function Map() {
             .setPopup(
               new mapboxgl.Popup({ offset: 25 }).setHTML(`
                 <div class="rounded-md">
+                  ${
+                    entry.image
+                      ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
+                      : ''
+                  }
                   <h3 class="capitalize font-bold">${entry.title}</h3>
                   <p>${entry.description}</p>
                   <p><b>Date:</b> ${entry.date}</p>
-                  ${
-                    entry.image
-                      ? `<img src="${entry.image}" alt="Entry Image" class="mt-4 rounded-md w-full h-auto object-cover" />`
-                      : ''
-                  }
                 </div>
               `)
             )
