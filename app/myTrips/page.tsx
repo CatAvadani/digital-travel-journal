@@ -24,26 +24,28 @@ export default function MyTrips() {
 
   return (
     <div className=' flex flex-col gap-2 sm:mt-40 w-[92%] sm:w-[80%] '>
-      <div className='flex justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
-        <div className=' w-1/2 items-start '>
-          <h1>My Trips</h1>
-        </div>
-        <div className=' hidden sm:flex sm:items-start  w-1/2'>
-          <p>Date</p>
-        </div>
-      </div>
       {entries.length === 0 ? (
-        <p className=' text-white'>
+        <div className=' text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
           No trips found. Add a trip to get started!
-        </p>
+        </div>
       ) : (
-        entries.map((entry) => (
-          <EntryCard
-            key={entry.id}
-            entry={entry}
-            onDelete={() => deleteEntry(entry.id)}
-          />
-        ))
+        <>
+          <div className='flex justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+            <div className=' w-1/2 items-start '>
+              <h1>My Trips</h1>
+            </div>
+            <div className=' hidden sm:flex sm:items-start  w-1/2'>
+              <p>Date</p>
+            </div>
+          </div>
+          {entries.map((entry) => (
+            <EntryCard
+              key={entry.id}
+              entry={entry}
+              onDelete={() => deleteEntry(entry.id)}
+            />
+          ))}
+        </>
       )}
     </div>
   );

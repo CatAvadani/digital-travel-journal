@@ -3,7 +3,7 @@ import { AlignRight, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
 const links = [
@@ -14,6 +14,22 @@ const links = [
 export default function Header() {
   const { user, logout } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const pathname = usePathname();
   const isMapViewPage = pathname === '/mapView';
@@ -21,7 +37,11 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-[50%] -translate-x-[50%] z-40 w-full  mx-auto flex justify-between items-center p-5 py-8 rounded-lg text-white md:px-16`}
+      className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-black/30 backdrop-blur-lg backdrop-filter'
+          : 'bg-transparent'
+      }`}
     >
       {/* Logo */}
       <Link

@@ -11,6 +11,8 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+const AUTHENTICATED_ROUTES = ['/mapView', '/myTrips'];
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { setUser, setLoading, setError, loading } = useAuthStore();
   const { clearEntries } = useEntryStore();
@@ -31,7 +33,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         setUser(null);
         clearEntries();
-        if (pathname !== '/login') {
+
+        // Redirect unauthenticated users if they are trying to access authenticated pages
+        if (AUTHENTICATED_ROUTES.includes(pathname)) {
           router.push('/login');
         }
       }
@@ -43,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [setUser, setLoading, setError, router, pathname, clearEntries]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator until auth state is ready
+    return <div>Loading...</div>;
   }
 
   return <>{children}</>;
