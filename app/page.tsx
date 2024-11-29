@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import Footer from './components/Footer';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -45,7 +46,7 @@ export default function Home() {
           clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
         }}
       ></div>
-
+      <Footer />
       <div className='z-20 text-white text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[70%]'>
         <h1 className='text-2xl md:text-5xl lg:text-7xl mb-16'>
           Turn Your Adventures into Timeless Stories

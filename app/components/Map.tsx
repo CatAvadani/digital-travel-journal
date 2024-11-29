@@ -136,6 +136,7 @@ export default function Map() {
           initializeMap(latitude, longitude);
         },
         (error) => {
+          console.error('Error retrieving user location:', error);
           toast.error('Error retrieving user location');
         }
       );
