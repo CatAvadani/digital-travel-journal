@@ -43,8 +43,8 @@ export default function RootLayout({
               toastOptions={{
                 success: {
                   style: {
-                    background: '#A0F28E',
-                    color: 'black',
+                    background: '#0f6d0d',
+                    color: 'white',
                   },
                   iconTheme: {
                     primary: 'white',
@@ -53,7 +53,7 @@ export default function RootLayout({
                 },
                 error: {
                   style: {
-                    background: 'red',
+                    background: '#E91E63',
                     color: 'white',
                   },
                   iconTheme: {
