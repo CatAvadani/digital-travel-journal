@@ -118,7 +118,7 @@ export default function Header() {
       )}
 
       {/* Desktop Menu */}
-      <nav className='hidden md:flex items-center gap-8 md:px-10'>
+      <nav className='hidden md:flex items-center gap-8 md:px-8 lg:px-10'>
         <ul className='flex items-center gap-6'>
           {links.map((link) => (
             <li key={link.href}>
