@@ -4,7 +4,6 @@ import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 
 interface FormData {
@@ -29,14 +28,11 @@ export default function Login() {
     try {
       if (isLogin) {
         await signIn(email, password, router);
-        toast.success('Welcome back!');
       } else {
         await signUp(email, password, router);
-        toast.success('Account created successfully!');
       }
     } catch (err) {
       console.error('Authentication Error:', err);
-      toast.error('An error occurred. Please try again later.');
     }
   };
 
