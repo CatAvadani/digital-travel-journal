@@ -4,6 +4,7 @@ import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 
 interface FormData {
@@ -28,16 +29,20 @@ export default function Login() {
     try {
       if (isLogin) {
         await signIn(email, password, router);
+        toast.success('Welcome back!');
       } else {
         await signUp(email, password, router);
+        toast.success('Account created successfully!');
       }
     } catch (err) {
       console.error('Authentication Error:', err);
+      toast.error('An error occurred. Please try again later.');
     }
   };
 
   return (
     <div
+      aria-label='Login or Sign Up Form'
       className='bg-white bg-opacity-5 border border-white border-opacity-10 
       backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)]'
     >
@@ -76,6 +81,7 @@ export default function Login() {
               type='email'
               id='email'
               placeholder='johndoe@mail.com'
+              aria-invalid={!!errors.email}
               {...register('email', {
                 required: 'Email is required',
                 pattern: {
@@ -129,6 +135,7 @@ export default function Login() {
             <button
               type='button'
               onClick={() => setIsLogin(!isLogin)}
+              aria-controls='login-form'
               className='text-pink-500 hover:underline'
             >
               {isLogin ? 'Sign Up' : 'Sign In'}

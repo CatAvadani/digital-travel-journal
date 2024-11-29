@@ -3,6 +3,7 @@
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import truncateText from '../utils/truncateText';
@@ -135,11 +136,11 @@ export default function Map() {
           initializeMap(latitude, longitude);
         },
         (error) => {
-          console.error('Error retrieving user location:', error);
+          toast.error('Error retrieving user location');
         }
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      toast.error('Geolocation is not supported by this browser.');
     }
 
     return () => {
@@ -195,20 +196,32 @@ export default function Map() {
           : 'mapbox://styles/mapbox/streets-v11';
       setMapStyle(newStyle);
       mapRef.current.setStyle(newStyle);
+      toast.success(
+        `Switched to ${
+          newStyle.includes('satellite') ? 'Satellite' : 'Standard'
+        } Map`
+      );
     }
   };
 
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
+    <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
       {/* Map Section */}
-      <div className='col-span-1 sm:col-span-3 flex justify-center items-center'>
+      <section
+        aria-label='Interactive map to view and add travel entries'
+        className='col-span-1 sm:col-span-3 flex justify-center items-center'
+      >
         <div
           ref={mapContainerRef}
           className='w-[98%] h-[60vh] md:h-[96%] rounded-md'
         />
-        <h3 className='text-white/90 absolute top-1 left-2 sm:hidden'>
+        <p
+          className='text-white/90 absolute top-1 left-2 sm:hidden'
+          aria-live='polite'
+        >
           Click on the map to select a new entry location
-        </h3>
+        </p>
+
         <div className='absolute top-8 left-8 hidden sm:flex flex-col gap-3 z-50'>
           <p className='bg-white p-3 rounded-md shadow-md'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
@@ -223,10 +236,12 @@ export default function Map() {
               : 'Satellite Map'}
           </button>
         </div>
-      </div>
+      </section>
 
       {/* Form Section */}
-      <AddNewEntryForm />
-    </div>
+      <section aria-labelledby='add-entry-form'>
+        <AddNewEntryForm />
+      </section>
+    </main>
   );
 }

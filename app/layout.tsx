@@ -32,6 +32,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <head>
+        <link
+          rel='preload'
+          href='/fonts/GeistVF.woff'
+          type='font/woff'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/GeistMonoVF.woff'
+          type='font/woff'
+          crossOrigin='anonymous'
+        />
+        <link rel='preload' href='/globe-video-1.mp4' />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >

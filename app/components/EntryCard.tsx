@@ -11,7 +11,7 @@ interface EntryCardProps {
 
 export default function EntryCard({ entry, onDelete }: EntryCardProps) {
   return (
-    <div className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2'>
+    <article className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2'>
       {/* Left: Trip Image and description */}
       <div className='w-1/2 flex justify-start items-center gap-2 sm:gap-4 sm:mb-4'>
         <div className='flex-shrink-0 w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]'>
@@ -50,6 +50,6 @@ export default function EntryCard({ entry, onDelete }: EntryCardProps) {
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
