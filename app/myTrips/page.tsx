@@ -1,6 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import ConfirmationModal from '../components/ConfirmationModal';
 import EntryCard from '../components/EntryCard';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
@@ -8,7 +10,29 @@ import useEntryStore from '../store/useEntryStore';
 export default function MyTrips() {
   const { user, loading } = useAuthStore();
   const { entries, fetchEntries, deleteEntry } = useEntryStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  const [entryToDelete, setEntryToDelete] = useState<string | null>(null);
+
+  const handleDeleteClick = (entryId: string) => {
+    setEntryToDelete(entryId);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (entryToDelete) {
+      deleteEntry(entryToDelete);
+      setEntryToDelete(null);
+      toast.success('Entry deleted successfully');
+    }
+    setIsModalOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setEntryToDelete(null);
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (user) {
@@ -24,6 +48,12 @@ export default function MyTrips() {
 
   return (
     <div className=' flex flex-col gap-2 sm:mt-40 w-[92%] sm:w-[80%] '>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        message='Are you sure you want to delete this entry?'
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
       {entries.length === 0 ? (
         <div className=' text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
           No trips found. Add a trip to get started!
@@ -42,7 +72,7 @@ export default function MyTrips() {
             <EntryCard
               key={entry.id}
               entry={entry}
-              onDelete={() => deleteEntry(entry.id)}
+              onDelete={() => handleDeleteClick(entry.id)}
             />
           ))}
         </>

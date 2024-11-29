@@ -1,25 +1,21 @@
 import Link from 'next/link';
-import { CgDribbble } from 'react-icons/cg';
-import { FaInstagram } from 'react-icons/fa';
-import { FiFacebook } from 'react-icons/fi';
-import { SiSquarespace } from 'react-icons/si';
+import { Dribbble, Facebook, Instagram } from 'react-feather';
 
 const socialLinks = [
   {
     href: 'https://www.facebook.com/',
-    icon: <FiFacebook className='sm:size-6' />,
+    icon: <Facebook className='sm:size-6' />,
+    label: 'Visit our Facebook page',
   },
   {
     href: 'https://www.instagram.com/',
-    icon: <FaInstagram className='sm:size-6' />,
-  },
-  {
-    href: 'https://www.squarespace.com/',
-    icon: <SiSquarespace className=' sm:size-6' />,
+    icon: <Instagram className='sm:size-6' />,
+    label: 'Visit our Instagram profile',
   },
   {
     href: 'https://dribbble.com/',
-    icon: <CgDribbble className='sm:size-6' />,
+    icon: <Dribbble className='sm:size-6' />,
+    label: 'Visit our Dribbble profile',
   },
 ];
 
@@ -30,12 +26,13 @@ export default function Footer() {
     sm:left-24 md:left-32 z-50 text-white'
     >
       <div className='w-4 ml-4 lg:w-32 h-[0.1px] border-b border--white'></div>
-      <ul className=' flex justify-center items-center gap-3'>
+      <ul className='flex justify-center items-center gap-3'>
         {socialLinks.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className=' font-normal hover:text-white/70 transition-all'
+              className='font-normal hover:text-white/70 transition-all'
+              aria-label={link.label}
             >
               {link.icon}
             </Link>
