@@ -5,10 +5,22 @@ import { FiFacebook } from 'react-icons/fi';
 import { SiSquarespace } from 'react-icons/si';
 
 const socialLinks = [
-  { href: '/facebook', icon: <FiFacebook className='sm:size-6' /> },
-  { href: '/instagram', icon: <FaInstagram className='sm:size-6' /> },
-  { href: '/squarespace', icon: <SiSquarespace className=' sm:size-6' /> },
-  { href: '/dribbble', icon: <CgDribbble className='sm:size-6' /> },
+  {
+    href: 'https://www.facebook.com/',
+    icon: <FiFacebook className='sm:size-6' />,
+  },
+  {
+    href: 'https://www.instagram.com/',
+    icon: <FaInstagram className='sm:size-6' />,
+  },
+  {
+    href: 'https://www.squarespace.com/',
+    icon: <SiSquarespace className=' sm:size-6' />,
+  },
+  {
+    href: 'https://dribbble.com/',
+    icon: <CgDribbble className='sm:size-6' />,
+  },
 ];
 
 export default function Footer() {
