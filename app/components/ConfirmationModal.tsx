@@ -18,9 +18,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black/20  backdrop-blur-sm z-50'>
-      <div className='bg-white py-8 px-6 rounded-md shadow-md flex flex-col justify-center items-center'>
-        <XCircle className=' text-[#E91E63] cursor-pointer size-12' />
-        <p className='text-gray-800 my-10'>{message}</p>
+      <div className='bg-white py-4 sm:py-8 px-4 sm:px-6 rounded-md shadow-md flex flex-col justify-center items-center'>
+        <XCircle className=' text-[#E91E63] cursor-pointer size-8 sm:size-12' />
+        <p className='text-gray-800 my-6 sm:my-10 text-center max-w-64 sm:max-w-full'>
+          {message}
+        </p>
         <div className='flex justify-end gap-2'>
           <button
             onClick={onCancel}
