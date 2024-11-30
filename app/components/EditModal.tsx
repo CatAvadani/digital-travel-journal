@@ -121,13 +121,13 @@ export default function EditModal({
             <button
               type='button'
               onClick={onClose}
-              className='bg-gray-300 px-4 py-2 rounded-md w-full hover:bg-gray-300/90'
+              className='bg-gradient-to-r from-slate-200 to-slate-500 hover:from-gray-200 hover:to-gray-400 px-4 py-2 rounded-md w-full '
             >
               Cancel
             </button>
             <button
               type='submit'
-              className='bg-[#E91E63] w-full px-4 py-2 text-white rounded-md hover:bg-[#E91E63]/90'
+              className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] w-full px-4 py-2 text-white rounded-md '
               disabled={isUploading}
             >
               Save

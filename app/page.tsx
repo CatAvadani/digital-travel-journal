@@ -48,7 +48,7 @@ export default function Home() {
       ></div>
       <Footer />
       <div className='z-20 text-white text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[70%]'>
-        <h1 className='text-2xl md:text-5xl lg:text-7xl mb-16 max-w-3xl mx-auto font-normal leading-loose tracking-wide'>
+        <h1 className='text-3xl md:text-5xl lg:text-7xl mb-16 max-w-3xl mx-auto font-normal sm:leading-loose tracking-wide'>
           Turn Your Journeys into Timeless Stories
         </h1>
         <Link
@@ -61,7 +61,7 @@ export default function Home() {
       {/* Play/Pause Button */}
       <button
         onClick={toggleVideoPlayback}
-        className='absolute bottom-8 right-8 bg-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base px-4 py-2 rounded-full z-50 w-32 '
+        className='absolute bottom-8 right-4 sm:right-10 bg-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base px-4 py-2 rounded-full z-50 w-32 '
         aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
       >
         {isVideoPlaying ? 'Pause Video' : 'Play Video'}
