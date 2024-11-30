@@ -16,6 +16,8 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const pathname = usePathname();
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -31,10 +33,6 @@ export default function Header() {
     };
   }, []);
 
-  const pathname = usePathname();
-  const isMapViewPage = pathname === '/mapView';
-  const isHomePage = pathname === '/';
-
   return (
     <header
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
@@ -46,7 +44,7 @@ export default function Header() {
       {/* Logo */}
       <Link
         href='/'
-        className=' flex justify-center items-center gap-6 text-base md:text-3xl font-bold text-white'
+        className='flex justify-center items-center gap-6 text-base md:text-3xl font-bold text-white'
       >
         <Image
           src='/Zantic.svg'
@@ -55,9 +53,7 @@ export default function Header() {
           height={40}
           alt='logo'
         />
-        {!isMapViewPage && !isHomePage && (
-          <span className=' tracking-wider'>Digital Travel Journal</span>
-        )}
+        <span className='tracking-wider'>Digital Travel Journal</span>
       </Link>
 
       {/* Mobile Menu Icon */}
@@ -85,7 +81,11 @@ export default function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className='block text-white hover:bg-gray-700 p-2 rounded-md'
+                  className={`block text-white p-2 rounded-md ${
+                    pathname.startsWith(link.href)
+                      ? 'bg-pink-500 text-white'
+                      : 'hover:bg-gray-700'
+                  }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
@@ -118,15 +118,24 @@ export default function Header() {
       )}
 
       {/* Desktop Menu */}
-      <nav className='hidden md:flex items-center gap-8 md:px-8 lg:px-10'>
+      <nav className='hidden md:flex items-center gap-8'>
         <ul className='flex items-center gap-6'>
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className='text-white hover:text-gray-200 transition-colors'
+                className={`relative px-4 py-2 rounded-full transition-colors ${
+                  pathname.startsWith(link.href)
+                    ? 'font-bold text-white/80'
+                    : 'hover:text-gray-200'
+                }`}
               >
                 {link.label}
+                <span
+                  className={`absolute left-0 bottom-[-2px] w-full h-[2px] bg-white/80 transform transition-all duration-300 ${
+                    pathname.startsWith(link.href) ? 'scale-x-110' : 'scale-x-0'
+                  }`}
+                />
               </Link>
             </li>
           ))}
@@ -134,14 +143,14 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center'
+            className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0'
           >
             Logout
           </button>
         ) : (
           <Link
             href='/login'
-            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
+            className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
           >
             Login
           </Link>

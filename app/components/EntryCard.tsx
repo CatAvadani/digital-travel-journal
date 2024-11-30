@@ -7,9 +7,10 @@ import truncateText from '../utils/truncateText';
 interface EntryCardProps {
   entry: Entry;
   onDelete: (entryId: string) => void;
+  onEdit: (entry: Entry) => void;
 }
 
-export default function EntryCard({ entry, onDelete }: EntryCardProps) {
+export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
   return (
     <article className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2'>
       {/* Left: Trip Image and description */}
@@ -39,8 +40,11 @@ export default function EntryCard({ entry, onDelete }: EntryCardProps) {
           {formatDate(new Date(entry.date))}
         </p>
         <div className='flex justify-center items-center gap-2'>
-          <button className='px-4 py-2 text-[#b997ec] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'>
-            <SquarePen className=' size-4 sm:size-6' />
+          <button
+            onClick={() => onEdit(entry)}
+            className='px-4 py-2 text-[#b997ec] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+          >
+            <SquarePen className='size-4 sm:size-6' />
           </button>
           <button
             onClick={() => onDelete(entry.id)}
