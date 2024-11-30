@@ -91,16 +91,12 @@ export default function EditModal({
             onChange={handleChange}
           />
           <div>
-            <label htmlFor='upload' className='block text-base font-medium'>
-              Upload New Image
-            </label>
-            <input
+            <FormInput
               id='upload'
               type='file'
-              accept='image/*'
+              label='Upload New Image'
               onChange={handleChange}
               disabled={isUploading}
-              className='block w-full p-2 text-white bg-gray-800 rounded-md'
             />
             {isUploading && (
               <p className='text-sm text-blue-500'>Uploading image...</p>
