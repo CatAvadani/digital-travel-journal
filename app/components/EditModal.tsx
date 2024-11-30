@@ -1,5 +1,6 @@
 'use client';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { X } from 'lucide-react';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { storage } from '../firebase/firebase';
 import { Entry } from '../store/useEntryStore';
@@ -67,9 +68,15 @@ export default function EditModal({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'>
-      <div className='bg-black py-4 px-6 rounded-md shadow-md w-[90%] sm:w-[400px]'>
-        <h2 className='text-xl font-bold mb-4'>Edit Entry</h2>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+      <div className='bg-[#30193A] p-10 rounded-md shadow-md w-[90%] sm:w-[400px]'>
+        <form onSubmit={handleSubmit} className='relative flex flex-col gap-4'>
+          <h2 className='text-xl font-bold mb-4 text-white'>Edit Entry</h2>
+          <button
+            onClick={onClose}
+            className='absolute top-0 right-0 text-white/80 hover:text-white'
+          >
+            <X size={24} />
+          </button>
           <FormInput
             id='title'
             label='Title'
@@ -114,13 +121,13 @@ export default function EditModal({
             <button
               type='button'
               onClick={onClose}
-              className='bg-gray-300 px-4 py-2 rounded-md'
+              className='bg-gray-300 px-4 py-2 rounded-md w-full hover:bg-gray-300/90'
             >
               Cancel
             </button>
             <button
               type='submit'
-              className='bg-pink-500 px-4 py-2 text-white rounded-md'
+              className='bg-[#E91E63] w-full px-4 py-2 text-white rounded-md hover:bg-[#E91E63]/90'
               disabled={isUploading}
             >
               Save

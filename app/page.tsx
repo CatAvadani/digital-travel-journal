@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div className='relative w-full h-screen overflow-hidden'>
-      <div className='absolute hidden sm:block z-50 top-1/2 -ml-24  transform -translate-y-1/2 -rotate-90 text-white text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest opacity-80'>
+      <div className='absolute hidden sm:block z-50 top-1/2 -ml-[7%]  transform -translate-y-1/2 -rotate-90 text-white text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest opacity-80'>
         Digital Travel Journal
       </div>
 

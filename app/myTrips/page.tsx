@@ -63,7 +63,10 @@ export default function MyTrips() {
   }, [loading, user, router]);
 
   return (
-    <div className=' flex flex-col gap-2 sm:mt-40 w-[92%] sm:w-[80%] '>
+    <div className=' absolute top-36 flex flex-col gap-2 w-[92%] sm:w-[80%] '>
+      <h1 className=' text-white text-3xl font-bold self-center mb-10'>
+        My Trips
+      </h1>
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         message='Are you sure you want to delete this entry?'
@@ -84,9 +87,11 @@ export default function MyTrips() {
         </div>
       ) : (
         <>
-          <div className='flex justify-between items-center mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+          <div className='flex mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
             <div className=' w-1/2 items-start '>
-              <h1>My Trips</h1>
+              <p>
+                Trips <span className='text-white/80'> ({entries.length})</span>
+              </p>
             </div>
             <div className=' hidden sm:flex sm:items-start  w-1/2'>
               <p>Date</p>
