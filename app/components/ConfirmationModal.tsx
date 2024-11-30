@@ -26,13 +26,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <div className='flex justify-end gap-2'>
           <button
             onClick={onCancel}
-            className='bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300'
+            className='px-4 py-2 rounded-md bg-gradient-to-r from-slate-200 to-slate-500 hover:from-gray-200 hover:to-gray-400'
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className='bg-[#E91E63] text-white px-4 py-2 rounded-md hover:bg-[#E91E63]/90'
+            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] text-white px-4 py-2 rounded-md '
           >
             Confirm
           </button>
