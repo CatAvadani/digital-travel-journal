@@ -33,6 +33,9 @@ export default function Header() {
     };
   }, []);
 
+  const isMapViewPage = pathname === '/mapView';
+  const isHomePage = pathname === '/';
+
   return (
     <header
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
@@ -53,9 +56,9 @@ export default function Header() {
           height={40}
           alt='logo'
         />
-        <span className='tracking-wider hidden sm:block'>
-          Digital Travel Journal
-        </span>
+        {!isMapViewPage && !isHomePage && (
+          <span className=' tracking-wider'>Digital Travel Journal</span>
+        )}
       </Link>
 
       {/* Mobile Menu Icon */}
