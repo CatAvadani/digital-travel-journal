@@ -53,7 +53,9 @@ export default function Header() {
           height={40}
           alt='logo'
         />
-        <span className='tracking-wider'>Digital Travel Journal</span>
+        <span className='tracking-wider hidden sm:block'>
+          Digital Travel Journal
+        </span>
       </Link>
 
       {/* Mobile Menu Icon */}
