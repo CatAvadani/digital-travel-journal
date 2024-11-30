@@ -118,7 +118,7 @@ export default function Header() {
       )}
 
       {/* Desktop Menu */}
-      <nav className='hidden md:flex items-center gap-8 md:px-8 lg:px-10'>
+      <nav className='hidden md:flex items-center gap-8'>
         <ul className='flex items-center gap-6'>
           {links.map((link) => (
             <li key={link.href}>
@@ -134,7 +134,7 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center'
+            className=' bg-white  bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0'
           >
             Logout
           </button>

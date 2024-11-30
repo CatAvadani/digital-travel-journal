@@ -3,21 +3,37 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '../components/ConfirmationModal';
+import EditModal from '../components/EditModal';
 import EntryCard from '../components/EntryCard';
 import { useAuthStore } from '../store/useAuthStore';
-import useEntryStore from '../store/useEntryStore';
+import useEntryStore, { Entry } from '../store/useEntryStore';
 
 export default function MyTrips() {
   const { user, loading } = useAuthStore();
-  const { entries, fetchEntries, deleteEntry } = useEntryStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { entries, fetchEntries, deleteEntry, updateEntry } = useEntryStore();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const router = useRouter();
-
+  const [entryToEdit, setEntryToEdit] = useState<Entry | null>(null);
   const [entryToDelete, setEntryToDelete] = useState<string | null>(null);
+
+  const handleEditClick = (entry: Entry) => {
+    setEntryToEdit(entry);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async (updatedEntry: Entry) => {
+    if (entryToEdit) {
+      updateEntry(entryToEdit.id, updatedEntry);
+      // setEntryToEdit(null);
+      setIsEditModalOpen(false);
+      toast.success('Entry updated successfully');
+    }
+  };
 
   const handleDeleteClick = (entryId: string) => {
     setEntryToDelete(entryId);
-    setIsModalOpen(true);
+    setIsDeleteModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
@@ -26,12 +42,12 @@ export default function MyTrips() {
       setEntryToDelete(null);
       toast.success('Entry deleted successfully');
     }
-    setIsModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
 
   const handleCancelDelete = () => {
     setEntryToDelete(null);
-    setIsModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
 
   useEffect(() => {
@@ -49,10 +65,16 @@ export default function MyTrips() {
   return (
     <div className=' flex flex-col gap-2 sm:mt-40 w-[92%] sm:w-[80%] '>
       <ConfirmationModal
-        isOpen={isModalOpen}
+        isOpen={isDeleteModalOpen}
         message='Are you sure you want to delete this entry?'
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
+      />
+      <EditModal
+        isOpen={isEditModalOpen}
+        entry={entryToEdit}
+        onSubmit={handleEditSubmit}
+        onClose={() => setIsEditModalOpen(false)}
       />
       {entries.length === 0 ? (
         <div className=' text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
@@ -73,6 +95,7 @@ export default function MyTrips() {
               key={entry.id}
               entry={entry}
               onDelete={() => handleDeleteClick(entry.id)}
+              onEdit={() => handleEditClick(entry)}
             />
           ))}
         </>

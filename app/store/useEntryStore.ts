@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  setDoc,
   where,
 } from 'firebase/firestore';
 import { create } from 'zustand';
@@ -28,6 +29,7 @@ interface EntryStore {
   setEntries: (entries: Entry[]) => void;
   fetchEntries: (userId: string) => void;
   clearEntries: () => void;
+  updateEntry: (entryId: string, updatedEntry: Entry) => void;
   deleteEntry: (entryId: string) => void;
 }
 
@@ -54,6 +56,20 @@ const useEntryStore = create<EntryStore>((set) => ({
       set(() => ({ entries: fetchedEntries }));
     } catch (error) {
       console.error('Error fetching entries:', error);
+    }
+  },
+
+  updateEntry: async (entryId, updatedEntry) => {
+    try {
+      const entryRef = doc(db, 'entries', entryId);
+      await setDoc(entryRef, updatedEntry);
+      set((state) => ({
+        entries: state.entries.map((entry) =>
+          entry.id === entryId ? updatedEntry : entry
+        ),
+      }));
+    } catch (error) {
+      console.error('Error updating entry in Firestore:', error);
     }
   },
 
