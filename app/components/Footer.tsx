@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Dribbble, Facebook, Instagram } from 'react-feather';
+import { Dribbble, Facebook, GitHub, Instagram } from 'react-feather';
 
 const socialLinks = [
   {
@@ -16,6 +16,11 @@ const socialLinks = [
     href: 'https://dribbble.com/',
     icon: <Dribbble className='sm:size-6' />,
     label: 'Visit our Dribbble profile',
+  },
+  {
+    href: 'https://github.com/CatAvadani',
+    icon: <GitHub className='sm:size-6' />,
+    label: 'Visit our Github profile',
   },
 ];
 
