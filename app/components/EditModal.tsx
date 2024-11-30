@@ -1,28 +1,68 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { storage } from '../firebase/firebase';
+import { Entry } from '../store/useEntryStore';
 import FormInput from './ui/FormInput';
 
-export default function EditModal({ entry, onClose, onSubmit, isOpen }) {
-  const [formData, setFormData] = useState(entry || {});
+interface EditModalProps {
+  entry: Entry | null;
+  onClose: () => void;
+  onSubmit: (entry: Entry) => void;
+  isOpen: boolean;
+}
+
+export default function EditModal({
+  entry,
+  onClose,
+  onSubmit,
+  isOpen,
+}: EditModalProps) {
+  const [formData, setFormData] = useState(entry || ({} as Entry));
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (entry) {
-      setFormData(entry); // Update formData when entry changes
+      setFormData(entry);
     }
   }, [entry]);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+  const handleChange = async (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value, files } = e.target as HTMLInputElement & {
+      files?: FileList;
+    };
+
+    if (id === 'upload' && files && files[0]) {
+      const file = files[0];
+      setIsUploading(true);
+
+      try {
+        const storageRef = ref(storage, `images/${Date.now()}-${file.name}`);
+
+        await uploadBytes(storageRef, file);
+
+        const downloadURL = await getDownloadURL(storageRef);
+
+        setFormData((prev) => ({ ...prev, image: downloadURL }));
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      } finally {
+        setIsUploading(false);
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [id]: value }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(formData);
   };
 
   if (!isOpen || !entry) {
-    return null; // Ensure modal only renders when open and entry exists
+    return null;
   }
 
   return (
@@ -50,18 +90,28 @@ export default function EditModal({ entry, onClose, onSubmit, isOpen }) {
             value={formData.location || ''}
             onChange={handleChange}
           />
-          <FormInput
-            id='image'
-            label='Image URL'
-            value={formData.image || ''}
-            onChange={handleChange}
-          />
+          <div>
+            <label htmlFor='upload' className='block text-base font-medium'>
+              Upload New Image
+            </label>
+            <input
+              id='upload'
+              type='file'
+              accept='image/*'
+              onChange={handleChange}
+              disabled={isUploading}
+              className='block w-full p-2 text-white bg-gray-800 rounded-md'
+            />
+            {isUploading && (
+              <p className='text-sm text-blue-500'>Uploading image...</p>
+            )}
+          </div>
           <textarea
             id='description'
             value={formData.description || ''}
             placeholder='Write your experience here...'
             onChange={handleChange}
-            className='block w-full p-2 bg-white/10 rounded-md'
+            className='block w-full p-2 bg-white rounded-md'
             rows={4}
           />
           <div className='flex justify-center items-center gap-2'>
@@ -75,6 +125,7 @@ export default function EditModal({ entry, onClose, onSubmit, isOpen }) {
             <button
               type='submit'
               className='bg-pink-500 px-4 py-2 text-white rounded-md'
+              disabled={isUploading}
             >
               Save
             </button>

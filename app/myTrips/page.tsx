@@ -70,12 +70,14 @@ export default function MyTrips() {
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
-      <EditModal
-        isOpen={isEditModalOpen}
-        entry={entryToEdit}
-        onSubmit={handleEditSubmit}
-        onClose={() => setIsEditModalOpen(false)}
-      />
+      {entryToEdit && (
+        <EditModal
+          isOpen={isEditModalOpen}
+          entry={entryToEdit}
+          onSubmit={handleEditSubmit}
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
       {entries.length === 0 ? (
         <div className=' text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
           No trips found. Add a trip to get started!
