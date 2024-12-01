@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
+import LoadingSinner from './ui/LoadingSpinner';
 
 const INITIAL_ZOOM = 14;
 
@@ -26,6 +27,7 @@ export default function Map() {
   const [mapStyle, setMapStyle] = useState<string>(
     'mapbox://styles/mapbox/streets-v11'
   );
+  const [isMapLoading, setIsMapLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -72,6 +74,10 @@ export default function Map() {
         };
 
         mapRef.current.on('move', updateMapState);
+
+        mapRef.current.on('load', () => {
+          setIsMapLoading(false);
+        });
 
         // Handle map clicks to place draggable markers
         mapRef.current.on('click', (event) => {
@@ -210,12 +216,13 @@ export default function Map() {
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
-        className='col-span-1 sm:col-span-3 flex justify-center items-center'
+        className='relative col-span-1 sm:col-span-3 flex justify-center items-center'
       >
         <div
           ref={mapContainerRef}
-          className='w-[98%] h-[60vh] md:h-[96%] rounded-md'
+          className='relative w-[98%] h-[60vh] md:h-[96%] rounded-md'
         />
+        {isMapLoading && <LoadingSinner />}
         <p
           className='text-white/90 absolute top-1 left-2 sm:hidden'
           aria-live='polite'

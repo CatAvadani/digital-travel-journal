@@ -3,6 +3,7 @@
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { auth } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
@@ -47,7 +48,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [setUser, setLoading, setError, router, pathname, clearEntries]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return <>{children}</>;
