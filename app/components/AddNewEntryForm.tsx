@@ -142,7 +142,7 @@ export default function AddNewEntryForm() {
           id='title'
           label='Title'
           value={formData.title}
-          placeholder='Trip to Stockholm'
+          placeholder='Entry Title'
           onChange={handleChange}
           disabled={isLoading}
         />
@@ -160,14 +160,14 @@ export default function AddNewEntryForm() {
             id='city'
             label='City'
             value={formData.city}
-            placeholder='Stockholm'
+            placeholder='City Name'
             onChange={handleChange}
           />
           <FormInput
             id='country'
             label='Country'
             value={formData.country}
-            placeholder='Sweden'
+            placeholder='Country Name'
             onChange={handleChange}
           />
         </div>
