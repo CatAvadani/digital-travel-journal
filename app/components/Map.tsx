@@ -236,7 +236,7 @@ export default function Map() {
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <button
-            className=' text-white px-4 py-2 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
+            className=' text-white h-12 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
             onClick={toggleMapStyle}
           >
             {mapStyle === 'mapbox://styles/mapbox/streets-v11'
