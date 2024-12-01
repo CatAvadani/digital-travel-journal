@@ -8,7 +8,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
-import LoadingSinner from './ui/LoadingSpinner';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 const INITIAL_ZOOM = 14;
 
@@ -222,7 +222,7 @@ export default function Map() {
           ref={mapContainerRef}
           className='relative w-[98%] h-[60vh] md:h-[96%] rounded-md'
         />
-        {isMapLoading && <LoadingSinner />}
+        {isMapLoading && <LoadingSpinner />}
         <p
           className='text-white/90 absolute top-1 left-2 sm:hidden'
           aria-live='polite'
