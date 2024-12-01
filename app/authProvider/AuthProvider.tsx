@@ -3,7 +3,6 @@
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { auth } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
@@ -15,7 +14,7 @@ interface AuthProviderProps {
 const AUTHENTICATED_ROUTES = ['/mapView', '/myTrips'];
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { setUser, setLoading, setError, loading } = useAuthStore();
+  const { setUser, setLoading, setError } = useAuthStore();
   const { clearEntries } = useEntryStore();
   const router = useRouter();
   const pathname = usePathname();
@@ -46,10 +45,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     return () => unsubscribe();
   }, [setUser, setLoading, setError, router, pathname, clearEntries]);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
 
   return <>{children}</>;
 };

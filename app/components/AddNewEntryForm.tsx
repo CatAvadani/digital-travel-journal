@@ -180,7 +180,10 @@ export default function AddNewEntryForm() {
         />
 
         <div>
-          <label htmlFor='location' className='block text-base font-medium'>
+          <label
+            htmlFor='description'
+            className='block text-base font-medium text-white'
+          >
             Description
           </label>
           <textarea
