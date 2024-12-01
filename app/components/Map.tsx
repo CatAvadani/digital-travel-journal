@@ -218,18 +218,18 @@ export default function Map() {
         aria-label='Interactive map to view and add travel entries'
         className='relative col-span-1 sm:col-span-3 flex justify-center items-center'
       >
+        {' '}
         <div
           ref={mapContainerRef}
           className='relative w-[98%] h-[60vh] md:h-[96%] rounded-md'
         />
-        {isMapLoading && <LoadingSpinner />}
         <p
-          className='text-white/90 absolute top-1 left-2 sm:hidden'
+          className='text-white/90 absolute -top-6 left-2 sm:hidden'
           aria-live='polite'
         >
           Click on the map to select a new entry location
         </p>
-
+        {isMapLoading && <LoadingSpinner />}
         <div className='absolute top-8 left-8 hidden sm:flex flex-col gap-3 z-50'>
           <p className='bg-white p-3 rounded-md shadow-md'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}

@@ -94,9 +94,14 @@ export default function EditModal({
       aria-hidden={!isOpen}
       className='fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
     >
-      <div className='bg-[#30193A] p-10 rounded-md shadow-md w-[90%] sm:w-[500px]'>
-        <form onSubmit={handleSubmit} className='relative flex flex-col gap-4'>
-          <h2 className='text-xl font-bold mb-4 text-white'>Edit Entry</h2>
+      <div className='bg-[#30193A] px-2 py-4 sm:p-10 rounded-md shadow-md w-[90%] sm:w-[500px]'>
+        <form
+          onSubmit={handleSubmit}
+          className='relative flex flex-col gap-4 w-full'
+        >
+          <h2 className='text-xl font-bold mb-2 sm:mb-4 text-white'>
+            Edit Entry
+          </h2>
           <button
             onClick={onClose}
             className='absolute top-0 right-0 text-white/80 hover:text-white'
@@ -118,7 +123,7 @@ export default function EditModal({
             onChange={handleChange}
           />
           {/* City and Country - Grid Layout */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className='grid grid-cols-2 gap-4'>
             <FormInput
               id='city'
               label='City'
@@ -146,15 +151,23 @@ export default function EditModal({
               <p className='text-sm text-pink-500'>Uploading image...</p>
             )}
           </div>
-          <textarea
-            id='description'
-            value={formData.description || ''}
-            placeholder='Write your experience here...'
-            onChange={handleChange}
-            className='block w-full p-2 bg-white/10 text-white/80 rounded-md
+          <div>
+            <label
+              htmlFor='description'
+              className='block text-base font-medium text-white'
+            >
+              Description
+            </label>
+            <textarea
+              id='description'
+              value={formData.description || ''}
+              placeholder='Write your experience here...'
+              onChange={handleChange}
+              className='block w-full p-2 bg-white/10 text-white/80 rounded-md
             '
-            rows={4}
-          />
+              rows={4}
+            />
+          </div>
           <div className='flex justify-center items-center gap-4 w-full'>
             <SimpleButton
               text='Cancel'
