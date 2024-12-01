@@ -88,8 +88,8 @@ export default function Header() {
                   href={link.href}
                   className={`block text-white p-2 rounded-md ${
                     pathname.startsWith(link.href)
-                      ? 'bg-pink-500 text-white'
-                      : 'hover:bg-gray-700'
+                      ? 'bg-gray-400/10 font-bold text-white/80'
+                      : 'hover:bg-gray-400/10'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
