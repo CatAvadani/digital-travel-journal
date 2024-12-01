@@ -18,7 +18,8 @@ export default function AddNewEntryForm() {
     id: '',
     title: '',
     date: '',
-    location: '',
+    city: '',
+    country: '',
     image: null as File | null,
     description: '',
   });
@@ -50,7 +51,8 @@ export default function AddNewEntryForm() {
     if (
       !formData.title ||
       !formData.date ||
-      !formData.location ||
+      !formData.city ||
+      !formData.country ||
       !formData.image ||
       !formData.description
     ) {
@@ -96,7 +98,8 @@ export default function AddNewEntryForm() {
         userId: user.uid,
         title: formData.title,
         date: formData.date,
-        location: formData.location,
+        city: formData.city,
+        country: formData.country,
         image: imageUrl,
         description: formData.description,
         coordinates: selectedCoordinates,
@@ -115,7 +118,8 @@ export default function AddNewEntryForm() {
         id: '',
         title: '',
         date: '',
-        location: '',
+        city: '',
+        country: '',
         image: null,
         description: '',
       });
@@ -151,14 +155,22 @@ export default function AddNewEntryForm() {
           onChange={handleChange}
           disabled={isLoading}
         />
-        <FormInput
-          id='location'
-          label='Location'
-          value={formData.location}
-          placeholder='Latitude, Longitude / Click on the map'
-          onChange={handleChange}
-          disabled
-        />
+        <div className='flex justify-center items-center gap-2'>
+          <FormInput
+            id='city'
+            label='City'
+            value={formData.city}
+            placeholder='Stockholm'
+            onChange={handleChange}
+          />
+          <FormInput
+            id='country'
+            label='Country'
+            value={formData.country}
+            placeholder='Sweden'
+            onChange={handleChange}
+          />
+        </div>
         <FormInput
           id='upload'
           label='Upload Image'

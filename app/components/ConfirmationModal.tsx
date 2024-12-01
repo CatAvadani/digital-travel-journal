@@ -24,7 +24,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <p className='text-gray-800 my-6 sm:my-10 text-center max-w-64 sm:max-w-full'>
           {message}
         </p>
-        <div className='flex justify-end gap-2'>
+        <div className='flex justify-center items-center gap-4'>
           <SimpleButton
             text='Cancel'
             onClick={onCancel}

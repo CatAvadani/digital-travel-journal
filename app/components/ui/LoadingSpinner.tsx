@@ -8,7 +8,7 @@ export default function LoadingSpinner() {
         strokeWidth='5'
         ariaLabel='rotating-lines-loading'
         animationDuration='0.75'
-        width='96'
+        width='64'
         visible={true}
       />
     </div>

@@ -24,10 +24,8 @@ const SimpleButton: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`px-4 py-2 rounded-md transition-all ${textColor} ${backgroundColor} ${className} ${
-        disabled
-          ? 'opacity-50 cursor-not-allowed'
-          : 'hover:scale-105 hover:shadow-md'
+      className={`px-4 py-2 min-h-12 rounded-md transition-all ${textColor} ${backgroundColor} ${className} ${
+        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md'
       }`}
     >
       {text}

@@ -70,7 +70,12 @@ export default function EditModal({
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.date || !formData.location) {
+    if (
+      !formData.title ||
+      !formData.date ||
+      !formData.city ||
+      !formData.country
+    ) {
       toast.error('Please fill all the required fields');
       return;
     }
@@ -89,7 +94,7 @@ export default function EditModal({
       aria-hidden={!isOpen}
       className='fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
     >
-      <div className='bg-[#30193A] p-10 rounded-md shadow-md w-[90%] sm:w-[400px]'>
+      <div className='bg-[#30193A] p-10 rounded-md shadow-md w-[90%] sm:w-[500px]'>
         <form onSubmit={handleSubmit} className='relative flex flex-col gap-4'>
           <h2 className='text-xl font-bold mb-4 text-white'>Edit Entry</h2>
           <button
@@ -112,12 +117,23 @@ export default function EditModal({
             value={formData.date || ''}
             onChange={handleChange}
           />
-          <FormInput
-            id='location'
-            label='Location'
-            value={formData.location || ''}
-            onChange={handleChange}
-          />
+          {/* City and Country - Grid Layout */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+            <FormInput
+              id='city'
+              label='City'
+              value={formData.city || ''}
+              placeholder='Göteborg'
+              onChange={handleChange}
+            />
+            <FormInput
+              id='country'
+              label='Country'
+              value={formData.country || ''}
+              placeholder='Sweden'
+              onChange={handleChange}
+            />
+          </div>
           <div>
             <FormInput
               id='upload'
@@ -135,14 +151,14 @@ export default function EditModal({
             value={formData.description || ''}
             placeholder='Write your experience here...'
             onChange={handleChange}
-            className='block w-full p-2 bg-white rounded-md'
+            className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
             rows={4}
           />
-          <div className='flex justify-center items-center gap-2 w-full'>
+          <div className='flex justify-center items-center gap-4 w-full'>
             <SimpleButton
               text='Cancel'
               onClick={onClose}
-              backgroundColor='bg-gray-300'
+              backgroundColor='bg-gray-200'
               textColor='text-black'
               className='hover:bg-gray-300/80 w-full'
             />
@@ -151,7 +167,7 @@ export default function EditModal({
               text={isUploading ? 'Saving...' : 'Save'}
               backgroundColor='bg-[#E91E63]'
               textColor='text-white'
-              className='hover:bg-[#eb3473] w-full'
+              className='hover:bg-[#eb3473] w-full '
               disabled={isUploading}
             />
           </div>
