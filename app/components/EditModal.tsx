@@ -151,7 +151,8 @@ export default function EditModal({
             value={formData.description || ''}
             placeholder='Write your experience here...'
             onChange={handleChange}
-            className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
+            className='block w-full p-2 bg-white/10 text-white/80 rounded-md
+            '
             rows={4}
           />
           <div className='flex justify-center items-center gap-4 w-full'>

@@ -189,7 +189,7 @@ export default function AddNewEntryForm() {
             value={formData.description}
             onChange={handleChange}
             disabled={isLoading}
-            className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm focus:outline-none focus:ring-0'
+            className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm '
             rows={4}
           />
         </div>
