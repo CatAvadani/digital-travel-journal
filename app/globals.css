@@ -16,6 +16,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
   animation: glowMove 10s ease-in-out infinite;
 }
 
+.loadingBackground {
+  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#351b3f] to-black;
+  background-size: 150%;
+}
 .overlay-gradient {
   background: linear-gradient(
     to right,

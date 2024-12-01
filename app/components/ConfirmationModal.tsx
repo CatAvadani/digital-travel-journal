@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle } from 'react-feather';
+import SimpleButton from './ui/SimpleButton';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -23,19 +24,21 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <p className='text-gray-800 my-6 sm:my-10 text-center max-w-64 sm:max-w-full'>
           {message}
         </p>
-        <div className='flex justify-end gap-2'>
-          <button
+        <div className='flex justify-center items-center gap-4'>
+          <SimpleButton
+            text='Cancel'
             onClick={onCancel}
-            className='px-4 py-2 rounded-md bg-gradient-to-r from-slate-200 to-slate-500 hover:from-gray-200 hover:to-gray-400'
-          >
-            Cancel
-          </button>
-          <button
+            backgroundColor='bg-gray-200'
+            textColor='text-gray-800'
+            className='hover:bg-gray-300'
+          />
+          <SimpleButton
+            text='Confirm'
             onClick={onConfirm}
-            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] text-white px-4 py-2 rounded-md '
-          >
-            Confirm
-          </button>
+            backgroundColor='bg-[#E91E63]'
+            textColor='text-white'
+            className='hover:bg-[#eb3473]'
+          />
         </div>
       </div>
     </div>

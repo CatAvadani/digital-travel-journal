@@ -29,7 +29,7 @@ export default function FormInput({
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
-        className='text-white block w-full p-2 h-12 rounded-md bg-white/10 focus:outline-none focus:ring-0'
+        className='text-white block w-full p-2 h-12 rounded-md bg-white/10 '
       />
     </div>
   );

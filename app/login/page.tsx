@@ -12,7 +12,7 @@ interface FormData {
 }
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const { signIn, signUp, error, loading } = useAuthStore();
   const router = useRouter();
 
@@ -31,8 +31,11 @@ export default function Login() {
       } else {
         await signUp(email, password, router);
       }
-    } catch (err) {
-      console.error('Authentication Error:', err);
+    } catch (error) {
+      console.error('Authentication Error:', error);
+      if (!isLogin && error === 'auth/email-already-exists') {
+        setIsLogin(true);
+      }
     }
   };
 
@@ -40,13 +43,13 @@ export default function Login() {
     <div
       aria-label='Login or Sign Up Form'
       className='bg-white bg-opacity-5 border border-white border-opacity-10 
-      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)] w-[90%] sm:w-auto'
     >
       <div className='flex flex-col items-center justify-center gap-4'>
         <h2 className='text-2xl font-bold text-white'>
           {isLogin ? 'Sign In' : 'Sign Up'}
         </h2>
-        <p className='text-white'>
+        <p className='text-white px-2 text-center'>
           {isLogin
             ? 'Welcome back! Please sign in to continue.'
             : 'Create an account to start your travel journal.'}
@@ -54,23 +57,23 @@ export default function Login() {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='bg-transparent p-2 w-80  md:w-96'
+          className='bg-transparent p-2 w-full md:w-96'
         >
           {error && (
             <p className='text-red-500 mb-4'>
               {/* Todo: Temporary error messages. Replace with proper error handling. */}
               {error === 'auth/user-not-found'
                 ? 'User not found'
-                : error === 'auth/wrong-password'
+                : error === 'auth/invalid-credentials'
                 ? 'Invalid password'
-                : error === 'auth/email-already-in-use'
-                ? 'Email already in use'
+                : error === 'auth/email-already-exists'
+                ? 'Email already in use. Please sign in.'
                 : 'An error occurred. Please try again later.'}
             </p>
           )}
 
           <div className='mb-4 text-white'>
-            <label htmlFor='email' className='block mb-2'>
+            <label htmlFor='email' className='block'>
               Email
             </label>
             <input
@@ -92,8 +95,8 @@ export default function Login() {
             )}
           </div>
 
-          <div className='mb-4 text-white'>
-            <label htmlFor='password' className='block mb-2'>
+          <div className='mb-6 text-white'>
+            <label htmlFor='password' className='block'>
               Password
             </label>
             <input
@@ -132,7 +135,7 @@ export default function Login() {
               type='button'
               onClick={() => setIsLogin(!isLogin)}
               aria-controls='login-form'
-              className='text-pink-500 hover:underline'
+              className='text-pink-500 hover:underline text-lg font-bold '
             >
               {isLogin ? 'Sign Up' : 'Sign In'}
             </button>
