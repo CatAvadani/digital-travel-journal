@@ -1,7 +1,10 @@
 'use client';
 
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import router from 'next/router';
 import { useEffect, useState } from 'react';
 import useEntryStore, { Entry } from '../../store/useEntryStore';
 
@@ -13,7 +16,8 @@ export default function EntryDetailsPage({
   const [entryId, setEntryId] = useState<string | null>(null);
   const [entry, setEntry] = useState<Entry | null>(null);
   const { entries, fetchEntries } = useEntryStore();
-  const { user } = useAuthStore();
+  const { user, loading } = useAuthStore();
+  const navigate = useRouter();
 
   useEffect(() => {
     const unwrapParams = async () => {
@@ -23,6 +27,12 @@ export default function EntryDetailsPage({
 
     unwrapParams();
   }, [params]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate.push('/login');
+    }
+  }, [loading, user, router]);
 
   useEffect(() => {
     const fetchEntryDetails = async () => {
@@ -49,7 +59,7 @@ export default function EntryDetailsPage({
   }, [entryId, entries, fetchEntries]);
 
   if (!entry) {
-    return <div className='text-white'>Loading entry details...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
