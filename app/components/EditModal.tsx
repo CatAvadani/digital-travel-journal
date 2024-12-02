@@ -104,7 +104,7 @@ export default function EditModal({
           </h2>
           <button
             onClick={onClose}
-            className='absolute top-0 right-0 text-white/80 hover:text-white'
+            className='absolute top-0 right-0 text-white/80 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
           >
             <X size={24} />
           </button>

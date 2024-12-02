@@ -14,7 +14,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push('/');
+    router.push(`/myTrips/${entry.id}`);
   };
 
   const handleButtonClick = (event: React.MouseEvent) => {
@@ -37,7 +37,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
             height={100}
           />
         </div>
-        <div className='flex flex-col gap-1 sm:gap-2 max-w-full'>
+        <div className='flex flex-col gap-1 sm:gap-2 max-w-full items-start'>
           <h2 className='text-sm sm:text-lg font-bold text-white truncate'>
             {entry.title}
           </h2>
