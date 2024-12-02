@@ -66,14 +66,14 @@ export default function EntryDetailsPage({
   }
 
   const images = [
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
-    '/globe-img.jpeg',
+    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://images.unsplash.com/photo-1487622750296-6360190669a1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://plus.unsplash.com/premium_photo-1699566448055-671c8dbcc7ee?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+    'https://images.unsplash.com/photo-1465070845512-2b2dbdc6df66?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA5fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
+    'https://plus.unsplash.com/premium_photo-1676139860329-4997a02843c0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
   ];
 
   return (
@@ -96,21 +96,13 @@ export default function EntryDetailsPage({
       {/* Details and Map */}
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
         {/* Left: Trip Details */}
-        <div className='p-6 bg-black/30 md:col-span-2 rounded-lg shadow-lg'>
+        <div className='p-6 bg-black/20 md:col-span-2 rounded-lg'>
           <h2 className='text-2xl font-semibold mb-4'>Details</h2>
           <p className='flex items-center gap-2'>
             <MapPin className='text-[#E91E63]' /> {entry.city}, {entry.country}
           </p>
           <p className='mt-4'>{entry.description}</p>
           <p className='mt-4 text-sm text-gray-400'>Weather: Sunny, 22°C</p>
-          <div className='flex gap-2 mt-4'>
-            <span className='bg-[#E91E63] text-white px-2 py-1 rounded-full text-sm'>
-              #Adventure
-            </span>
-            <span className='bg-[#E91E63] text-white px-2 py-1 rounded-full text-sm'>
-              #Cultural
-            </span>
-          </div>
         </div>
 
         {/* Right: Map */}
