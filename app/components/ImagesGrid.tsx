@@ -80,7 +80,7 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
               className='absolute inset-0 object-cover group-hover:scale-105 transition-transform duration-300'
             />
             <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
-              <span className='text-white text-sm'>View Image</span>
+              <span className='text-white text-sm font-bold'>View Image</span>
             </div>
           </div>
         </ScrollRevealWrapper>

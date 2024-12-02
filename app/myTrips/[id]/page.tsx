@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { MapPin } from 'react-feather';
+import { ArrowLeft, MapPin } from 'react-feather';
 import useEntryStore, { Entry } from '../../store/useEntryStore';
 
 export default function EntryDetailsPage({
@@ -123,7 +123,7 @@ export default function EntryDetailsPage({
             <MapPin className='text-[#E91E63]' /> {entry.city}, {entry.country}
           </p>
           <p className='mt-4'>{entry.description}</p>
-          <p className='mt-4 text-sm text-gray-400'>Weather: Sunny, 22°C</p>
+          <p className='mt-4 text-sm text-white/80'>Weather: Sunny, 22°C</p>
         </motion.div>
 
         {/* Right: Map */}
@@ -144,7 +144,9 @@ export default function EntryDetailsPage({
         transition={{ duration: 0.6, delay: 1.0 }}
         className='mt-10'
       >
-        <h2 className='text-2xl font-semibold mb-4'>Photos of {entry.city}</h2>
+        <h2 className='text-2xl font-semibold mb-4 pl-6'>
+          Photos of {entry.city}
+        </h2>
         <ImagesGrid images={images} />
       </motion.div>
 
@@ -156,7 +158,9 @@ export default function EntryDetailsPage({
         className='mt-8'
       >
         <Link href='/myTrips'>
-          <p className='text-[#E91E63] hover:underline'>← Back to My Trips</p>
+          <p className='text-white/80 hover:underline flex justify-start items-center gap-2'>
+            <ArrowLeft /> Back to My Trips
+          </p>
         </Link>
       </motion.div>
     </motion.div>
