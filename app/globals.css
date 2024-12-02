@@ -15,9 +15,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
   backdrop-blur-lg backdrop-filter;
 }
 .defaultBackground {
-  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#351b3f] to-black;
-  background-size: cover;
-  background-position: center;
+  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#2D1736] to-black;
+  background-size: 130%;
   animation: glowMove 10s ease-in-out infinite;
 }
 
@@ -34,6 +33,6 @@ input[type='date']::-webkit-calendar-picker-indicator {
     background-position: center;
   }
   50% {
-    background-position: 20% 20%;
+    background-position: 0% 50%;
   }
 }
