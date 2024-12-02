@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 interface ImagesGridProps {
   images: string[];
@@ -24,7 +25,7 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
     return heightClasses[Math.floor(Math.random() * heightClasses.length)];
   };
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -35,13 +36,17 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
     },
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const itemVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: 50,
+    },
     visible: {
-      y: 0,
       opacity: 1,
+      y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.6,
+        ease: 'easeOut',
       },
     },
   };
@@ -58,27 +63,27 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
       animate='visible'
     >
       {images.map((image, index) => (
-        <motion.div
-          key={index}
-          variants={itemVariants}
-          className={`
-            relative overflow-hidden rounded-lg 
-            mb-4 break-inside-avoid 
-            ${getRandomHeightClass()}
-            cursor-pointer group
-          `}
-          onClick={() => handleImageClick(image)}
-        >
-          <Image
-            src={image}
-            alt={`Image ${index + 1}`}
-            fill
-            className='absolute inset-0 object-cover group-hover:scale-105 transition-transform duration-300'
-          />
-          <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
-            <span className='text-white text-sm'>View Image</span>
+        <ScrollRevealWrapper key={index} variants={itemVariants}>
+          <div
+            className={`
+              relative overflow-hidden rounded-lg 
+              mb-4 break-inside-avoid 
+              ${getRandomHeightClass()}
+              cursor-pointer group
+            `}
+            onClick={() => handleImageClick(image)}
+          >
+            <Image
+              src={image}
+              alt={`Image ${index + 1}`}
+              fill
+              className='absolute inset-0 object-cover group-hover:scale-105 transition-transform duration-300'
+            />
+            <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
+              <span className='text-white text-sm'>View Image</span>
+            </div>
           </div>
-        </motion.div>
+        </ScrollRevealWrapper>
       ))}
 
       {/* Lightbox */}
@@ -105,6 +110,28 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
           </motion.div>
         </motion.div>
       )}
+    </motion.div>
+  );
+};
+
+// Custom wrapper component for scroll reveal
+const ScrollRevealWrapper: React.FC<{
+  children: React.ReactNode;
+  variants: Variants;
+}> = ({ children, variants }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={variants}
+      initial='hidden'
+      animate={inView ? 'visible' : 'hidden'}
+    >
+      {children}
     </motion.div>
   );
 };

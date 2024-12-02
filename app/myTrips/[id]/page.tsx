@@ -4,6 +4,7 @@ import EntryMap from '@/app/components/EntryMap';
 import ImagesGrid from '@/app/components/ImagesGrid';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { useAuthStore } from '@/app/store/useAuthStore';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -77,9 +78,19 @@ export default function EntryDetailsPage({
   ];
 
   return (
-    <div className='max-w-7xl mx-auto p-6 text-white mt-20 w-full'>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className='max-w-7xl mx-auto p-6 text-white mt-20 w-full'
+    >
       {/* Hero Section */}
-      <div className='relative h-[400px] w-full rounded-lg overflow-hidden shadow-lg mb-8'>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className='relative h-[400px] w-full rounded-lg overflow-hidden shadow-lg mb-8'
+      >
         <Image
           src={entry.image}
           alt={entry.title}
@@ -87,42 +98,67 @@ export default function EntryDetailsPage({
           objectFit='cover'
           className='brightness-50'
         />
-        <div className='absolute bottom-6 left-6'>
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className='absolute bottom-6 left-6'
+        >
           <h1 className='text-4xl font-bold'>{entry.title}</h1>
           <p className='text-lg'>{entry.date}</p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Details and Map */}
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
         {/* Left: Trip Details */}
-        <div className='p-6 bg-black/20 md:col-span-2 rounded-lg'>
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className='p-6 bg-black/20 md:col-span-2 rounded-lg'
+        >
           <h2 className='text-2xl font-semibold mb-4'>Details</h2>
           <p className='flex items-center gap-2'>
             <MapPin className='text-[#E91E63]' /> {entry.city}, {entry.country}
           </p>
           <p className='mt-4'>{entry.description}</p>
           <p className='mt-4 text-sm text-gray-400'>Weather: Sunny, 22°C</p>
-        </div>
+        </motion.div>
 
         {/* Right: Map */}
-        <div className='h-[300px] rounded-lg shadow-lg overflow-hidden bg-black/30'>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className='h-[300px] rounded-lg shadow-lg overflow-hidden bg-black/30'
+        >
           <EntryMap coordinates={entry.coordinates} />
-        </div>
+        </motion.div>
       </div>
 
       {/* Photo Gallery */}
-      <div className='mt-10'>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1.0 }}
+        className='mt-10'
+      >
         <h2 className='text-2xl font-semibold mb-4'>Photos of {entry.city}</h2>
         <ImagesGrid images={images} />
-      </div>
+      </motion.div>
 
       {/* Back Button */}
-      <div className='mt-8'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1.2 }}
+        className='mt-8'
+      >
         <Link href='/myTrips'>
           <p className='text-[#E91E63] hover:underline'>← Back to My Trips</p>
         </Link>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
