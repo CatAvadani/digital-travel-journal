@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -32,6 +33,7 @@ interface EntryStore {
   clearEntries: () => void;
   updateEntry: (entryId: string, updatedEntry: Entry) => void;
   deleteEntry: (entryId: string) => void;
+  fetchEntryById: (entryId: string) => Promise<Entry | null>;
 }
 
 const useEntryStore = create<EntryStore>((set) => ({
@@ -57,6 +59,26 @@ const useEntryStore = create<EntryStore>((set) => ({
       set(() => ({ entries: fetchedEntries }));
     } catch (error) {
       console.error('Error fetching entries:', error);
+    }
+  },
+
+  fetchEntryById: async (entryId) => {
+    try {
+      const entryRef = doc(db, 'entries', entryId);
+      const entryDoc = await getDoc(entryRef);
+      if (entryDoc.exists()) {
+        const entry = { id: entryDoc.id, ...entryDoc.data() } as Entry;
+        set((state) => ({
+          entries: [...state.entries, entry],
+        }));
+        return entry;
+      } else {
+        console.error('No entry found with the given ID');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching entry:', error);
+      return null;
     }
   },
 
