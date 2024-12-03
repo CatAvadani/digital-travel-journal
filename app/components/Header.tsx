@@ -40,7 +40,7 @@ export default function Header() {
   return (
     <header
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
-        isScrolled
+        isScrolled && !isMenuOpen
           ? 'bg-black/30 backdrop-blur-lg backdrop-filter'
           : 'bg-transparent'
       }`}
