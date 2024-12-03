@@ -77,8 +77,10 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
               src={image}
               alt={`Image ${index + 1}`}
               fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'
               className='absolute inset-0 object-cover group-hover:scale-105 transition-transform duration-300'
             />
+
             <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center'>
               <span className='text-white text-sm font-bold'>View Image</span>
             </div>

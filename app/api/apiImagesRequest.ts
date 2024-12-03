@@ -1,4 +1,3 @@
-// utils/apiImagesRequest.ts
 export const fetchImages = async (location: string): Promise<string[]> => {
   try {
     const response = await fetch(
