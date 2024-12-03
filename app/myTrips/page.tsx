@@ -63,7 +63,7 @@ export default function MyTrips() {
   }, [loading, user, router]);
 
   return (
-    <div className=' absolute top-36 flex flex-col gap-2 w-[92%] sm:w-[80%]  '>
+    <div className=' absolute top-36 flex flex-col gap-2 w-[92%] sm:w-[80%] pb-20 '>
       <h1 className=' text-white text-3xl font-bold self-center mb-10'>
         My Trips
       </h1>

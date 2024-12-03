@@ -15,7 +15,7 @@ export default function ClientWrapper({ children }: ClientWrapperProps) {
   return (
     <>
       {!isMapViewPage && <Header />}
-      <main className='flex h-[100%] flex-grow items-center justify-center'>
+      <main className='flex flex-grow items-center justify-center'>
         {children}
       </main>
     </>
