@@ -35,7 +35,7 @@ export default function HowToUse() {
         </Link>
         <Link
           href='#bottom-section'
-          className='text-white/80 block hover:underline text-sm'
+          className='text-white/80 block hover:underline text-base'
         >
           Learn More <ArrowRight className='size-6 inline' />
         </Link>
