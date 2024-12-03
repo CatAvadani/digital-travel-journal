@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
 import Footer from '../components/Footer';
 import GlassCard from '../components/GlassCard';
+import InstructionsCard from '../components/InstructionsCard';
 import cardData from '../data/cardData';
 import { instructionsData } from '../data/instructionsData';
 
@@ -55,28 +55,7 @@ export default function HowToUse() {
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
           {instructionsData.map((card) => (
-            <div
-              key={card.id}
-              className='relative group w-full h-[300px] md:h-[350px] rounded-lg shadow-lg overflow-hidden cursor-pointer'
-            >
-              {/* Background Image */}
-              <Image
-                src={card.image}
-                alt={card.title}
-                fill
-                objectFit='cover'
-                className='group-hover:scale-110 transition-transform duration-300'
-              />
-              {/* Overlay */}
-              <div className='absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-white'>
-                <h3 className='text-lg sm:text-xl font-bold mb-2'>
-                  {card.title}
-                </h3>
-                <p className='text-white/80 text-sm sm:text-base'>
-                  {card.description}
-                </p>
-              </div>
-            </div>
+            <InstructionsCard key={card.id} {...card} />
           ))}
         </div>
         <Link
