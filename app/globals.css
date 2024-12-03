@@ -10,6 +10,13 @@ input[type='date']::-webkit-calendar-picker-indicator {
   padding: 0;
   box-sizing: border-box;
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
 .glassBackground {
   @apply bg-white bg-opacity-10 
   backdrop-blur-lg backdrop-filter;
@@ -17,7 +24,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .defaultBackground {
   @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#2D1736] to-black;
   background-size: 130%;
-  animation: glowMove 10s ease-in-out infinite;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 /* * {
@@ -26,13 +34,4 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
-}
-@keyframes glowMove {
-  0%,
-  100% {
-    background-position: center;
-  }
-  50% {
-    background-position: 0% 50%;
-  }
 }

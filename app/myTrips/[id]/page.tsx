@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchImages } from '@/api/apiImagesRequest';
 import EntryMap from '@/app/components/EntryMap';
 import ImagesGrid from '@/app/components/ImagesGrid';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
@@ -22,6 +23,18 @@ export default function EntryDetailsPage({
   const { entries, fetchEntries } = useEntryStore();
   const { user, loading } = useAuthStore();
   const navigate = useRouter();
+  const [images, setImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchImagesByLocation = async () => {
+      if (entry && entry.city) {
+        const fetchedImages = await fetchImages(entry.city);
+        setImages(fetchedImages);
+      }
+    };
+
+    fetchImagesByLocation();
+  }, [entry]);
 
   useEffect(() => {
     const unwrapParams = async () => {
@@ -66,23 +79,23 @@ export default function EntryDetailsPage({
     return <LoadingSpinner />;
   }
 
-  const images = [
-    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1487622750296-6360190669a1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://plus.unsplash.com/premium_photo-1699566448055-671c8dbcc7ee?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1465070845512-2b2dbdc6df66?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA5fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
-    'https://plus.unsplash.com/premium_photo-1676139860329-4997a02843c0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
-  ];
+  // const images = [
+  //   'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://images.unsplash.com/photo-1487622750296-6360190669a1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://plus.unsplash.com/premium_photo-1699566448055-671c8dbcc7ee?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D',
+  //   'https://images.unsplash.com/photo-1465070845512-2b2dbdc6df66?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA5fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
+  //   'https://plus.unsplash.com/premium_photo-1676139860329-4997a02843c0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHx0cmF2ZWx8ZW58MHx8MHx8fDA%3D',
+  // ];
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='max-w-7xl mx-auto p-6 text-white mt-20 w-full'
+      className='max-w-7xl mx-auto p-6 text-white mt-28 w-full'
     >
       {/* Hero Section */}
       <motion.div
