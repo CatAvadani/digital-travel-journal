@@ -60,7 +60,7 @@ export default function HowToUse() {
         </div>
         <Link
           href='/login  '
-          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-end'
+          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center '
         >
           Sign Up Now <ArrowRight className='size-6 inline' />
         </Link>
