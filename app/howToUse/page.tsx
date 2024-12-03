@@ -1,14 +1,17 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'react-feather';
+import Footer from '../components/Footer';
 import GlassCard from '../components/GlassCard';
 import cardData from '../data/cardData';
+import { instructionsData } from '../data/instructionsData';
 
 export default function HowToUse() {
   return (
-    <main>
+    <main className='relative pb-28 sm:max-w-7xl mt-6'>
       <section
         id='top-section'
-        className=' text-white text-center flex flex-col gap-4 sm:gap-10 mt-28 sm:mt-40 max-w-[90%] mx-auto'
+        className='text-white text-center flex flex-col gap-4 sm:gap-10 mt-28 sm:mt-40 max-w-[90%] mx-auto '
       >
         <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide'>
           Easily Document Your Travel <br /> Adventures
@@ -23,24 +26,23 @@ export default function HowToUse() {
           ))}
         </div>
       </section>
-      <section className='flex justify-center items-center gap-10 py-10 sm:py-16 '>
+      <section className='flex justify-center items-center gap-10 py-10 sm:py-16'>
         <Link
           href='/mapView'
-          className='bg-gradient-to-r  from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-2 sm:py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
         >
           Get Started
         </Link>
         <Link
-          href={'#'}
-          className=' text-white/80 block hover:underline text-sm  
-        '
+          href='#bottom-section'
+          className='text-white/80 block hover:underline text-sm'
         >
           Learn More <ArrowRight className='size-6 inline' />
         </Link>
       </section>
       <section
         id='bottom-section'
-        className=' text-white text-center flex flex-col gap-4 sm:gap-10 mt-28 max-w-[90%] mx-auto'
+        className='text-white text-center  flex flex-col gap-4 sm:gap-10 mt-10 max-w-[90%] mx-auto'
       >
         <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide'>
           Discover Your Travel Adventures <br /> Like Never Before
@@ -51,12 +53,40 @@ export default function HowToUse() {
           done.
         </p>
 
-        <div className='flex flex-col md:flex-row justify-center items-center gap-3'>
-          {cardData.map((card) => (
-            <GlassCard key={card.title} {...card} />
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
+          {instructionsData.map((card) => (
+            <div
+              key={card.id}
+              className='relative group w-full h-[300px] md:h-[350px] rounded-lg shadow-lg overflow-hidden cursor-pointer'
+            >
+              {/* Background Image */}
+              <Image
+                src={card.image}
+                alt={card.title}
+                fill
+                objectFit='cover'
+                className='group-hover:scale-110 transition-transform duration-300'
+              />
+              {/* Overlay */}
+              <div className='absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-white'>
+                <h3 className='text-lg sm:text-xl font-bold mb-2'>
+                  {card.title}
+                </h3>
+                <p className='text-white/80 text-sm sm:text-base'>
+                  {card.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
+        <Link
+          href='/login  '
+          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-end'
+        >
+          Sign Up Now <ArrowRight className='size-6 inline' />
+        </Link>
       </section>
+      <Footer positionClass='left-1/2 -translate-x-1/2 bottom-10' />
     </main>
   );
 }

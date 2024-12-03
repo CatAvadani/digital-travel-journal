@@ -12,7 +12,7 @@ export default function GlassCard({
   return (
     <div
       className='
-      bg-black/20
+      bg-black/40
       backdrop-blur-lg backdrop-filter
       rounded-lg gap-4
       px-8 h-64 sm:w-[450px] flex flex-col items-center justify-center border border-white/10
@@ -20,7 +20,7 @@ export default function GlassCard({
     >
       <div
         className='
-          bg-white/5 
+          bg-white/10 
           backdrop-blur-md 
           backdrop-filter 
           rounded-full 
