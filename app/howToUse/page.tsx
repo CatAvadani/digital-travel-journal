@@ -47,8 +47,10 @@ export default function HowToUse() {
         </h1>
         <p className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4'>
           Our platform allows you to visualize your travel experiences on a map,
-          making it easy to see where you've been and what you've done.
+          making it easy to see where you&apos;ve been and what you&apos;ve
+          done.
         </p>
+
         <div className='flex flex-col md:flex-row justify-center items-center gap-3'>
           {cardData.map((card) => (
             <GlassCard key={card.title} {...card} />
