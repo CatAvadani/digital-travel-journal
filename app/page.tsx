@@ -53,7 +53,7 @@ export default function Home() {
           clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
         }}
       ></div>
-      <Footer />
+      <Footer positionClass='bottom-10 sm:left-24 md:left-32' />
       <div className='z-20 text-white text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[70%]'>
         <h1 className='text-3xl md:text-5xl lg:text-7xl mb-14 sm:mb-20 max-w-3xl mx-auto font-normal sm:leading-loose tracking-wide'>
           Turn Your Journeys into Timeless Stories
