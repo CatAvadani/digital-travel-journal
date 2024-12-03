@@ -28,10 +28,6 @@ body {
   background-attachment: fixed;
 }
 
-/* * {
-  border: 1px solid red; 
-} */
-
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
 }
