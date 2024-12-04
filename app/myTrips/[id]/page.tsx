@@ -96,17 +96,18 @@ export default function EntryDetailsPage({
         <Image
           src={entry.image}
           alt={entry.title}
-          layout='fill'
-          objectFit='cover'
-          className='brightness-50'
+          fill
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          priority={true}
+          className='object-cover'
         />
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className='absolute bottom-6 left-6'
+          className='absolute bottom-3 left-3 sm:bottom-6 sm:left-6 bg-white/20 rounded-lg backdrop-blur-xl px-8 py-2'
         >
-          <h1 className='text-4xl font-bold'>{entry.title}</h1>
+          <h1 className='text-xl sm:text-4xl font-bold'>{entry.title}</h1>
           <p className='text-lg'>{entry.date}</p>
         </motion.div>
       </motion.div>
