@@ -22,8 +22,8 @@ export default function InstructionsCard({
         src={image}
         alt={title}
         fill
-        objectFit='cover'
-        className='group-hover:scale-110 transition-transform duration-300'
+        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+        className='group-hover:scale-110 transition-transform duration-300 object-cover'
       />
       {/* Overlay */}
       <div className='absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-white'>

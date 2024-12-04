@@ -16,9 +16,9 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
     'h-72',
     'h-80',
     'h-96',
-    'h-[400px]',
-    'h-[450px]',
+    'h-[300px]',
     'h-[350px]',
+    'h-[400px]',
   ];
 
   const getRandomHeightClass = () => {
@@ -57,7 +57,7 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
 
   return (
     <motion.div
-      className='columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 p-4'
+      className='columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4'
       variants={containerVariants}
       initial='hidden'
       animate='visible'
