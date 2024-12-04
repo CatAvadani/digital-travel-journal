@@ -1,29 +1,21 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Inter } from 'next/font/google';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import ClientWrapper from './components/ClientWrapper';
 import './globals.css';
 import { Providers } from './providers';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-  display: 'swap',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
   title: 'Digital Travel Journal',
   description:
     'A web application designed for users to document their travel experiences',
 };
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,
@@ -32,17 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <head>
-        <link
-          rel='preload'
-          href='/fonts/GeistVF.woff'
-          as='font'
-          type='font/woff2'
-          crossOrigin='anonymous'
-        />
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col defaultBackground bg-no-repeat h-full min-h-screen`}
+        className={`${inter.className} antialiased flex flex-col defaultBackground bg-no-repeat h-full min-h-screen`}
       >
         <Providers>
           <ClientWrapper>
