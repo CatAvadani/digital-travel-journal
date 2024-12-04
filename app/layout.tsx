@@ -24,7 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <head></head>
       <body
         className={`${inter.className} antialiased flex flex-col defaultBackground bg-no-repeat h-full min-h-screen`}
       >
