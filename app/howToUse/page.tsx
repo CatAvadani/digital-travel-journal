@@ -6,7 +6,7 @@ import { ArrowRight } from 'react-feather';
 import Footer from '../components/Footer';
 import GlassCard from '../components/GlassCard';
 import InstructionsCard from '../components/InstructionsCard';
-import cardData from '../data/cardData';
+import { cardData } from '../data/cardData';
 import { instructionsData } from '../data/instructionsData';
 
 export default function HowToUse() {

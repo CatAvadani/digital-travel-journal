@@ -24,7 +24,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2 hover:bg-black/10 transition-all rounded-md py-2 cursor-pointer'
+      className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2 hover:bg-black/20 transition-all rounded-md py-2 cursor-pointer'
     >
       {/* Left: Trip Image and Description */}
       <div className='w-1/2 flex justify-start items-center gap-2 sm:gap-4'>
