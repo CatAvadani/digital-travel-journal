@@ -2,7 +2,8 @@
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
@@ -20,7 +21,7 @@ export default function Map() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<Set<string>>(new Set());
   const currentLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
-
+  const router = useRouter();
   const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
     useEntryStore();
   const [mapInitialized, setMapInitialized] = useState(false);
@@ -164,6 +165,13 @@ export default function Map() {
     };
   }, [mapStyle, setSelectedCoordinates]);
 
+  const handlePopupClick = useCallback(
+    (id: string) => {
+      router.push(`/myTrips/${id}`);
+    },
+    [router]
+  );
+
   // Update markers when `entries` change
   useEffect(() => {
     if (mapInitialized && mapRef.current) {
@@ -175,31 +183,45 @@ export default function Map() {
         const key = `${entry.coordinates[0].toFixed(
           4
         )},${entry.coordinates[1].toFixed(4)}`;
-
         if (!markersRef.current.has(key)) {
+          const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false });
+
+          // Create a container element for the popup
+          const popupContainer = document.createElement('div');
+          popupContainer.className =
+            'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
+          popupContainer.style.background = 'white';
+          popupContainer.style.color = 'black';
+          popupContainer.innerHTML = `
+            ${
+              entry.image
+                ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
+                : ''
+            }
+            <h3 class="capitalize font-bold text-lg">${entry.title}</h3>
+            <p>${truncateText(entry.description, 40)}</p>
+            <p class="mt-4"><b>Date:</b> ${entry.date}</p>
+          `;
+
+          // Add a click event listener to the popup
+          popupContainer.addEventListener('click', () => {
+            handlePopupClick(entry.id);
+          });
+
+          // Set the popup's content
+          popup.setDOMContent(popupContainer);
+
+          // Add the marker with the popup
           new mapboxgl.Marker({ color: '#2222bb', draggable: false })
             .setLngLat(entry.coordinates)
-            .setPopup(
-              new mapboxgl.Popup({ offset: 25 }).setHTML(`
-                <div class="rounded-md">
-                  ${
-                    entry.image
-                      ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
-                      : ''
-                  }
-                  <h3 class="capitalize font-bold">${entry.title}</h3>
-                  <p>${truncateText(entry.description, 40)}</p>
-                  <p><b>Date:</b> ${entry.date}</p>
-                </div>
-              `)
-            )
+            .setPopup(popup)
             .addTo(mapRef.current!);
 
           markersRef.current.add(key);
         }
       });
     }
-  }, [entries, mapInitialized]);
+  }, [entries, mapInitialized, handlePopupClick]);
 
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
@@ -259,7 +281,6 @@ export default function Map() {
         </div>
       </section>
 
-      {/* Form Section */}
       <section aria-labelledby='add-entry-form'>
         <AddNewEntryForm />
       </section>

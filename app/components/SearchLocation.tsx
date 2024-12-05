@@ -31,9 +31,6 @@ export default function SearchLocation({ onSearch }: SearchLocationProps) {
     <div className='relative z-50'>
       {isExpanded ? (
         <div className='flex items-center max-w-md bg-white rounded-md shadow-md'>
-          {/* Close Button */}
-
-          {/* Input Field */}
           <input
             type='text'
             value={searchQuery}
@@ -42,7 +39,6 @@ export default function SearchLocation({ onSearch }: SearchLocationProps) {
             className='w-full p-3 rounded-l-md  focus:outline-none'
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
-          {/* Search Button */}
           <button
             onClick={handleCollapse}
             className='cursor-pointer p-4'
