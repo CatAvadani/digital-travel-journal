@@ -201,25 +201,8 @@ export default function Map() {
     }
   }, [entries, mapInitialized]);
 
-  const toggleMapStyle = () => {
-    if (mapRef.current) {
-      const newStyle =
-        mapStyle === 'mapbox://styles/mapbox/streets-v11'
-          ? 'mapbox://styles/mapbox/satellite-v9'
-          : 'mapbox://styles/mapbox/streets-v11';
-      setMapStyle(newStyle);
-      mapRef.current.setStyle(newStyle);
-      toast.success(
-        `Switched to ${
-          newStyle.includes('satellite') ? 'Satellite' : 'Standard'
-        } Map`
-      );
-    }
-  };
-
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
-      <SearchLocation onSearch={onSearchLocation} />
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
@@ -237,19 +220,42 @@ export default function Map() {
           Click on the map to select a new entry location
         </p>
         {isMapLoading && <LoadingSpinner />}
-        <div className='absolute top-8 left-8 hidden sm:flex flex-col gap-3 z-50'>
-          <p className='bg-white p-3 rounded-md shadow-md'>
+        <div className='absolute top-8 left-8 flex flex-col gap-3 z-50'>
+          <p className='hidden sm:block bg-white p-3 rounded-md shadow-md w-[500px]'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
-          <button
-            className=' text-white h-12 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
-            onClick={toggleMapStyle}
-          >
-            {mapStyle === 'mapbox://styles/mapbox/streets-v11'
-              ? 'Standard Map'
-              : 'Satellite Map'}
-          </button>
+          <div className=' flex gap-4 justify-start items-center'>
+            <select
+              id='mapStyle'
+              value={mapStyle}
+              onChange={(e) => {
+                const newStyle = e.target.value;
+                setMapStyle(newStyle);
+                mapRef.current?.setStyle(newStyle);
+                toast.success(
+                  `Switched to ${
+                    newStyle.includes('satellite') ? 'Satellite' : 'Standard'
+                  } Map`
+                );
+              }}
+              className='hidden sm:block bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md shadow-md focus:outline-none focus:ring focus:ring-purple-300 max-w-44'
+            >
+              <option
+                value='mapbox://styles/mapbox/streets-v11'
+                className='text-base'
+              >
+                Standard Map
+              </option>
+              <option
+                value='mapbox://styles/mapbox/satellite-v9'
+                className='text-base'
+              >
+                Satellite Map
+              </option>
+            </select>
+            <SearchLocation onSearch={onSearchLocation} />
+          </div>
         </div>
       </section>
 
