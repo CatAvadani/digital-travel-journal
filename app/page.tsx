@@ -1,11 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Footer from './components/Footer';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.playbackRate = 1;
+      video.defaultPlaybackRate = 1;
+    }
+  }, []);
 
   const toggleVideoPlayback = () => {
     if (videoRef.current) {
@@ -24,21 +32,12 @@ export default function Home() {
       <div className='absolute hidden sm:block z-50 top-1/2 -ml-[7%]  transform -translate-y-1/2 -rotate-90 text-white text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest opacity-80'>
         Digital Travel Journal
       </div>
-      {/* Fallback Image for Mobile */}
-      {/* <div className='absolute top-0 left-0 w-full h-full bg-cover bg-center sm:hidden'>
-        <img
-          src='/globe-img.jpeg'
-          alt='Globe Background'
-          className='w-full h-full object-cover'
-        />
-      </div> */}
       <video
         ref={videoRef}
-        className='absolute top-0 left-0 w-full h-full object-cover '
+        className='absolute top-0 left-0 w-full h-full object-cover'
         autoPlay
         muted
         loop
-        preload='auto'
         playsInline
         aria-label='Globe Video Background'
       >
