@@ -16,9 +16,9 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
     'h-72',
     'h-80',
     'h-96',
-    'h-[300px]',
-    'h-[350px]',
     'h-[400px]',
+    'h-[420px]',
+    'h-[450px]',
   ];
 
   const getRandomHeightClass = () => {

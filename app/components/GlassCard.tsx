@@ -15,7 +15,7 @@ export default function GlassCard({
       bg-black/40
       backdrop-blur-lg backdrop-filter
       rounded-lg gap-4
-      px-8 h-64 sm:w-[450px] flex flex-col items-center justify-center border border-white/10
+      px-8 h-64 sm:w-[416px] flex flex-col items-center justify-center border border-white/10
     '
     >
       <div

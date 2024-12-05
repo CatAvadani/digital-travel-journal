@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react';
 import { Camera, Clipboard } from 'react-feather';
+
 export const cardData = [
   {
     id: 1,
@@ -20,5 +21,3 @@ export const cardData = [
     icon: Camera,
   },
 ];
-
-export default cardData;
