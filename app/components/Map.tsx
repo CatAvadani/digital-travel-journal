@@ -29,6 +29,46 @@ export default function Map() {
   );
   const [isMapLoading, setIsMapLoading] = useState(true);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleLocationSearch = async () => {
+    if (!mapRef.current) return;
+
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          searchQuery
+        )}.json?access_token=${
+          process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+        }&limit=1`
+      );
+
+      const data = await response.json();
+      const location = data.features[0];
+
+      if (location) {
+        const [longitude, latitude] = location.center;
+
+        mapRef.current.flyTo({
+          center: [longitude, latitude],
+          zoom: 10,
+          essential: true,
+        });
+
+        new mapboxgl.Marker({ color: '#FF0000' })
+          .setLngLat([longitude, latitude])
+          .addTo(mapRef.current);
+
+        toast.success(`Navigated to ${location.place_name}`);
+      } else {
+        toast.error('Location not found');
+      }
+    } catch (error) {
+      toast.error('Error searching for location');
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       clearEntries();
@@ -213,6 +253,24 @@ export default function Map() {
 
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
+      <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4'>
+        <div className='flex'>
+          <input
+            type='text'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder='Search city or country'
+            className='w-full p-2 rounded-l-md border border-gray-300'
+            onKeyDown={(e) => e.key === 'Enter' && handleLocationSearch()}
+          />
+          <button
+            onClick={handleLocationSearch}
+            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-2 rounded-r-md'
+          >
+            Search
+          </button>
+        </div>
+      </div>
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
