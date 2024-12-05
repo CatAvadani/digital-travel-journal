@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
+import SearchLocation from './SearchLocation';
 import LoadingSpinner from './ui/LoadingSpinner';
 
 const INITIAL_ZOOM = 14;
@@ -29,9 +30,7 @@ export default function Map() {
   );
   const [isMapLoading, setIsMapLoading] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleLocationSearch = async () => {
+  const handleLocationSearch = async (searchQuery: string) => {
     if (!mapRef.current) return;
 
     try {
@@ -253,24 +252,7 @@ export default function Map() {
 
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
-      <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4'>
-        <div className='flex'>
-          <input
-            type='text'
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder='Search city or country'
-            className='w-full p-2 rounded-l-md border border-gray-300'
-            onKeyDown={(e) => e.key === 'Enter' && handleLocationSearch()}
-          />
-          <button
-            onClick={handleLocationSearch}
-            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-2 rounded-r-md'
-          >
-            Search
-          </button>
-        </div>
-      </div>
+      <SearchLocation onSearch={handleLocationSearch} />
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
