@@ -1,4 +1,4 @@
-import cardData from '../data/cardData';
+import { cardData } from '../data/cardData';
 import GlassCard from './GlassCard';
 
 export default function CardSection() {

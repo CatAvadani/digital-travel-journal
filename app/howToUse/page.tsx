@@ -43,14 +43,14 @@ export default function HowToUse() {
   };
 
   return (
-    <main className='relative pb-28 sm:max-w-7xl mt-6'>
+    <main className='relative pb-28 sm:max-w-7xl w-full mt-6 sm:mt-28'>
       <motion.section
         ref={ref}
         initial='hidden'
         animate={mainControls}
         variants={containerVariants}
         id='top-section'
-        className='text-white text-center flex flex-col gap-4 sm:gap-10 mt-28 sm:mt-40 max-w-[90%] mx-auto'
+        className='w-full max-w-[90%] sm:max-w-full mx-auto text-center flex flex-col gap-4 sm:gap-10 mt-28 sm:mt-20 text-white'
       >
         <motion.h1
           variants={itemVariants}
@@ -69,7 +69,7 @@ export default function HowToUse() {
 
         <motion.div
           variants={itemVariants}
-          className='flex flex-col md:flex-row justify-center items-center gap-3'
+          className='grid grid-cols-1 md:grid-cols-3 gap-3 mb-6'
         >
           {cardData.map((card) => (
             <motion.div
@@ -135,7 +135,7 @@ export default function HowToUse() {
         }}
         viewport={{ once: true }}
         id='bottom-section'
-        className='text-white text-center flex flex-col gap-4 sm:gap-10 mt-10 max-w-[90%] mx-auto'
+        className='w-full max-w-[90%] sm:max-w-full mx-auto text-center flex flex-col gap-4 sm:gap-10 mt-28 text-white'
       >
         <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide'>
           Discover Your Travel Adventures <br /> Like Never Before
@@ -147,7 +147,7 @@ export default function HowToUse() {
           done.
         </p>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-3 mb-6'>
           {instructionsData.map((card, index) => (
             <motion.div
               key={card.id}

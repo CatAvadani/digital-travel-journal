@@ -15,7 +15,7 @@ export default function InstructionsCard({
   return (
     <div
       key={id}
-      className='relative group w-full h-[300px] md:h-[350px] rounded-lg shadow-lg overflow-hidden cursor-pointer'
+      className='relative group w-full sm:w-[416px] h-[300px] md:h-[350px] rounded-lg shadow-lg overflow-hidden cursor-pointer'
     >
       {/* Background Image */}
       <Image
