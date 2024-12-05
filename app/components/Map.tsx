@@ -27,10 +27,26 @@ export default function Map() {
   const [mapInitialized, setMapInitialized] = useState(false);
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
-  const [mapStyle, setMapStyle] = useState<string>(
-    'mapbox://styles/mapbox/streets-v11'
-  );
+  // const [mapStyle, setMapStyle] = useState<string>(
+  //   'mapbox://styles/mapbox/streets-v11'
+  // );
   const [isMapLoading, setIsMapLoading] = useState(true);
+
+  const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v11';
+  const [mapStyle, setMapStyle] = useState<string>(
+    () => localStorage.getItem('mapStyle') || DEFAULT_MAP_STYLE
+  );
+
+  const handleMapStyleChange = (newStyle: string) => {
+    setMapStyle(newStyle);
+    localStorage.setItem('mapStyle', newStyle);
+    mapRef.current?.setStyle(newStyle);
+    toast.success(
+      `Switched to ${
+        newStyle.includes('satellite') ? 'Satellite' : 'Standard'
+      } Map`
+    );
+  };
 
   const onSearchLocation = async (searchQuery: string) => {
     await handleLocationSearch(searchQuery, mapRef);
@@ -173,53 +189,117 @@ export default function Map() {
   );
 
   // Update markers when `entries` change
+  // useEffect(() => {
+  //   if (mapInitialized && mapRef.current) {
+  //     // Clear previous markers
+  //     markersRef.current.clear();
+
+  //     // Add markers for entries
+  //     entries.forEach((entry) => {
+  //       const key = `${entry.coordinates[0].toFixed(
+  //         4
+  //       )},${entry.coordinates[1].toFixed(4)}`;
+  //       if (!markersRef.current.has(key)) {
+  //         const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false });
+
+  //         // Create a container element for the popup
+  //         const popupContainer = document.createElement('div');
+  //         popupContainer.className =
+  //           'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
+  //         popupContainer.style.background = 'white';
+  //         popupContainer.style.color = 'black';
+  //         popupContainer.innerHTML = `
+  //           ${
+  //             entry.image
+  //               ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
+  //               : ''
+  //           }
+  //           <h3 class="capitalize font-bold text-lg">${entry.title}</h3>
+  //           <p>${truncateText(entry.description, 40)}</p>
+  //           <p class="mt-4"><b>Date:</b> ${entry.date}</p>
+  //         `;
+
+  //         // Add a click event listener to the popup
+  //         popupContainer.addEventListener('click', () => {
+  //           handlePopupClick(entry.id);
+  //         });
+
+  //         // Set the popup's content
+  //         popup.setDOMContent(popupContainer);
+
+  //         // Add the marker with the popup
+  //         new mapboxgl.Marker({ color: '#2222bb', draggable: false })
+  //           .setLngLat(entry.coordinates)
+  //           .setPopup(popup)
+  //           .addTo(mapRef.current!);
+
+  //         markersRef.current.add(key);
+  //       }
+  //     });
+  //   }
+  // }, [entries, mapInitialized, handlePopupClick]);
   useEffect(() => {
     if (mapInitialized && mapRef.current) {
-      // Clear previous markers
-      markersRef.current.clear();
+      const reapplyMarkers = () => {
+        markersRef.current.clear(); // Clear the markers to avoid duplicates
 
-      // Add markers for entries
-      entries.forEach((entry) => {
-        const key = `${entry.coordinates[0].toFixed(
-          4
-        )},${entry.coordinates[1].toFixed(4)}`;
-        if (!markersRef.current.has(key)) {
-          const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false });
+        // Add markers for entries
+        entries.forEach((entry) => {
+          const key = `${entry.coordinates[0].toFixed(
+            4
+          )},${entry.coordinates[1].toFixed(4)}`;
+          if (!markersRef.current.has(key)) {
+            const popup = new mapboxgl.Popup({
+              offset: 25,
+              closeOnClick: false,
+            });
 
-          // Create a container element for the popup
-          const popupContainer = document.createElement('div');
-          popupContainer.className =
-            'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
-          popupContainer.style.background = 'white';
-          popupContainer.style.color = 'black';
-          popupContainer.innerHTML = `
-            ${
-              entry.image
-                ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
-                : ''
-            }
-            <h3 class="capitalize font-bold text-lg">${entry.title}</h3>
-            <p>${truncateText(entry.description, 40)}</p>
-            <p class="mt-4"><b>Date:</b> ${entry.date}</p>
-          `;
+            // Create a container element for the popup
+            const popupContainer = document.createElement('div');
+            popupContainer.className =
+              'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
+            popupContainer.style.background = 'white';
+            popupContainer.style.color = 'black';
+            popupContainer.innerHTML = `
+              ${
+                entry.image
+                  ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
+                  : ''
+              }
+              <h3 class="capitalize font-bold text-lg">${entry.title}</h3>
+              <p>${truncateText(entry.description, 40)}</p>
+              <p class="mt-4"><b>Date:</b> ${entry.date}</p>
+            `;
 
-          // Add a click event listener to the popup
-          popupContainer.addEventListener('click', () => {
-            handlePopupClick(entry.id);
-          });
+            // Add a click event listener to the popup
+            popupContainer.addEventListener('click', () => {
+              handlePopupClick(entry.id);
+            });
 
-          // Set the popup's content
-          popup.setDOMContent(popupContainer);
+            // Set the popup's content
+            popup.setDOMContent(popupContainer);
 
-          // Add the marker with the popup
-          new mapboxgl.Marker({ color: '#2222bb', draggable: false })
-            .setLngLat(entry.coordinates)
-            .setPopup(popup)
-            .addTo(mapRef.current!);
+            // Add the marker with the popup
+            new mapboxgl.Marker({ color: '#2222bb', draggable: false })
+              .setLngLat(entry.coordinates)
+              .setPopup(popup)
+              .addTo(mapRef.current!);
 
-          markersRef.current.add(key);
-        }
-      });
+            markersRef.current.add(key);
+          }
+        });
+      };
+
+      // Reapply markers when the map's style is fully loaded
+      const mapInstance = mapRef.current;
+      mapInstance.on('styledata', reapplyMarkers);
+
+      reapplyMarkers();
+
+      return () => {
+        // Clean up the event listener
+        mapInstance.off('styledata', reapplyMarkers);
+      };
     }
   }, [entries, mapInitialized, handlePopupClick]);
 
@@ -251,16 +331,7 @@ export default function Map() {
             <select
               id='mapStyle'
               value={mapStyle}
-              onChange={(e) => {
-                const newStyle = e.target.value;
-                setMapStyle(newStyle);
-                mapRef.current?.setStyle(newStyle);
-                toast.success(
-                  `Switched to ${
-                    newStyle.includes('satellite') ? 'Satellite' : 'Standard'
-                  } Map`
-                );
-              }}
+              onChange={(e) => handleMapStyleChange(e.target.value)}
               className='hidden sm:block bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md shadow-md focus:outline-none focus:ring focus:ring-purple-300 max-w-44'
             >
               <option
