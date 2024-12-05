@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import { handleLocationSearch } from '../utils/handleLocationSearch';
 import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
 import SearchLocation from './SearchLocation';
@@ -30,42 +31,8 @@ export default function Map() {
   );
   const [isMapLoading, setIsMapLoading] = useState(true);
 
-  const handleLocationSearch = async (searchQuery: string) => {
-    if (!mapRef.current) return;
-
-    try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchQuery
-        )}.json?access_token=${
-          process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-        }&limit=1`
-      );
-
-      const data = await response.json();
-      const location = data.features[0];
-
-      if (location) {
-        const [longitude, latitude] = location.center;
-
-        mapRef.current.flyTo({
-          center: [longitude, latitude],
-          zoom: 10,
-          essential: true,
-        });
-
-        new mapboxgl.Marker({ color: '#FF0000' })
-          .setLngLat([longitude, latitude])
-          .addTo(mapRef.current);
-
-        toast.success(`Navigated to ${location.place_name}`);
-      } else {
-        toast.error('Location not found');
-      }
-    } catch (error) {
-      toast.error('Error searching for location');
-      console.error(error);
-    }
+  const onSearchLocation = async (searchQuery: string) => {
+    await handleLocationSearch(searchQuery, mapRef);
   };
 
   useEffect(() => {
@@ -252,7 +219,7 @@ export default function Map() {
 
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
-      <SearchLocation onSearch={handleLocationSearch} />
+      <SearchLocation onSearch={onSearchLocation} />
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'

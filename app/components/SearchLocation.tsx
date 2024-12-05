@@ -7,6 +7,7 @@ interface SearchLocationProps {
 
 export default function SearchLocation({ onSearch }: SearchLocationProps) {
   const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4'>
       <div className='flex'>
