@@ -2,12 +2,15 @@
 
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import { handleLocationSearch } from '../utils/handleLocationSearch';
 import truncateText from '../utils/truncateText';
 import AddNewEntryForm from './AddNewEntryForm';
+import SearchLocation from './SearchLocation';
 import LoadingSpinner from './ui/LoadingSpinner';
 
 const INITIAL_ZOOM = 14;
@@ -18,7 +21,7 @@ export default function Map() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const markersRef = useRef<Set<string>>(new Set());
   const currentLocationMarkerRef = useRef<mapboxgl.Marker | null>(null);
-
+  const router = useRouter();
   const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
     useEntryStore();
   const [mapInitialized, setMapInitialized] = useState(false);
@@ -28,6 +31,10 @@ export default function Map() {
     'mapbox://styles/mapbox/streets-v11'
   );
   const [isMapLoading, setIsMapLoading] = useState(true);
+
+  const onSearchLocation = async (searchQuery: string) => {
+    await handleLocationSearch(searchQuery, mapRef);
+  };
 
   useEffect(() => {
     if (user) {
@@ -158,6 +165,13 @@ export default function Map() {
     };
   }, [mapStyle, setSelectedCoordinates]);
 
+  const handlePopupClick = useCallback(
+    (id: string) => {
+      router.push(`/myTrips/${id}`);
+    },
+    [router]
+  );
+
   // Update markers when `entries` change
   useEffect(() => {
     if (mapInitialized && mapRef.current) {
@@ -169,47 +183,45 @@ export default function Map() {
         const key = `${entry.coordinates[0].toFixed(
           4
         )},${entry.coordinates[1].toFixed(4)}`;
-
         if (!markersRef.current.has(key)) {
+          const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false });
+
+          // Create a container element for the popup
+          const popupContainer = document.createElement('div');
+          popupContainer.className =
+            'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
+          popupContainer.style.background = 'white';
+          popupContainer.style.color = 'black';
+          popupContainer.innerHTML = `
+            ${
+              entry.image
+                ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
+                : ''
+            }
+            <h3 class="capitalize font-bold text-lg">${entry.title}</h3>
+            <p>${truncateText(entry.description, 40)}</p>
+            <p class="mt-4"><b>Date:</b> ${entry.date}</p>
+          `;
+
+          // Add a click event listener to the popup
+          popupContainer.addEventListener('click', () => {
+            handlePopupClick(entry.id);
+          });
+
+          // Set the popup's content
+          popup.setDOMContent(popupContainer);
+
+          // Add the marker with the popup
           new mapboxgl.Marker({ color: '#2222bb', draggable: false })
             .setLngLat(entry.coordinates)
-            .setPopup(
-              new mapboxgl.Popup({ offset: 25 }).setHTML(`
-                <div class="rounded-md">
-                  ${
-                    entry.image
-                      ? `<img src="${entry.image}" alt="Entry Image" class="my-2 rounded-md w-full h-24 object-cover" />`
-                      : ''
-                  }
-                  <h3 class="capitalize font-bold">${entry.title}</h3>
-                  <p>${truncateText(entry.description, 40)}</p>
-                  <p><b>Date:</b> ${entry.date}</p>
-                </div>
-              `)
-            )
+            .setPopup(popup)
             .addTo(mapRef.current!);
 
           markersRef.current.add(key);
         }
       });
     }
-  }, [entries, mapInitialized]);
-
-  const toggleMapStyle = () => {
-    if (mapRef.current) {
-      const newStyle =
-        mapStyle === 'mapbox://styles/mapbox/streets-v11'
-          ? 'mapbox://styles/mapbox/satellite-v9'
-          : 'mapbox://styles/mapbox/streets-v11';
-      setMapStyle(newStyle);
-      mapRef.current.setStyle(newStyle);
-      toast.success(
-        `Switched to ${
-          newStyle.includes('satellite') ? 'Satellite' : 'Standard'
-        } Map`
-      );
-    }
-  };
+  }, [entries, mapInitialized, handlePopupClick]);
 
   return (
     <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
@@ -230,23 +242,45 @@ export default function Map() {
           Click on the map to select a new entry location
         </p>
         {isMapLoading && <LoadingSpinner />}
-        <div className='absolute top-8 left-8 hidden sm:flex flex-col gap-3 z-50'>
-          <p className='bg-white p-3 rounded-md shadow-md'>
+        <div className='absolute top-8 left-8 flex flex-col gap-3 z-50'>
+          <p className='hidden sm:block bg-white p-3 rounded-md shadow-md w-[480px]'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
-          <button
-            className=' text-white h-12 rounded-md shadow-md bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] max-w-52'
-            onClick={toggleMapStyle}
-          >
-            {mapStyle === 'mapbox://styles/mapbox/streets-v11'
-              ? 'Standard Map'
-              : 'Satellite Map'}
-          </button>
+          <div className=' flex gap-2 justify-start items-center'>
+            <select
+              id='mapStyle'
+              value={mapStyle}
+              onChange={(e) => {
+                const newStyle = e.target.value;
+                setMapStyle(newStyle);
+                mapRef.current?.setStyle(newStyle);
+                toast.success(
+                  `Switched to ${
+                    newStyle.includes('satellite') ? 'Satellite' : 'Standard'
+                  } Map`
+                );
+              }}
+              className='hidden sm:block bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md shadow-md focus:outline-none focus:ring focus:ring-purple-300 max-w-44'
+            >
+              <option
+                value='mapbox://styles/mapbox/streets-v11'
+                className='text-base'
+              >
+                Standard Map
+              </option>
+              <option
+                value='mapbox://styles/mapbox/satellite-v9'
+                className='text-base'
+              >
+                Satellite Map
+              </option>
+            </select>
+            <SearchLocation onSearch={onSearchLocation} />
+          </div>
         </div>
       </section>
 
-      {/* Form Section */}
       <section aria-labelledby='add-entry-form'>
         <AddNewEntryForm />
       </section>
