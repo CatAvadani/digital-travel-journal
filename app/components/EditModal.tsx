@@ -1,10 +1,11 @@
 'use client';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { X } from 'lucide-react';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { storage } from '../firebase/firebase';
 import { Entry } from '../store/useEntryStore';
+import { ValidationEntrySchema } from '../validationSchemas/validationEntrySchema';
 import FormInput from './ui/FormInput';
 import SimpleButton from './ui/SimpleButton';
 
@@ -15,14 +16,17 @@ interface EditModalProps {
   isOpen: boolean;
 }
 
+const PartialValidationEntrySchema = ValidationEntrySchema.partial();
+
 export default function EditModal({
   entry,
   onClose,
   onSubmit,
   isOpen,
 }: EditModalProps) {
-  const [formData, setFormData] = useState(entry || ({} as Entry));
+  const [formData, setFormData] = useState<Partial<Entry>>(entry || {});
   const [isUploading, setIsUploading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (entry) {
@@ -30,8 +34,26 @@ export default function EditModal({
     }
   }, [entry]);
 
+  const validateForm = () => {
+    const result = PartialValidationEntrySchema.safeParse(formData);
+
+    if (!result.success) {
+      const zodErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          zodErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(zodErrors);
+      return false;
+    }
+
+    setErrors({});
+    return true;
+  };
+
   const handleChange = async (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value, files } = e.target as HTMLInputElement & {
       files?: FileList;
@@ -40,7 +62,7 @@ export default function EditModal({
     if (id === 'upload' && files && files[0]) {
       const file = files[0];
 
-      if (files[0].size > 5 * 1024 * 1024) {
+      if (file.size > 5 * 1024 * 1024) {
         toast.error('File size exceeds 5MB. Please choose a smaller file.');
         return;
       }
@@ -67,20 +89,29 @@ export default function EditModal({
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (
-      !formData.title ||
-      !formData.date ||
-      !formData.city ||
-      !formData.country
-    ) {
-      toast.error('Please fill all the required fields');
+    if (!validateForm()) {
+      toast.error('Please correct the highlighted errors.');
       return;
     }
 
-    onSubmit(formData);
+    if (!entry) return;
+
+    const updatedFields = Object.keys(formData).reduce((acc, key) => {
+      if (formData[key as keyof Entry] !== entry[key as keyof Entry]) {
+        acc[key] = formData[key as keyof Entry];
+      }
+      return acc;
+    }, {} as Record<string, string | [number, number] | undefined>);
+
+    if (Object.keys(updatedFields).length === 0) {
+      toast.error('No changes detected.');
+      return;
+    }
+
+    onSubmit({ ...entry, ...updatedFields });
   };
 
   if (!isOpen || !entry) {
@@ -114,30 +145,43 @@ export default function EditModal({
             value={formData.title || ''}
             placeholder='Trip to Stockholm'
             onChange={handleChange}
+            maxLength={30}
           />
+          {errors.title && <p className='text-red-500'>{errors.title}</p>}
           <FormInput
             id='date'
             label='Date'
             type='date'
             value={formData.date || ''}
             onChange={handleChange}
+            maxLength={30}
           />
-          {/* City and Country - Grid Layout */}
-          <div className='grid grid-cols-2 gap-4'>
-            <FormInput
-              id='city'
-              label='City'
-              value={formData.city || ''}
-              placeholder='Göteborg'
-              onChange={handleChange}
-            />
-            <FormInput
-              id='country'
-              label='Country'
-              value={formData.country || ''}
-              placeholder='Sweden'
-              onChange={handleChange}
-            />
+          {errors.date && <p className='text-red-500'>{errors.date}</p>}
+          <div className='flex items-center gap-2 w-full'>
+            <div className='flex-1'>
+              <FormInput
+                id='city'
+                label='City'
+                value={formData.city || ''}
+                placeholder='Göteborg'
+                onChange={handleChange}
+                maxLength={30}
+              />
+              {errors.city && <p className='text-red-500'>{errors.city}</p>}
+            </div>
+            <div className='flex-1'>
+              <FormInput
+                id='country'
+                label='Country'
+                value={formData.country || ''}
+                placeholder='Sweden'
+                onChange={handleChange}
+                maxLength={30}
+              />
+              {errors.country && (
+                <p className='text-red-500'>{errors.country}</p>
+              )}
+            </div>
           </div>
           <div>
             <FormInput
@@ -163,10 +207,13 @@ export default function EditModal({
               value={formData.description || ''}
               placeholder='Write your experience here...'
               onChange={handleChange}
-              className='block w-full p-2 bg-white/10 text-white/80 rounded-md
-            '
+              className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
               rows={4}
+              maxLength={500}
             />
+            {errors.description && (
+              <p className='text-red-500'>{errors.description}</p>
+            )}
           </div>
           <div className='flex justify-center items-center gap-4 w-full'>
             <SimpleButton
@@ -181,7 +228,7 @@ export default function EditModal({
               text={isUploading ? 'Saving...' : 'Save'}
               backgroundColor='bg-[#E91E63]'
               textColor='text-white'
-              className='hover:bg-[#eb3473] w-full '
+              className='hover:bg-[#eb3473] w-full'
               disabled={isUploading}
             />
           </div>
