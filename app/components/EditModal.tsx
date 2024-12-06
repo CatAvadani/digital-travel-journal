@@ -104,7 +104,7 @@ export default function EditModal({
         acc[key] = formData[key as keyof Entry];
       }
       return acc;
-    }, {} as Record<string, any>);
+    }, {} as Record<string, string | [number, number] | undefined>);
 
     if (Object.keys(updatedFields).length === 0) {
       toast.error('No changes detected.');
