@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -55,11 +56,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       set({ user: userCredential.user, loading: false });
       router.push('/mapView');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, loading: false });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        set({ error: error.code, loading: false });
       } else {
-        set({ error: 'An unknown error occurred', loading: false });
+        set({ error: 'auth/unknown-error', loading: false });
       }
     }
   },
@@ -75,11 +76,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       set({ user: userCredential.user, loading: false });
       router.push('/mapView');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, loading: false });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        set({ error: error.code, loading: false });
       } else {
-        set({ error: 'An unknown error occurred', loading: false });
+        set({ error: 'auth/unknown-error', loading: false });
       }
     }
   },
