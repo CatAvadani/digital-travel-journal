@@ -31,6 +31,7 @@ export default function EditModal({
   useEffect(() => {
     if (entry) {
       setFormData(entry);
+      setErrors({});
     }
   }, [entry]);
 
@@ -86,6 +87,12 @@ export default function EditModal({
       }
     } else {
       setFormData((prev) => ({ ...prev, [id]: value }));
+
+      setErrors((prev) => {
+        const updatedErrors = { ...prev };
+        delete updatedErrors[id];
+        return updatedErrors;
+      });
     }
   };
 
@@ -134,7 +141,11 @@ export default function EditModal({
             Edit Entry
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              setFormData(entry || {});
+              setErrors({});
+            }}
             className='absolute top-0 right-0 text-white/80 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
           >
             <X size={24} />
@@ -218,7 +229,11 @@ export default function EditModal({
           <div className='flex justify-center items-center gap-4 w-full'>
             <SimpleButton
               text='Cancel'
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                setFormData(entry || {});
+                setErrors({});
+              }}
               backgroundColor='bg-gray-200'
               textColor='text-black'
               className='hover:bg-gray-300/80 w-full'

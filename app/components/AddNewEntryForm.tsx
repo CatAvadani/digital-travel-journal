@@ -137,7 +137,7 @@ export default function AddNewEntryForm() {
   };
 
   return (
-    <div className='bg-transparent my-4 text-white px-4 py-6 flex flex-col gap-4  sm:h-[96vh]'>
+    <div className='bg-transparent my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
       <h2 className='text-xl font-bold'>Add New Entry</h2>
       <form
         onSubmit={handleSubmit}
@@ -225,7 +225,7 @@ export default function AddNewEntryForm() {
         <button
           type='submit'
           disabled={isLoading}
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out '
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out mb-2 '
         >
           {isLoading ? (
             'Saving...'
@@ -244,7 +244,7 @@ export default function AddNewEntryForm() {
       </Link>
       <Link
         href='/myTrips'
-        className=' flex justify-center items-center gap-2 text-white  mt-8'
+        className=' flex justify-center items-center gap-2 text-white  mt-4'
       >
         <p className=' font-semibold hover:underline'> My Trips </p>
         <ArrowRight size={20} className=' hover:translate-x-1 transition-all' />
