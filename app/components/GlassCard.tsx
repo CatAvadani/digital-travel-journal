@@ -14,8 +14,9 @@ export default function GlassCard({
       className='
       bg-black/40
       backdrop-blur-lg backdrop-filter
-      rounded-lg gap-4
-      px-8 h-64 sm:w-[416px] flex flex-col items-center justify-center border border-white/10
+      rounded-md gap-4
+      px-6 sm:px-8 h-64 md:h-72 lg:w-[416px] md:w-[330px]
+      flex flex-col items-center justify-center border border-white/10
     '
     >
       <div
@@ -30,12 +31,11 @@ export default function GlassCard({
           mb-4
         '
       >
-        {' '}
-        <Icon className=' size-8' />
+        <Icon className='size-8' />
       </div>
-      <div className=' text-white/80 flex flex-col gap-2 text-center'>
-        <h2 className='text-xl font-medium'>{title}</h2>
-        <p className='text-sm'>{description}</p>
+      <div className='text-white/80 flex flex-col gap-2 text-center'>
+        <h2 className='text-lg md:text-xl font-medium'>{title}</h2>
+        <p className='text-sm md:text-base'>{description}</p>
       </div>
     </div>
   );

@@ -224,16 +224,16 @@ export default function Map() {
   }, [entries, mapInitialized, handlePopupClick]);
 
   return (
-    <main className='grid grid-cols-1 sm:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 sm:mt-0'>
+    <main className='grid grid-cols-1 lg:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 lg:mt-0'>
       {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
-        className='relative col-span-1 sm:col-span-3 flex justify-center items-center'
+        className='relative col-span-1 lg:col-span-3 flex justify-center items-center'
       >
         {' '}
         <div
           ref={mapContainerRef}
-          className='relative w-[98%] h-[60vh] md:h-[96%] rounded-md'
+          className='relative w-[98%] h-[60vh] lg:h-[96%] rounded-md'
         />
         <p
           className='text-white/90 absolute -top-6 left-2 sm:hidden'
