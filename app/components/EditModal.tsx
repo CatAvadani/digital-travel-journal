@@ -123,21 +123,25 @@ export default function EditModal({
             onChange={handleChange}
           />
           {/* City and Country - Grid Layout */}
-          <div className='grid grid-cols-2 gap-4'>
-            <FormInput
-              id='city'
-              label='City'
-              value={formData.city || ''}
-              placeholder='Göteborg'
-              onChange={handleChange}
-            />
-            <FormInput
-              id='country'
-              label='Country'
-              value={formData.country || ''}
-              placeholder='Sweden'
-              onChange={handleChange}
-            />
+          <div className='flex items-center gap-2 w-full'>
+            <div className='flex-1'>
+              <FormInput
+                id='city'
+                label='City'
+                value={formData.city || ''}
+                placeholder='Göteborg'
+                onChange={handleChange}
+              />
+            </div>
+            <div className='flex-1'>
+              <FormInput
+                id='country'
+                label='Country'
+                value={formData.country || ''}
+                placeholder='Sweden'
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div>
             <FormInput
