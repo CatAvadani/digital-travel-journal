@@ -1,5 +1,6 @@
 'use client';
 
+import { FirebaseError } from 'firebase/app';
 import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -31,10 +32,14 @@ export default function Login() {
       } else {
         await signUp(email, password, router);
       }
-    } catch (error) {
-      console.error('Authentication Error:', error);
-      if (!isLogin && error === 'auth/email-already-exists') {
-        setIsLogin(true);
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        console.error('Firebase Error:', err.message);
+        if (!isLogin && err.code === 'auth/email-already-in-use') {
+          setIsLogin(true);
+        }
+      } else {
+        console.error('Unexpected Error:', err);
       }
     }
   };
@@ -61,14 +66,21 @@ export default function Login() {
         >
           {error && (
             <p className='text-red-500 mb-4'>
-              {/* Todo: Temporary error messages. Replace with proper error handling. */}
               {error === 'auth/user-not-found'
-                ? 'User not found'
-                : error === 'auth/invalid-credentials'
-                ? 'Invalid password'
-                : error === 'auth/email-already-exists'
-                ? 'Email already in use. Please sign in.'
-                : 'An error occurred. Please try again later.'}
+                ? 'No account found with this email. Please sign up.'
+                : error === 'auth/wrong-password'
+                ? 'Incorrect password. Please try again.'
+                : error === 'auth/invalid-email'
+                ? 'Invalid email address format.'
+                : error === 'auth/email-already-in-use'
+                ? 'Email is already registered. Please sign in.'
+                : error === 'auth/weak-password'
+                ? 'Password is too weak. Please use a stronger password.'
+                : error === 'auth/too-many-requests'
+                ? 'Too many login attempts. Please try again later.'
+                : error === 'auth/network-request-failed'
+                ? 'Network error. Please check your connection.'
+                : `An unexpected error occurred (${error}). Please try again.`}
             </p>
           )}
 
