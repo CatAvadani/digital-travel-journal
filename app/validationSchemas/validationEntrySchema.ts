@@ -1,4 +1,3 @@
-// schemas/entrySchema.ts
 import { z } from 'zod';
 
 export const ValidationEntrySchema = z.object({
@@ -18,9 +17,18 @@ export const ValidationEntrySchema = z.object({
     .trim()
     .min(3, 'Country is required')
     .max(30, 'Please enter less than 30 characters'),
-  image: z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: 'Image size must be less than 5MB',
-  }),
+  image: z
+    .union([z.instanceof(File), z.string().min(0), z.null(), z.undefined()])
+    .refine(
+      (file) =>
+        typeof file === 'string' ||
+        file === null ||
+        file === undefined ||
+        file.size <= 5 * 1024 * 1024,
+      {
+        message: 'Image size must be less than 5MB',
+      }
+    ),
   description: z
     .string()
     .trim()
