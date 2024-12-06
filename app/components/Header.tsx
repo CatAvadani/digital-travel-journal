@@ -63,7 +63,7 @@ export default function Header() {
       </Link>
 
       {/* Mobile Menu Icon */}
-      <button className='md:hidden'>
+      <button className='lg:hidden'>
         {isMenuOpen ? (
           <X
             className='cursor-pointer'
@@ -81,7 +81,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <nav className='absolute top-16 right-4 bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-lg w-64 p-5 z-50 md:hidden'>
+        <nav className='absolute top-16 right-4 bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-md w-64 p-5 z-50 lg:hidden'>
           <ul className='space-y-4'>
             {links.map((link) => (
               <li key={link.href}>
@@ -124,7 +124,7 @@ export default function Header() {
       )}
 
       {/* Desktop Menu */}
-      <nav className='hidden md:flex items-center gap-8'>
+      <nav className='hidden lg:flex items-center gap-8'>
         <ul className='flex items-center gap-6'>
           {links.map((link) => (
             <li key={link.href}>
