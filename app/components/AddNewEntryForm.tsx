@@ -155,21 +155,25 @@ export default function AddNewEntryForm() {
           onChange={handleChange}
           disabled={isLoading}
         />
-        <div className='flex justify-center items-center gap-2'>
-          <FormInput
-            id='city'
-            label='City'
-            value={formData.city}
-            placeholder='City Name'
-            onChange={handleChange}
-          />
-          <FormInput
-            id='country'
-            label='Country'
-            value={formData.country}
-            placeholder='Country Name'
-            onChange={handleChange}
-          />
+        <div className='flex items-center gap-2 w-full'>
+          <div className='flex-1'>
+            <FormInput
+              id='city'
+              label='City'
+              value={formData.city}
+              placeholder='City Name'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='flex-1'>
+            <FormInput
+              id='country'
+              label='Country'
+              value={formData.country}
+              placeholder='Country Name'
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <FormInput
           id='upload'
