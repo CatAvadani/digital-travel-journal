@@ -7,12 +7,14 @@ import toast from 'react-hot-toast';
 import { db, storage } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
+import { ValidationEntrySchema } from '../validationSchemas/validationEntrySchema';
 import FormInput from './ui/FormInput';
 
 export default function AddNewEntryForm() {
   const { selectedCoordinates, addEntry } = useEntryStore();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuthStore();
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState({
     id: '',
@@ -23,6 +25,7 @@ export default function AddNewEntryForm() {
     image: null as File | null,
     description: '',
   });
+
   useEffect(() => {
     // Update the location field when coordinates change
     setFormData((prev) => ({
@@ -48,24 +51,26 @@ export default function AddNewEntryForm() {
   };
 
   const validateForm = () => {
-    if (
-      !formData.title ||
-      !formData.date ||
-      !formData.city ||
-      !formData.country ||
-      !formData.image ||
-      !formData.description
-    ) {
-      toast.error('Please fill all the fields');
+    const result = ValidationEntrySchema.safeParse({
+      ...formData,
+      image: formData.image,
+    });
+
+    if (!result.success) {
+      const zodErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          zodErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(zodErrors);
       return false;
     }
 
-    if (formData.image && formData.image.size > 5 * 1024 * 1024) {
-      toast.error('Image size must be less than 5MB.');
-      return false;
-    }
+    setErrors({});
     return true;
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -138,23 +143,30 @@ export default function AddNewEntryForm() {
         onSubmit={handleSubmit}
         className='flex flex-col gap-4 mx-auto  text-white w-full'
       >
-        <FormInput
-          id='title'
-          label='Title'
-          value={formData.title}
-          placeholder='Entry Title'
-          onChange={handleChange}
-          disabled={isLoading}
-        />
-        <FormInput
-          id='date'
-          label='Date'
-          type='date'
-          value={formData.date}
-          placeholder='YYYY-MM-DD'
-          onChange={handleChange}
-          disabled={isLoading}
-        />
+        <div>
+          <FormInput
+            id='title'
+            label='Title'
+            value={formData.title}
+            placeholder='Entry Title'
+            onChange={handleChange}
+            disabled={isLoading}
+            maxLength={30}
+          />
+          {errors.title && <p className='text-red-500'>{errors.title}</p>}
+        </div>
+        <div>
+          <FormInput
+            id='date'
+            label='Date'
+            type='date'
+            value={formData.date}
+            placeholder='YYYY-MM-DD'
+            onChange={handleChange}
+            disabled={isLoading}
+          />
+          {errors.date && <p className='text-red-500'>{errors.date}</p>}
+        </div>
         <div className='flex items-center gap-2 w-full'>
           <div className='flex-1'>
             <FormInput
@@ -163,7 +175,9 @@ export default function AddNewEntryForm() {
               value={formData.city}
               placeholder='City Name'
               onChange={handleChange}
+              maxLength={30}
             />
+            {errors.city && <p className='text-red-500'>{errors.city}</p>}
           </div>
           <div className='flex-1'>
             <FormInput
@@ -172,17 +186,21 @@ export default function AddNewEntryForm() {
               value={formData.country}
               placeholder='Country Name'
               onChange={handleChange}
+              maxLength={30}
             />
+            {errors.country && <p className='text-red-500'>{errors.country}</p>}
           </div>
         </div>
-        <FormInput
-          id='upload'
-          label='Upload Image'
-          type='file'
-          onChange={handleImageChange}
-          disabled={isLoading}
-        />
-
+        <div>
+          <FormInput
+            id='upload'
+            label='Upload Image'
+            type='file'
+            onChange={handleImageChange}
+            disabled={isLoading}
+          />
+          {errors.image && <p className='text-red-500'>{errors.image}</p>}
+        </div>
         <div>
           <label
             htmlFor='description'
@@ -196,9 +214,13 @@ export default function AddNewEntryForm() {
             value={formData.description}
             onChange={handleChange}
             disabled={isLoading}
+            maxLength={500}
             className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm '
             rows={4}
           />
+          {errors.description && (
+            <p className='text-red-500'>{errors.description}</p>
+          )}
         </div>
         <button
           type='submit'
