@@ -4,18 +4,18 @@ export const ValidationEntrySchema = z.object({
   title: z
     .string()
     .trim()
-    .min(3, 'Title is required')
+    .min(3, 'Please enter minimum 3 characters')
     .max(30, 'Please enter less than 30 characters'),
   date: z.string().min(1, 'Date is required'),
   city: z
     .string()
     .trim()
-    .min(3, 'City is required')
+    .min(3, 'Please enter minimum 3 characters')
     .max(30, 'Please enter less than 30 characters'),
   country: z
     .string()
     .trim()
-    .min(3, 'Country is required')
+    .min(3, 'Please enter minimum 3 characters')
     .max(30, 'Please enter less than 30 characters'),
   image: z
     .union([z.instanceof(File), z.string().min(0), z.null(), z.undefined()])
@@ -32,7 +32,7 @@ export const ValidationEntrySchema = z.object({
   description: z
     .string()
     .trim()
-    .min(3, 'Description is required')
+    .min(3, 'Please enter minimum 3 characters')
     .max(500, 'Please enter less than 500 characters'),
 });
 
