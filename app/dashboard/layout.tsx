@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BarChart2,
   ChevronLeft,
@@ -19,6 +19,10 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const menuItems = [
     {
