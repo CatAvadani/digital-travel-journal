@@ -55,12 +55,12 @@ export default function Home() {
       ></div>
       <Footer positionClass='bottom-10 sm:left-24 md:left-32' />
       <div className='z-20 text-white text-center absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[70%]'>
-        <h1 className='text-3xl md:text-5xl lg:text-7xl mb-14 sm:mb-20 max-w-3xl mx-auto font-normal sm:leading-loose tracking-wide'>
+        <h1 className='text-3xl md:text-5xl lg:text-7xl mb-14 sm:mb-20 w-full sm:max-w-4xl mx-auto font:normal sm:font-medium leading-[2.5rem] md:leading-[4rem] lg:leading-[6rem]'>
           Turn Your Journeys into Timeless Stories
         </h1>
         <Link
           href='/mapView'
-          className='bg-gradient-to-r  from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+          className='bg-gradient-to-r  from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out text-base lg:text-lg'
         >
           Begin Your Journey
         </Link>

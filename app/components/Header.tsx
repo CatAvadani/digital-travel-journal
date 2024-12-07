@@ -20,18 +20,10 @@ export default function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const isMapViewPage = pathname === '/mapView';
@@ -130,9 +122,9 @@ export default function Header() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className={`relative px-4 py-2 rounded-full transition-colors ${
+                className={`relative px-4 py-2 rounded-full transition-colors text-base lg:text-lg ${
                   pathname.startsWith(link.href)
-                    ? 'font-bold text-white/80'
+                    ? 'font-bold text-white/80 '
                     : 'hover:text-gray-200'
                 }`}
               >

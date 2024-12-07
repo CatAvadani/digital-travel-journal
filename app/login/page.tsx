@@ -154,7 +154,7 @@ export default function Login() {
           </p>
         </form>
       </div>
-      <div className='absolute left-1/2 -bottom-2 -translate-x-1/2 translate-y-1/2 sm:right-6 sm:-bottom-6 sm:translate-y-0 sm:left-auto bg-white/10 backdrop-blur-sm rounded-lg p-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]'>
+      <div className='absolute left-1/2 -bottom-2 -translate-x-1/2 translate-y-1/2 sm:right-6 sm:-bottom-6 sm:translate-y-0 sm:left-auto bg-white/10 backdrop-blur-sm rounded-md p-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]'>
         <MapPin className='w-10 h-10 sm:w-16 sm:h-16 text-[#D92F91]' />
       </div>
     </div>
