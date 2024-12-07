@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, MapPin } from 'react-feather';
-import useEntryStore, { Entry } from '../../store/useEntryStore';
+import useEntryStore, { Entry } from '../../../store/useEntryStore';
 
 export default function EntryDetailsPage({
   params,

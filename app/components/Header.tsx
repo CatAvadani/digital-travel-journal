@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
 const links = [
-  { href: '/myTrips', label: 'My Trips' },
   { href: '/mapView', label: 'Map View' },
+  { href: '/dashboard', label: 'Dashboard' },
   { href: '/howToUse', label: 'How to Use' },
 ];
 
