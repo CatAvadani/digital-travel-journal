@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { BarChart2, Globe, Layout, Settings } from 'react-feather';
 import BreadcrumbsNavigation from '../components/BreadCrumbsNavigation';
 
 export default function DashboardLayout({
@@ -11,10 +12,10 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   const menuItems = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'My Trips', href: '/dashboard/myTrips' },
-    { name: 'Statistics', href: '/dashboard/statistics' },
-    { name: 'Settings', href: '/dashboard/settings' },
+    { name: 'Dashboard', href: '/dashboard', icon: <Layout /> },
+    { name: 'My Trips', href: '/dashboard/myTrips', icon: <Globe /> },
+    { name: 'Statistics', href: '/dashboard/statistics', icon: <BarChart2 /> },
+    { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
   ];
 
   const breadcrumbs = [
@@ -37,14 +38,16 @@ export default function DashboardLayout({
       <aside className='col-span-2 px-6 bg-black/30 rounded-md mt-2'>
         <ul>
           {menuItems.map((item) => (
-            <li key={item.href} className='mb-2 px-2 my-4'>
+            <li key={item.href} className='mb-2 my-4 w-full'>
               <Link
                 href={item.href}
-                className={`hover:underline ${
-                  pathname === item.href ? 'text-blue-500 font-bold' : ''
+                className={`flex  justify-start items-center gap-4 w-full p-2 rounded-md text-lg ${
+                  pathname === item.href
+                    ? 'bg-gradient-to-r  from-[#E91E63] to-[#4B0082] text-white'
+                    : 'bg-transparent hover:bg-gradient-to-r  from-[#E91E63]/50 to-[#4B0082]/50 text-white transition-all duration-300 ease-in-out'
                 }`}
               >
-                {item.name}
+                {item.icon} {item.name}
               </Link>
             </li>
           ))}

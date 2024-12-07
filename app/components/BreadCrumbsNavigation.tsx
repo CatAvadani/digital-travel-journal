@@ -9,7 +9,7 @@ export default function BreadcrumbsNavigation({
 }) {
   return (
     <nav aria-label='Breadcrumb' className='mb-4'>
-      <ol className='flex text-sm text-white/70 space-x-2'>
+      <ol className='flex text-base text-white/80 space-x-2'>
         {paths.map((path, index) => (
           <li key={index} className='flex items-center'>
             {path.href ? (
@@ -17,7 +17,7 @@ export default function BreadcrumbsNavigation({
                 {path.name}
               </Link>
             ) : (
-              <span className='text-white/50'>{path.name}</span>
+              <span className='text-pink-500'>{path.name}</span>
             )}
             {index < paths.length - 1 && <span className='mx-2'>/</span>}
           </li>
