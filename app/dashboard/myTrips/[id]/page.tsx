@@ -86,13 +86,6 @@ export default function EntryDetailsPage({
       transition={{ duration: 0.5 }}
       className=' mx-auto text-white w-full'
     >
-      {/* <BreadcrumbsNavigation
-        paths={[
-          { name: 'Dashboard', href: '/dashboard' },
-          { name: 'My Trips', href: '/dashboard/myTrips' },
-          { name: 'Trip Details' },
-        ]}
-      /> */}
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}

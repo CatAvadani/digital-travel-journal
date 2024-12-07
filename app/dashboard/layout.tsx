@@ -33,18 +33,20 @@ export default function DashboardLayout({
   ];
 
   return (
-    <main className='text-white grid grid-cols-8 w-full min-h-full mt-52 mx-6'>
+    <main className='text-white grid grid-cols-8 w-full min-h-screen mt-28 mx-6'>
       {/* Sidebar */}
-      <aside className='col-span-2 px-6 bg-black/30 rounded-md mt-2'>
+      <aside className='col-span-2 px-6 bg-black/30 rounded-md h-screen sticky top-0'>
         <ul>
           {menuItems.map((item) => (
             <li key={item.href} className='mb-2 my-4 w-full'>
               <Link
                 href={item.href}
-                className={`flex  justify-start items-center gap-4 w-full p-2 rounded-md text-lg ${
+                className={`flex justify-start items-center gap-4 w-full p-2 rounded-md text-lg ${
+                  item.name === 'Settings' ? 'mt-20' : 'mt-0'
+                }  ${
                   pathname === item.href
-                    ? 'bg-gradient-to-r  from-[#E91E63] to-[#4B0082] text-white'
-                    : 'bg-transparent hover:bg-gradient-to-r  from-[#E91E63]/50 to-[#4B0082]/50 text-white transition-all duration-300 ease-in-out'
+                    ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white'
+                    : 'bg-transparent hover:bg-gradient-to-r from-[#E91E63]/50 to-[#4B0082]/50 text-white transition-all duration-300 ease-in-out'
                 }`}
               >
                 {item.icon} {item.name}
@@ -55,7 +57,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Content Area */}
-      <section className=' col-span-6 p-4'>
+      <section className='col-span-6 p-4 min-h-screen bg-black/10 rounded-md'>
         <BreadcrumbsNavigation paths={breadcrumbs} />
         {children}
       </section>

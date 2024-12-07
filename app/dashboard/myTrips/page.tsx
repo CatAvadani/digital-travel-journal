@@ -13,9 +13,10 @@ export default function MyTrips() {
   const { entries, fetchEntries, deleteEntry, updateEntry } = useEntryStore();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const router = useRouter();
   const [entryToEdit, setEntryToEdit] = useState<Entry | null>(null);
   const [entryToDelete, setEntryToDelete] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const handleEditClick = (entry: Entry) => {
     setEntryToEdit(entry);
@@ -63,7 +64,7 @@ export default function MyTrips() {
   }, [loading, user, router]);
 
   return (
-    <div className='w-full flex flex-col gap-2 '>
+    <div className='w-full flex flex-col gap-2'>
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         message='Are you sure you want to delete this entry?'
@@ -79,29 +80,32 @@ export default function MyTrips() {
         />
       )}
       {entries.length === 0 ? (
-        <div className=' text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
+        <div className='text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
           No trips found. Add a trip to get started!
         </div>
       ) : (
         <>
           <div className='flex mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
-            <div className=' w-1/2 items-start '>
+            <div className='w-1/2 items-start'>
               <p>
                 Trips <span className='text-white/80'> ({entries.length})</span>
               </p>
             </div>
-            <div className=' hidden sm:flex sm:items-start  w-1/2'>
+            <div className='hidden sm:flex sm:items-start w-1/2'>
               <p>Date</p>
             </div>
           </div>
-          {entries.map((entry) => (
-            <EntryCard
-              key={entry.id}
-              entry={entry}
-              onDelete={() => handleDeleteClick(entry.id)}
-              onEdit={() => handleEditClick(entry)}
-            />
-          ))}
+          {/* Scrollable List */}
+          <div className='max-h-[650px] overflow-y-auto rounded-md bg-black/30 '>
+            {entries.map((entry) => (
+              <EntryCard
+                key={entry.id}
+                entry={entry}
+                onDelete={() => handleDeleteClick(entry.id)}
+                onEdit={() => handleEditClick(entry)}
+              />
+            ))}
+          </div>
         </>
       )}
     </div>
