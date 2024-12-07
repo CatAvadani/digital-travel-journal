@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import ClientWrapper from './components/ClientWrapper';
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     'A web application designed for users to document their travel experiences',
 };
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   display: 'swap',
 });
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.className} antialiased flex flex-col defaultBackground bg-no-repeat h-full min-h-screen`}
+        className={`${dmSans.className} antialiased flex flex-col defaultBackground bg-no-repeat h-full min-h-screen`}
       >
         <Providers>
           <ClientWrapper>

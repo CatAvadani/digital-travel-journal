@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, MapPin } from 'react-feather';
-import useEntryStore, { Entry } from '../../store/useEntryStore';
+import useEntryStore, { Entry } from '../../../store/useEntryStore';
 
 export default function EntryDetailsPage({
   params,
@@ -84,14 +84,14 @@ export default function EntryDetailsPage({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='max-w-7xl mx-auto p-6 text-white mt-28 w-full'
+      className=' mx-auto text-white w-full'
     >
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className='relative h-[400px] w-full rounded-lg overflow-hidden shadow-lg mb-8'
+        className='relative h-[400px] w-full rounded-md overflow-hidden shadow-lg mb-8'
       >
         <Image
           src={entry.image}
@@ -105,7 +105,7 @@ export default function EntryDetailsPage({
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className='absolute bottom-3 left-3 sm:bottom-6 sm:left-6 bg-white/20 rounded-lg backdrop-blur-xl px-8 py-2'
+          className='absolute bottom-3 left-3 sm:bottom-6 sm:left-6 bg-white/20 rounded-md backdrop-blur-xl px-8 py-2'
         >
           <h1 className='text-xl sm:text-4xl font-bold'>{entry.title}</h1>
           <p className='text-lg'>{entry.date}</p>
@@ -119,7 +119,7 @@ export default function EntryDetailsPage({
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className='p-6 bg-black/20 md:col-span-2 rounded-lg'
+          className='p-6 bg-black/20 md:col-span-2 rounded-md'
         >
           <h2 className='text-2xl font-semibold mb-4'>Details</h2>
           <p className='flex items-center gap-2'>
@@ -134,7 +134,7 @@ export default function EntryDetailsPage({
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className='h-[300px] rounded-lg shadow-lg overflow-hidden bg-black/30'
+          className='h-[300px] rounded-md shadow-lg overflow-hidden bg-black/30'
         >
           <EntryMap coordinates={entry.coordinates} />
         </motion.div>
@@ -160,9 +160,9 @@ export default function EntryDetailsPage({
         transition={{ duration: 0.6, delay: 1.2 }}
         className='mt-8'
       >
-        <Link href='/myTrips'>
+        <Link href='/dashboard'>
           <p className='text-white/80 hover:underline flex justify-start items-center gap-2'>
-            <ArrowLeft /> Back to My Trips
+            <ArrowLeft /> Back to Dashboard
           </p>
         </Link>
       </motion.div>

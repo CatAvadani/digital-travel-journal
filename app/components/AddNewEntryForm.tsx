@@ -243,10 +243,10 @@ export default function AddNewEntryForm() {
         Home
       </Link>
       <Link
-        href='/myTrips'
+        href='/dashboard'
         className=' flex justify-center items-center gap-2 text-white  mt-4'
       >
-        <p className=' font-semibold hover:underline'> My Trips </p>
+        <p className=' font-semibold hover:underline'>Dashboard</p>
         <ArrowRight size={20} className=' hover:translate-x-1 transition-all' />
       </Link>
     </div>

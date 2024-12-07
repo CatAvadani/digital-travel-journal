@@ -66,7 +66,7 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
         <ScrollRevealWrapper key={index} variants={itemVariants}>
           <div
             className={`
-              relative overflow-hidden rounded-lg 
+              relative overflow-hidden rounded-md 
               mb-4 break-inside-avoid 
               ${getRandomHeightClass()}
               cursor-pointer group

@@ -14,7 +14,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/myTrips/${entry.id}`);
+    router.push(`/dashboard/myTrips/${entry.id}`);
   };
 
   const handleButtonClick = (event: React.MouseEvent) => {

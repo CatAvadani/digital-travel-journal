@@ -167,7 +167,7 @@ export default function Map() {
 
   const handlePopupClick = useCallback(
     (id: string) => {
-      router.push(`/myTrips/${id}`);
+      router.push(`/dashboard/myTrips/${id}`);
     },
     [router]
   );
