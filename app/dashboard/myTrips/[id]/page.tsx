@@ -84,8 +84,15 @@ export default function EntryDetailsPage({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='max-w-7xl mx-auto p-6 text-white mt-28 w-full'
+      className=' mx-auto text-white w-full'
     >
+      {/* <BreadcrumbsNavigation
+        paths={[
+          { name: 'Dashboard', href: '/dashboard' },
+          { name: 'My Trips', href: '/dashboard/myTrips' },
+          { name: 'Trip Details' },
+        ]}
+      /> */}
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -160,9 +167,9 @@ export default function EntryDetailsPage({
         transition={{ duration: 0.6, delay: 1.2 }}
         className='mt-8'
       >
-        <Link href='/myTrips'>
+        <Link href='/dashboard'>
           <p className='text-white/80 hover:underline flex justify-start items-center gap-2'>
-            <ArrowLeft /> Back to My Trips
+            <ArrowLeft /> Back to Dashboard
           </p>
         </Link>
       </motion.div>
