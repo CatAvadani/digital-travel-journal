@@ -50,7 +50,9 @@ export default function Header() {
           alt='logo'
         />
         {!isMapViewPage && !isHomePage && (
-          <span className=' tracking-wider'>Digital Travel Journal</span>
+          <span className=' tracking-wider  font-normal'>
+            Digital Travel Journal
+          </span>
         )}
       </Link>
 

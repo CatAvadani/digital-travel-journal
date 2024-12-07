@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
-  BarChart2,
   ChevronLeft,
   ChevronRight,
-  Globe,
-  Layout,
+  Grid,
+  MapPin,
   Settings,
+  TrendingUp,
 } from 'react-feather';
 import BreadcrumbsNavigation from '../components/BreadCrumbsNavigation';
 
@@ -28,10 +28,10 @@ export default function DashboardLayout({
     {
       name: 'Dashboard',
       href: '/dashboard',
-      icon: <Layout className='size-4 md:size-6' />,
+      icon: <Grid className='size-4 md:size-6' />,
     },
-    { name: 'My Trips', href: '/dashboard/myTrips', icon: <Globe /> },
-    { name: 'Statistics', href: '/dashboard/statistics', icon: <BarChart2 /> },
+    { name: 'My Trips', href: '/dashboard/myTrips', icon: <MapPin /> },
+    { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
     { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
   ];
 
