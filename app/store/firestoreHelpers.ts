@@ -10,6 +10,12 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadString,
+} from 'firebase/storage';
 import { db } from '../firebase/firebase';
 
 export const createUserDoc = async (user: User) => {
@@ -42,9 +48,10 @@ export const fetchUserFromFirestore = async (uid: string) => {
 
 export interface Postcard {
   userId: string;
-  image: string;
+  image: string | null; // This could be a Firebase Storage URL or Base64 string
   template: number;
   message: string;
+  shareableURL?: string; // Optional field for public sharing
 }
 
 export const savePostcard = async ({
@@ -52,6 +59,7 @@ export const savePostcard = async ({
   image,
   template,
   message,
+  shareableURL,
 }: Postcard) => {
   try {
     const docRef = await addDoc(collection(db, 'postcards'), {
@@ -59,6 +67,7 @@ export const savePostcard = async ({
       image,
       template,
       message,
+      shareableURL: shareableURL || null,
       timestamp: serverTimestamp(),
     });
     return docRef.id;
@@ -75,10 +84,27 @@ export const fetchSavedPostcards = async (userId: string) => {
 
     return querySnapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data(),
+      ...(doc.data() as Postcard),
     }));
   } catch (error) {
     console.error('Error fetching postcards:', error);
     throw error;
+  }
+};
+
+export const uploadToFirebase = async (
+  dataUrl: string
+): Promise<string | null> => {
+  const storage = getStorage();
+  const storageRef = ref(storage, `postcards/${Date.now()}.png`);
+
+  try {
+    await uploadString(storageRef, dataUrl, 'data_url'); // Upload the image
+    const url = await getDownloadURL(storageRef); // Get the public URL
+    console.log('Uploaded Image URL:', url);
+    return url;
+  } catch (error) {
+    console.error('Failed to upload image:', error);
+    return null;
   }
 };

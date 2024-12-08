@@ -1,10 +1,12 @@
 'use client';
 
 import SimpleButton from '@/app/components/ui/SimpleButton';
-import { savePostcard } from '@/app/store/firestoreHelpers';
+import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
+import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import './styles.css';
@@ -18,6 +20,8 @@ interface PostcardData {
 export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
+  const router = useRouter();
+  const postcardRef = useRef<HTMLDivElement>(null); // Reference for image generation
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: null,
@@ -49,9 +53,22 @@ export default function PostcardCreator() {
     }
 
     try {
+      // Generate the composite image
+      const dataUrl = await htmlToImage.toPng(postcardRef.current!);
+
+      // Upload the composite image to Firebase Storage
+      const uploadedUrl = await uploadToFirebase(dataUrl);
+
+      // Check if the upload failed
+      if (!uploadedUrl) {
+        toast.error('Failed to upload postcard image. Please try again.');
+        return;
+      }
+
+      // Save postcard details with the uploaded image URL
       await savePostcard({
         userId: user.uid,
-        image: selectedImage,
+        image: uploadedUrl, // Use the Firebase URL
         template: selectedTemplate,
         message,
       });
@@ -85,7 +102,6 @@ export default function PostcardCreator() {
       </h1>
 
       <div className='flex flex-col gap-4'>
-        {/* Image Selector */}
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
           <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[250px] overflow-y-scroll bg-black/30 rounded-md border border-white/10 p-4'>
@@ -102,7 +118,7 @@ export default function PostcardCreator() {
                   alt={entry.title}
                   width={100}
                   height={100}
-                  className='rounded-md shadow-md w-full h-full'
+                  className='rounded-md shadow-md h-full w-full object-cover'
                 />
                 <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
                   {entry.title}
@@ -138,6 +154,7 @@ export default function PostcardCreator() {
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
         {selectedImage && (
           <div
+            ref={postcardRef} // Reference for image generation
             className={`w-full max-w-md self-start my-8 p-4 bg-white rounded-md shadow-lg relative ${
               postcardTemplates.find((t) => t.id === selectedTemplate)
                 ?.className
@@ -172,6 +189,11 @@ export default function PostcardCreator() {
         >
           Cancel
         </button>
+        <SimpleButton
+          text='View Saved Postcards'
+          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
+          onClick={() => router.push('/dashboard/savedPostcards')}
+        ></SimpleButton>
       </div>
     </div>
   );
