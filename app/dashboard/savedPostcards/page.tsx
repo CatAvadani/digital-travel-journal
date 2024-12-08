@@ -87,14 +87,14 @@ export default function SavedPostcards() {
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4 text-white'>My Saved Postcards</h1>
-      <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]'>
+      <div className='grid gap-4 grid-cols-1 md:grid-cols-2'>
         {postcards.map((postcard) => (
           <div
             id={`postcard-${postcard.id}`}
             key={postcard.id}
-            className='rounded-md bg-white overflow-hidden shadow-lg flex flex-col'
+            className='rounded-md border border-white/10 bg-black overflow-hidden shadow-lg flex flex-col p-2'
           >
-            <div className='w-full h-[200px] relative'>
+            <div className='w-full h-[300px] relative mb-4'>
               <Image
                 src={postcard.image || ''}
                 alt='Postcard'

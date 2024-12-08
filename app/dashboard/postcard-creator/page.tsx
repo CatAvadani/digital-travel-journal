@@ -185,11 +185,6 @@ export default function PostcardCreator() {
         >
           Cancel
         </button>
-        <SimpleButton
-          text='View Saved Postcards'
-          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
-          onClick={() => router.push('/dashboard/savedPostcards')}
-        ></SimpleButton>
       </div>
     </div>
   );

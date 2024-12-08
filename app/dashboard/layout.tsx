@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
+  Eye,
   Grid,
   Image as ImageIcon,
   MapPin,
@@ -50,6 +51,11 @@ export default function DashboardLayout({
       name: 'Postcard Creator',
       href: '/dashboard/postcard-creator',
       icon: <ImageIcon />,
+    },
+    {
+      name: 'View Your Postcards',
+      href: '/dashboard/savedPostcards',
+      icon: <Eye />,
     },
     { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
     { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
