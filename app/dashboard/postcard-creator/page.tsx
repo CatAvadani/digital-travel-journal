@@ -73,7 +73,7 @@ export default function PostcardCreator() {
       </div>
 
       {/* Postcard Preview */}
-      <div className='mt-8'>
+      <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
         {selectedImage && (
           <div
