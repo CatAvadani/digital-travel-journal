@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import {
   getDownloadURL,
   getStorage,
@@ -10,7 +11,7 @@ import { Postcard } from '../store/firestoreHelpers';
 
 export const handleSharePostcard = async (
   postcardId: string,
-  user: any,
+  user: User,
   updatePostcard: (id: string, data: Partial<Postcard>) => Promise<void>
 ) => {
   const element = document.getElementById(`postcard-${postcardId}`);
@@ -24,21 +25,18 @@ export const handleSharePostcard = async (
     // Generate image
     const dataUrl = await htmlToImage.toPng(element, {
       backgroundColor: 'white',
-      quality: 1, // Highest quality
-      pixelRatio: 2, // Higher resolution
+      quality: 1,
+      pixelRatio: 2,
     });
 
-    // Upload to Firebase Storage
     const storage = getStorage();
     const storageRef = ref(storage, `shared_postcards/${postcardId}.png`);
 
     await uploadString(storageRef, dataUrl, 'data_url');
     const shareableURL = await getDownloadURL(storageRef);
 
-    // Update postcard with shareable URL
     await updatePostcard(postcardId, { shareableURL });
 
-    // Facebook sharing
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       shareableURL
     )}`;

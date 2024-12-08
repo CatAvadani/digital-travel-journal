@@ -53,13 +53,10 @@ export default function PostcardCreator() {
     }
 
     try {
-      // Generate the composite image
       const dataUrl = await htmlToImage.toPng(postcardRef.current!);
 
-      // Upload the composite image to Firebase Storage
       const uploadedUrl = await uploadToFirebase(dataUrl);
 
-      // Check if the upload failed
       if (!uploadedUrl) {
         toast.error('Failed to upload postcard image. Please try again.');
         return;
