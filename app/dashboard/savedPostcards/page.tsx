@@ -90,20 +90,20 @@ export default function SavedPostcards() {
       <div className='grid gap-4 grid-cols-1 md:grid-cols-2'>
         {postcards.map((postcard) => (
           <div
-            id={`postcard-${postcard.id}`}
             key={postcard.id}
             className='rounded-md border border-white/10 bg-black overflow-hidden shadow-lg flex flex-col p-2'
           >
-            <div className='w-full h-[300px] relative mb-4'>
+            <div className='postcard-content w-full h-[300px] relative mb-4'>
               <Image
-                src={postcard.image || ''}
+                id={`postcard-${postcard.id}`}
+                src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
                 className='object-cover'
                 sizes='(max-width: 768px) 100vw, 250px'
               />
             </div>
-            <div className=' p-2 self-start'>
+            <div className='p-2 self-start'>
               <SimpleButton
                 text='Share on Facebook'
                 backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'

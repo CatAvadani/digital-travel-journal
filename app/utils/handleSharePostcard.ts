@@ -14,6 +14,7 @@ export const handleSharePostcard = async (
   user: User,
   updatePostcard: (id: string, data: Partial<Postcard>) => Promise<void>
 ) => {
+  // Target the entire postcard container (including image, template, and message)
   const element = document.getElementById(`postcard-${postcardId}`);
 
   if (!element) {
@@ -22,21 +23,25 @@ export const handleSharePostcard = async (
   }
 
   try {
-    // Generate image
+    // Generate the image of the entire postcard
     const dataUrl = await htmlToImage.toPng(element, {
-      backgroundColor: 'white',
+      backgroundColor: 'white', // Add a consistent background if needed
       quality: 1,
       pixelRatio: 2,
     });
 
+    // Upload the generated image to Firebase Storage
     const storage = getStorage();
     const storageRef = ref(storage, `shared_postcards/${postcardId}.png`);
-
     await uploadString(storageRef, dataUrl, 'data_url');
+
+    // Get the shareable URL
     const shareableURL = await getDownloadURL(storageRef);
 
+    // Save the shareable URL in Firestore
     await updatePostcard(postcardId, { shareableURL });
 
+    // Open the Facebook share dialog
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       shareableURL
     )}`;

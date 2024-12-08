@@ -5,7 +5,6 @@ import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
@@ -20,7 +19,6 @@ interface PostcardData {
 export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
-  const router = useRouter();
   const postcardRef = useRef<HTMLDivElement>(null);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
@@ -151,11 +149,13 @@ export default function PostcardCreator() {
         {selectedImage && (
           <div
             ref={postcardRef}
-            className={`w-full max-w-md self-start my-8 p-4 bg-white rounded-md shadow-lg relative ${
+            id='postcard-preview'
+            className={`w-full max-w-md my-8 p-4 bg-white rounded-md shadow-lg relative ${
               postcardTemplates.find((t) => t.id === selectedTemplate)
                 ?.className
             }`}
           >
+            {/* Image */}
             <Image
               src={selectedImage}
               alt='Selected'
@@ -163,11 +163,13 @@ export default function PostcardCreator() {
               height={100}
               className='w-full h-48 object-cover rounded-md'
             />
+
+            {/* Editable Message */}
             <textarea
               value={message}
               onChange={(e) => updateField('message', e.target.value)}
               placeholder='Write your message here...'
-              className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md w-[90%]'
+              className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md w-[90%] resize-none border-none outline-none'
             />
           </div>
         )}
