@@ -6,9 +6,9 @@
 }
 
 .template-modern {
-  border-radius: 12px;
+  border-radius: 0;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #4b0082, #f3588b);
+  background: linear-gradient(135deg, #07000c, #2e0010);
   color: #fff;
 }
 

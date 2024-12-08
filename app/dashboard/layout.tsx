@@ -75,7 +75,9 @@ export default function DashboardLayout({
     ...(pathname.includes('/settings')
       ? [{ name: 'Settings', href: '/dashboard/settings' }]
       : []),
-    ...(pathname.includes('/myTrips/') ? [{ name: 'Trip Details' }] : []),
+    ...(pathname.includes('/savedPostcards')
+      ? [{ name: 'View Your Postcards', href: '/dashboard/savedPostcards' }]
+      : []),
   ];
 
   return (

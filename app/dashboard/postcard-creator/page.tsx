@@ -146,33 +146,33 @@ export default function PostcardCreator() {
       {/* Postcard Preview */}
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
-        {selectedImage && (
-          <div
-            ref={postcardRef}
-            id='postcard-preview'
-            className={`w-full max-w-md my-8 p-4 bg-white rounded-md shadow-lg relative ${
-              postcardTemplates.find((t) => t.id === selectedTemplate)
-                ?.className
-            }`}
-          >
-            {/* Image */}
+
+        <div
+          ref={postcardRef}
+          id='postcard-preview'
+          className={`w-full flex justify-center items-center max-w-md my-8 p-4 bg-white rounded-md shadow-lg relative ${
+            postcardTemplates.find((t) => t.id === selectedTemplate)?.className
+          }`}
+        >
+          {' '}
+          <>
             <Image
-              src={selectedImage}
+              src={selectedImage || '/placeholder-img.jpg'}
               alt='Selected'
               width={100}
               height={100}
               className='w-full h-48 object-cover rounded-md'
             />
 
-            {/* Editable Message */}
             <textarea
               value={message}
+              rows={2}
               onChange={(e) => updateField('message', e.target.value)}
               placeholder='Write your message here...'
-              className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md w-[90%] resize-none border-none outline-none'
+              className='absolute bottom-6 left-8 bg-black/10 backdrop-blur-lg text-white p-2 rounded-md w-[70%] resize-none border-none outline-none placeholder:text-white/80 text-base'
             />
-          </div>
-        )}
+          </>
+        </div>
       </div>
 
       <div className='mt-6 flex gap-4'>

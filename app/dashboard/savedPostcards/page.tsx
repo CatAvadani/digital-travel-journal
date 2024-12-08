@@ -93,17 +93,17 @@ export default function SavedPostcards() {
             key={postcard.id}
             className='rounded-md border border-white/10 bg-black overflow-hidden shadow-lg flex flex-col p-2'
           >
-            <div className='postcard-content w-full h-[300px] relative mb-4'>
+            <div className=' w-full h-[300px] relative mb-4 -mt-10'>
               <Image
                 id={`postcard-${postcard.id}`}
                 src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
-                className='object-cover'
+                className='object-contain p-4'
                 sizes='(max-width: 768px) 100vw, 250px'
               />
             </div>
-            <div className='p-2 self-start'>
+            <div className='pl-4 pb-4 self-start'>
               <SimpleButton
                 text='Share on Facebook'
                 backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
