@@ -1,9 +1,12 @@
 'use client';
 
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import { db } from '@/app/firebase/firebase';
 import { fetchSavedPostcards } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
-import * as htmlToImage from 'html-to-image';
+import { handleSharePostcard } from '@/app/utils/handleSharePostcard';
+import { doc, updateDoc } from 'firebase/firestore';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import './styles.css';
@@ -21,44 +24,32 @@ export default function SavedPostcards() {
   const [postcards, setPostcards] = useState<Postcard[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const handleGenerateImage = async (postcardId: string) => {
-    const elementId = `postcard-${postcardId}`;
-    const element = document.getElementById(elementId);
-
-    if (!element) {
-      console.error(`Element with ID ${elementId} not found.`);
-      toast.error('Postcard not found. Please refresh and try again.');
-      return null;
-    }
-
+  const updatePostcard = async (
+    postcardId: string,
+    data: Partial<Postcard>
+  ) => {
     try {
-      const dataUrl = await htmlToImage.toPng(element, {
-        backgroundColor: 'white',
-      });
-      console.log('Generated Image URL:', dataUrl); // Check if this logs a valid Base64 URL
-      return dataUrl;
+      const postcardRef = doc(db, 'postcards', postcardId);
+      await updateDoc(postcardRef, data);
+
+      setPostcards((prev) =>
+        prev.map((postcard) =>
+          postcard.id === postcardId ? { ...postcard, ...data } : postcard
+        )
+      );
     } catch (error) {
-      console.error('Failed to generate image:', error);
-      toast.error('Failed to generate a sharable image.');
-      return null;
+      console.error('Failed to update postcard:', error);
+      toast.error('Failed to update postcard');
     }
   };
 
-  const handleShare = async (postcardId: string) => {
-    const generatedImageUrl = await handleGenerateImage(postcardId);
-
-    if (generatedImageUrl) {
-      const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        generatedImageUrl
-      )}`;
-      console.log('Facebook Share URL:', facebookShareUrl);
-      window.open(facebookShareUrl, '_blank');
-    } else {
-      console.error('Failed to generate a shareable image');
-      toast.error(
-        'Failed to generate a shareable image. Please check your network or try again later.'
-      );
+  const handleShare = (postcardId: string) => {
+    if (!user) {
+      toast.error('Please log in to share postcards');
+      return;
     }
+
+    handleSharePostcard(postcardId, user, updatePostcard);
   };
 
   useEffect(() => {
@@ -98,21 +89,21 @@ export default function SavedPostcards() {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {postcards.map((postcard) => (
           <div
-            id={`postcard-${postcard.id}`} // Correctly set the ID here
+            id={`postcard-${postcard.id}`}
             key={postcard.id}
-            className={`rounded-md shadow-md p-4 bg-white relative template-${postcard.template}`}
+            className={`rounded-md relative `}
           >
-            <img
-              src={postcard.image}
+            <Image
+              src={postcard.image || ' '}
               alt='Postcard'
-              className='w-full h-48 object-cover rounded-md mb-2'
+              height={100}
+              width={100}
+              className='w-full h-full object-cover rounded-md mb-2'
             />
-            <p className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md'>
-              {postcard.message}
-            </p>
+
             <button
-              className='absolute -bottom-20 bg-blue-500 text-white px-4 py-2 rounded-md'
-              onClick={() => handleShare(postcard.id)} // Pass the correct postcard ID
+              className='absolute -bottom-40 bg-blue-500 text-white px-4 py-2 rounded-md'
+              onClick={() => handleShare(postcard.id)}
             >
               Share on Facebook
             </button>

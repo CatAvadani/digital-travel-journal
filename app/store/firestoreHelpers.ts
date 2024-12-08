@@ -48,10 +48,10 @@ export const fetchUserFromFirestore = async (uid: string) => {
 
 export interface Postcard {
   userId: string;
-  image: string | null; // This could be a Firebase Storage URL or Base64 string
+  image: string | null;
   template: number;
   message: string;
-  shareableURL?: string; // Optional field for public sharing
+  shareableURL?: string;
 }
 
 export const savePostcard = async ({
@@ -99,8 +99,8 @@ export const uploadToFirebase = async (
   const storageRef = ref(storage, `postcards/${Date.now()}.png`);
 
   try {
-    await uploadString(storageRef, dataUrl, 'data_url'); // Upload the image
-    const url = await getDownloadURL(storageRef); // Get the public URL
+    await uploadString(storageRef, dataUrl, 'data_url');
+    const url = await getDownloadURL(storageRef);
     console.log('Uploaded Image URL:', url);
     return url;
   } catch (error) {

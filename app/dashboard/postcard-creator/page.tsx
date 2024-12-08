@@ -21,7 +21,7 @@ export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
   const router = useRouter();
-  const postcardRef = useRef<HTMLDivElement>(null); // Reference for image generation
+  const postcardRef = useRef<HTMLDivElement>(null);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: null,
@@ -65,10 +65,9 @@ export default function PostcardCreator() {
         return;
       }
 
-      // Save postcard details with the uploaded image URL
       await savePostcard({
         userId: user.uid,
-        image: uploadedUrl, // Use the Firebase URL
+        image: uploadedUrl,
         template: selectedTemplate,
         message,
       });
@@ -154,7 +153,7 @@ export default function PostcardCreator() {
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
         {selectedImage && (
           <div
-            ref={postcardRef} // Reference for image generation
+            ref={postcardRef}
             className={`w-full max-w-md self-start my-8 p-4 bg-white rounded-md shadow-lg relative ${
               postcardTemplates.find((t) => t.id === selectedTemplate)
                 ?.className
