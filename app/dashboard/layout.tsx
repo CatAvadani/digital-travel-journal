@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Grid,
+  Image,
   MapPin,
   Settings,
   TrendingUp,
@@ -31,6 +32,11 @@ export default function DashboardLayout({
       icon: <Grid className='size-4 md:size-6' />,
     },
     { name: 'My Trips', href: '/dashboard/myTrips', icon: <MapPin /> },
+    {
+      name: 'Postcard Creator',
+      href: '/dashboard/postcard-creator',
+      icon: <Image />,
+    },
     { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
     { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
   ];
@@ -39,6 +45,9 @@ export default function DashboardLayout({
     { name: 'Dashboard', href: '/dashboard' },
     ...(pathname.includes('/myTrips')
       ? [{ name: 'My Trips', href: '/dashboard/myTrips' }]
+      : []),
+    ...(pathname.includes('/dashboard/postcard-creator')
+      ? [{ name: 'Postcard Creator', href: '/dashboard/postcard-creator' }]
       : []),
     ...(pathname.includes('/statistics')
       ? [{ name: 'Statistics', href: '/dashboard/statistics' }]
