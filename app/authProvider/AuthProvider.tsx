@@ -11,7 +11,14 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-const AUTHENTICATED_ROUTES = ['/mapView', '/myTrips'];
+const AUTHENTICATED_ROUTES = [
+  '/mapView',
+  '/dashboard',
+  '/dashboard/myTrips',
+  '/dashboard/postcard-creator',
+  '/dashboard/statistics',
+  '/dashboard/settings',
+];
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { setUser, setLoading, setError } = useAuthStore();

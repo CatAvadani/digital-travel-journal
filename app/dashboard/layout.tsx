@@ -1,17 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
   Grid,
-  Image,
+  Image as ImageIcon,
   MapPin,
   Settings,
   TrendingUp,
 } from 'react-feather';
 import BreadcrumbsNavigation from '../components/BreadCrumbsNavigation';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function DashboardLayout({
   children,
@@ -20,10 +22,22 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
+  const { user, loading } = useAuthStore();
+  const router = useRouter();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
+
+  if (loading || !user) {
+    return <LoadingSpinner />;
+  }
 
   const menuItems = [
     {
@@ -35,7 +49,7 @@ export default function DashboardLayout({
     {
       name: 'Postcard Creator',
       href: '/dashboard/postcard-creator',
-      icon: <Image />,
+      icon: <ImageIcon />,
     },
     { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
     { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },

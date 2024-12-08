@@ -1,5 +1,15 @@
 import { User } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 export const createUserDoc = async (user: User) => {
@@ -27,5 +37,48 @@ export const fetchUserFromFirestore = async (uid: string) => {
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
+  }
+};
+
+export interface Postcard {
+  userId: string;
+  image: string;
+  template: number;
+  message: string;
+}
+
+export const savePostcard = async ({
+  userId,
+  image,
+  template,
+  message,
+}: Postcard) => {
+  try {
+    const docRef = await addDoc(collection(db, 'postcards'), {
+      userId,
+      image,
+      template,
+      message,
+      timestamp: serverTimestamp(),
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error saving postcard:', error);
+    throw new Error('Failed to save postcard');
+  }
+};
+
+export const fetchSavedPostcards = async (userId: string) => {
+  try {
+    const q = query(collection(db, 'postcards'), where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error('Error fetching postcards:', error);
+    throw error;
   }
 };
