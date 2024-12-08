@@ -1,5 +1,6 @@
 'use client';
 
+import SimpleButton from '@/app/components/ui/SimpleButton';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -19,7 +20,6 @@ export default function PostcardCreator() {
     { id: 3, name: 'Elegant', className: 'template-elegant' },
   ];
 
-  // Fetch entries when the component mounts
   useEffect(() => {
     if (user) {
       fetchEntries(user.uid);
@@ -32,7 +32,7 @@ export default function PostcardCreator() {
       <div className='flex flex-col gap-4'>
         {/* Image Selector */}
         <div className='rounded-md'>
-          <h2 className='text-lg font-semibold mb-2 p-4'>Choose an Image</h2>
+          <h2 className='text-lg font-semibold p-4'>Choose an Image</h2>
           <div className='grid gap-2 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[250px] overflow-y-scroll bg-black/30 rounded-md border border-white/10 p-4'>
             {entries.map((entry) => (
               <div key={entry.id} className='w-full h-[100px]'>
@@ -42,9 +42,7 @@ export default function PostcardCreator() {
                   width={100}
                   height={100}
                   className={`cursor-pointer rounded-md shadow-md w-full h-full ${
-                    selectedImage === entry.image
-                      ? 'ring-4 ring-pink-500/50'
-                      : ''
+                    selectedImage === entry.image ? 'ring-4 ring-[#4B0082]' : ''
                   }`}
                   onClick={() => setSelectedImage(entry.image)}
                 />
@@ -54,16 +52,16 @@ export default function PostcardCreator() {
         </div>
 
         {/* Template Selector */}
-        <div className='p-4 rounded-md'>
-          <h2 className='text-lg font-semibold mb-2'>Choose a Template</h2>
+        <div className='py-4'>
+          <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
           <div className='grid grid-cols-3 gap-2 w-[50%]'>
             {postcardTemplates.map((template) => (
               <div
                 key={template.id}
-                className={`p-4 rounded-md cursor-pointer shadow-md ${
+                className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
                     ? 'ring-4 ring-[#4B0082]'
-                    : 'bg-black/20'
+                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
                 }`}
                 onClick={() => setSelectedTemplate(template.id)}
               >
@@ -76,34 +74,39 @@ export default function PostcardCreator() {
 
       {/* Postcard Preview */}
       <div className='mt-8'>
-        <h2 className='text-lg font-semibold mb-4'>Preview</h2>
-        <div
-          className={`w-full max-w-md  mx-auto p-4 bg-white rounded-md shadow-lg relative ${
-            postcardTemplates.find((t) => t.id === selectedTemplate)?.className
-          }`}
-        >
-          {selectedImage && (
+        <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
+        {selectedImage && (
+          <div
+            className={`w-full max-w-md self-start my-8 p-4 bg-white rounded-md shadow-lg relative ${
+              postcardTemplates.find((t) => t.id === selectedTemplate)
+                ?.className
+            }`}
+          >
             <img
               src={selectedImage}
               alt='Selected'
               className='w-full h-48 object-cover rounded-md'
             />
-          )}
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder='Write your message here...'
-            className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md w-[90%]'
-          />
-        </div>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder='Write your message here...'
+              className='absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md w-[90%]'
+            />
+          </div>
+        )}
       </div>
 
       {/* Actions */}
       <div className='mt-6 flex gap-4'>
-        <button className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] px-6 py-2 rounded-md'>
-          Download Postcard
+        <SimpleButton
+          text='Share Postcard'
+          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
+        />
+
+        <button className='border-4 border-[#4B0082] px-6 py-2 rounded-md'>
+          Cancel
         </button>
-        <button className='bg-gray-700 px-6 py-2 rounded-md'>Cancel</button>
       </div>
     </div>
   );
