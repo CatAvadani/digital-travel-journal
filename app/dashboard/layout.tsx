@@ -1,16 +1,20 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
+  Eye,
   Grid,
+  Image as ImageIcon,
   MapPin,
   Settings,
   TrendingUp,
 } from 'react-feather';
 import BreadcrumbsNavigation from '../components/BreadCrumbsNavigation';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function DashboardLayout({
   children,
@@ -19,10 +23,22 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
+  const { user, loading } = useAuthStore();
+  const router = useRouter();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
+
+  if (loading || !user) {
+    return <LoadingSpinner />;
+  }
 
   const menuItems = [
     {
@@ -31,6 +47,16 @@ export default function DashboardLayout({
       icon: <Grid className='size-4 md:size-6' />,
     },
     { name: 'My Trips', href: '/dashboard/myTrips', icon: <MapPin /> },
+    {
+      name: 'Postcard Creator',
+      href: '/dashboard/postcard-creator',
+      icon: <ImageIcon />,
+    },
+    {
+      name: 'View Your Postcards',
+      href: '/dashboard/savedPostcards',
+      icon: <Eye />,
+    },
     { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
     { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
   ];
@@ -40,13 +66,18 @@ export default function DashboardLayout({
     ...(pathname.includes('/myTrips')
       ? [{ name: 'My Trips', href: '/dashboard/myTrips' }]
       : []),
+    ...(pathname.includes('/dashboard/postcard-creator')
+      ? [{ name: 'Postcard Creator', href: '/dashboard/postcard-creator' }]
+      : []),
     ...(pathname.includes('/statistics')
       ? [{ name: 'Statistics', href: '/dashboard/statistics' }]
       : []),
     ...(pathname.includes('/settings')
       ? [{ name: 'Settings', href: '/dashboard/settings' }]
       : []),
-    ...(pathname.includes('/myTrips/') ? [{ name: 'Trip Details' }] : []),
+    ...(pathname.includes('/savedPostcards')
+      ? [{ name: 'View Your Postcards', href: '/dashboard/savedPostcards' }]
+      : []),
   ];
 
   return (
