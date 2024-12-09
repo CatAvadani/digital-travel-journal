@@ -21,6 +21,7 @@ export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
   const postcardRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: '',
@@ -50,7 +51,7 @@ export default function PostcardCreator() {
       toast.error('You need to log in to save postcards.');
       return;
     }
-
+    setLoading(true);
     try {
       const dataUrl = await htmlToImage.toPng(postcardRef.current!);
 
@@ -73,6 +74,8 @@ export default function PostcardCreator() {
     } catch (error) {
       toast.error('Failed to save postcard. Please try again later.');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,7 +105,7 @@ export default function PostcardCreator() {
       <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
-          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[350px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
+          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[270px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
             {entries.map((entry) => (
               <div
                 key={entry.id}
@@ -164,37 +167,42 @@ export default function PostcardCreator() {
       {/* Postcard Preview */}
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
-
-        <div
-          ref={postcardRef}
-          id='postcard-preview'
-          className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
-            styles[
-              postcardTemplates.find((t) => t.id === selectedTemplate)
-                ?.className || ''
-            ]
-          }`}
-        >
-          <Image
-            src={selectedImage || '/default-img.jpg'}
-            alt='Selected'
-            className={`postcard-image ${styles['postcard-image']}`}
-            width={300}
-            height={200}
-          />
-          <textarea
-            value={message}
-            rows={3}
-            onChange={(e) => updateField('message', e.target.value)}
-            placeholder='Write your message here...'
-            className={`postcard-text text-white/80 ${styles['postcard-text']}`}
-          />
-        </div>
+        {!selectedImage || !selectedTemplate ? (
+          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed max-w-xl'>
+            Select an image and template to see the preview here.
+          </div>
+        ) : (
+          <div
+            ref={postcardRef}
+            id='postcard-preview'
+            className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
+              styles[
+                postcardTemplates.find((t) => t.id === selectedTemplate)
+                  ?.className || ''
+              ]
+            }`}
+          >
+            <Image
+              src={selectedImage || '/default-img.jpg'}
+              alt='Selected'
+              className={`postcard-image ${styles['postcard-image']}`}
+              width={300}
+              height={200}
+            />
+            <textarea
+              value={message}
+              rows={3}
+              onChange={(e) => updateField('message', e.target.value)}
+              placeholder='Write your message here...'
+              className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
+            />
+          </div>
+        )}
       </div>
 
       <div className='my-6 flex gap-4'>
         <SimpleButton
-          text='Save Postcard'
+          text={loading ? 'Saving...' : 'Save Postcard'}
           onClick={handleSavePostcard}
           backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
