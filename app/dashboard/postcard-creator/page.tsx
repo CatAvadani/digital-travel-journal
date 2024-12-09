@@ -6,9 +6,10 @@ import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { ChevronDown, ChevronUp } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
-import './styles.css';
+import styles from './postcard.module.scss';
 
 interface PostcardData {
   selectedImage: string | null;
@@ -22,7 +23,7 @@ export default function PostcardCreator() {
   const postcardRef = useRef<HTMLDivElement>(null);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
-    selectedImage: null,
+    selectedImage: '',
     selectedTemplate: 0,
     message: '',
   });
@@ -84,27 +85,32 @@ export default function PostcardCreator() {
     value: PostcardData[Key]
   ) => {
     setPostcardData((prev) => ({ ...prev, [field]: value }));
+    document
+      .getElementById('template-section')
+      ?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const { selectedImage, selectedTemplate, message } = postcardData;
 
   return (
     <div className='p-1 md:p-4 text-white h-full'>
-      <h1 className='text-lg md:text-xl font-base font-bold mb-4'>
+      <h1 className='text-base sm:text-lg font-semibold my-10'>
         Choose your favorite photo, pick a template, and add <br /> a message to
         create your unique postcard.
       </h1>
 
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
-          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[250px] overflow-y-scroll bg-black/30 rounded-md border border-white/10 p-4'>
+          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[350px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
             {entries.map((entry) => (
               <div
                 key={entry.id}
                 onClick={() => updateField('selectedImage', entry.image)}
                 className={`relative w-full h-[100px] cursor-pointer ${
-                  selectedImage === entry.image ? 'ring-4 ring-[#4B0082]' : ''
+                  selectedImage === entry.image
+                    ? 'ring-4 rounded-md ring-[#b759fb]'
+                    : ''
                 }`}
               >
                 <Image
@@ -120,12 +126,24 @@ export default function PostcardCreator() {
               </div>
             ))}
           </div>
+          <div className='flex justify-start mt-4'>
+            <button
+              className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+              onClick={() =>
+                document
+                  .getElementById('template-section')
+                  ?.scrollIntoView({ behavior: 'smooth' })
+              }
+            >
+              <ChevronDown className='size-6' />
+            </button>
+          </div>
         </div>
 
         {/* Template Selector */}
-        <div className='py-4'>
+        <div id='template-section' className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
-          <div className='grid grid-cols-3 gap-4 w-full md:w-[50%]'>
+          <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
             {postcardTemplates.map((template) => (
               <div
                 key={template.id}
@@ -133,10 +151,10 @@ export default function PostcardCreator() {
                 className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
                     ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
-                    : 'border border-white/20 hover:bg-[#4B0082]/20'
+                    : 'border-2 border-[#4B0082] hover:bg-[#4B0082]/30 '
                 }`}
               >
-                <p>{template.name}</p>
+                <p className=' text-center'>{template.name}</p>
               </div>
             ))}
           </div>
@@ -150,28 +168,27 @@ export default function PostcardCreator() {
         <div
           ref={postcardRef}
           id='postcard-preview'
-          className={`w-full flex justify-center items-center max-w-md mb-16 p-4 bg-white rounded-md shadow-lg relative ${
-            postcardTemplates.find((t) => t.id === selectedTemplate)?.className
+          className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
+            styles[
+              postcardTemplates.find((t) => t.id === selectedTemplate)
+                ?.className || ''
+            ]
           }`}
         >
-          {' '}
-          <>
-            <Image
-              src={selectedImage || '/placeholder-img.jpg'}
-              alt='Selected'
-              width={100}
-              height={100}
-              className='w-full h-48 object-cover rounded-md'
-            />
-
-            <textarea
-              value={message}
-              rows={2}
-              onChange={(e) => updateField('message', e.target.value)}
-              placeholder='Write your message here...'
-              className='absolute bottom-6 bg-black/30 backdrop-blur-lg text-white p-2 rounded-md w-[90%] resize-none border-none outline-none placeholder:text-white/80 text-base'
-            />
-          </>
+          <Image
+            src={selectedImage || '/default-img.jpg'}
+            alt='Selected'
+            className={`postcard-image ${styles['postcard-image']}`}
+            width={300}
+            height={200}
+          />
+          <textarea
+            value={message}
+            rows={3}
+            onChange={(e) => updateField('message', e.target.value)}
+            placeholder='Write your message here...'
+            className={`postcard-text text-white/80 ${styles['postcard-text']}`}
+          />
         </div>
       </div>
 
@@ -182,10 +199,18 @@ export default function PostcardCreator() {
           backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
         <button
-          className='border border-white/20 hover:bg-[#4B0082]/20 px-4 py-2 rounded-md'
+          className='border-2 border-[#4B0082] hover:bg-[#4B0082]/30 px-4 py-2 rounded-md'
           onClick={resetFields}
         >
           Cancel
+        </button>
+      </div>
+      <div className='flex justify-start mt-4'>
+        <button
+          className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <ChevronUp className='size-6' />
         </button>
       </div>
     </div>

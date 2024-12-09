@@ -1,7 +1,6 @@
 'use client';
 
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
-import SimpleButton from '@/app/components/ui/SimpleButton';
 import { db } from '@/app/firebase/firebase';
 import { fetchSavedPostcards } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
@@ -10,7 +9,6 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import './styles.css';
 
 interface Postcard {
   id: string;
@@ -104,35 +102,36 @@ export default function SavedPostcards() {
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4 text-white'>My Saved Postcards</h1>
-      <div className='grid gap-2 md:gap-4 grid-cols-1 md:grid-cols-2'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-10'>
         {postcards.map((postcard) => (
-          <div
-            key={postcard.id}
-            className='rounded-md border border-white/10 overflow-hidden shadow-lg flex flex-col p-2'
-          >
-            <div className=' w-full h-[200px] md:h-[300px] relative  -mt-10'>
+          <div key={postcard.id} className='flex flex-col'>
+            {/* Image Section */}
+            <div className='relative w-full h-48'>
               <Image
                 id={`postcard-${postcard.id}`}
                 src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
-                className='object-contain p-4'
-                sizes='(max-width: 768px) 100vw, 250px'
+                sizes='100%'
+                className='object-contain'
               />
             </div>
-            <div className='p-4 flex justify-between items-center gap-2'>
-              <SimpleButton
-                text='Share on Facebook'
-                backgroundColor='border border-[#4B0082] hover:bg-[#4B0082]/20'
-                className='flex-1 text-sm md:text-base'
-                onClick={() => handleShare(postcard.id)}
-              />
-              <SimpleButton
-                text='Delete Postcard'
-                backgroundColor='border border-white/20 hover:bg-[#4B0082]/20'
-                className='flex-1 text-sm md:text-base'
-                onClick={() => removePost(postcard.id)}
-              />
+
+            <div className='p-4 flex flex-col gap-3'>
+              <div className='flex gap-2'>
+                <button
+                  onClick={() => handleShare(postcard.id)}
+                  className='flex-1 bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition duration-300'
+                >
+                  Share on Facebook
+                </button>
+                <button
+                  onClick={() => removePost(postcard.id)}
+                  className='flex-1 border-2 border-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:bg-[#4B0082]/30 transition duration-300'
+                >
+                  Delete Postcard
+                </button>
+              </div>
             </div>
           </div>
         ))}
