@@ -6,6 +6,7 @@ import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { ChevronDown } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import './styles.css';
@@ -90,15 +91,15 @@ export default function PostcardCreator() {
 
   return (
     <div className='p-1 md:p-4 text-white h-full'>
-      <h1 className='text-lg md:text-xl font-base font-bold mb-4'>
+      <h1 className='text-base font-normal my-10'>
         Choose your favorite photo, pick a template, and add <br /> a message to
         create your unique postcard.
       </h1>
 
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
-          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[250px] overflow-y-scroll bg-black/30 rounded-md border border-white/10 p-4'>
+          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[350px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
             {entries.map((entry) => (
               <div
                 key={entry.id}
@@ -120,10 +121,22 @@ export default function PostcardCreator() {
               </div>
             ))}
           </div>
+          <div className='flex justify-start mt-4'>
+            <button
+              className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+              onClick={() =>
+                document
+                  .getElementById('template-section')
+                  ?.scrollIntoView({ behavior: 'smooth' })
+              }
+            >
+              <ChevronDown className='size-6' />
+            </button>
+          </div>
         </div>
 
         {/* Template Selector */}
-        <div className='py-4'>
+        <div id='template-section' className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
           <div className='grid grid-cols-3 gap-4 w-full md:w-[50%]'>
             {postcardTemplates.map((template) => (
@@ -133,7 +146,7 @@ export default function PostcardCreator() {
                 className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
                     ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
-                    : 'border border-white/20 hover:bg-[#4B0082]/20'
+                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
                 }`}
               >
                 <p>{template.name}</p>
@@ -157,10 +170,11 @@ export default function PostcardCreator() {
           {' '}
           <>
             <Image
-              src={selectedImage || '/placeholder-img.jpg'}
+              src={selectedImage || '/default-img.jpg'}
               alt='Selected'
               width={100}
               height={100}
+              priority={true}
               className='w-full h-48 object-cover rounded-md'
             />
 
@@ -182,7 +196,7 @@ export default function PostcardCreator() {
           backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
         <button
-          className='border border-white/20 hover:bg-[#4B0082]/20 px-4 py-2 rounded-md'
+          className='border-2 border-[#4B0082] hover:bg-[#4B0082]/30 px-4 py-2 rounded-md'
           onClick={resetFields}
         >
           Cancel
