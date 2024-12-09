@@ -90,9 +90,9 @@ export default function PostcardCreator() {
 
   return (
     <div className='p-1 md:p-4 text-white h-full'>
-      <h1 className='text-lg md:text-2xl font-bold mb-4'>
-        Choose your favorite photo, pick a template, and add a message to create
-        your unique postcard.
+      <h1 className='text-lg md:text-xl font-base font-bold mb-4'>
+        Choose your favorite photo, pick a template, and add <br /> a message to
+        create your unique postcard.
       </h1>
 
       <div className='flex flex-col gap-4'>
@@ -132,8 +132,8 @@ export default function PostcardCreator() {
                 onClick={() => updateField('selectedTemplate', template.id)}
                 className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
-                    ? 'ring-4 ring-[#4B0082]'
-                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+                    ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
+                    : 'border border-white/20 hover:bg-[#4B0082]/20'
                 }`}
               >
                 <p>{template.name}</p>
@@ -150,7 +150,7 @@ export default function PostcardCreator() {
         <div
           ref={postcardRef}
           id='postcard-preview'
-          className={`w-full flex justify-center items-center max-w-md my-8 p-4 bg-white rounded-md shadow-lg relative ${
+          className={`w-full flex justify-center items-center max-w-md mb-16 p-4 bg-white rounded-md shadow-lg relative ${
             postcardTemplates.find((t) => t.id === selectedTemplate)?.className
           }`}
         >
@@ -175,14 +175,14 @@ export default function PostcardCreator() {
         </div>
       </div>
 
-      <div className='mt-6 flex gap-4'>
+      <div className='my-6 flex gap-4'>
         <SimpleButton
           text='Save Postcard'
           onClick={handleSavePostcard}
           backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
         <button
-          className='border-4 border-[#4B0082] hover:bg-[#4B0082]/20 px-4 py-2 rounded-md'
+          className='border border-white/20 hover:bg-[#4B0082]/20 px-4 py-2 rounded-md'
           onClick={resetFields}
         >
           Cancel
