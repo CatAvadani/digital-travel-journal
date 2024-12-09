@@ -58,7 +58,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onEdit(entry);
             }}
-            className='px-4 py-2 text-[#b997ec] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+            className='px-4 py-2 text-[#d8b0f5] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <SquarePen className='size-4 sm:size-6' />
           </button>

@@ -6,7 +6,7 @@ import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown } from 'react-feather';
+import { ChevronDown, ChevronUp } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import './styles.css';
@@ -91,7 +91,7 @@ export default function PostcardCreator() {
 
   return (
     <div className='p-1 md:p-4 text-white h-full'>
-      <h1 className='text-base font-normal my-10'>
+      <h1 className='text-base sm:text-lg font-semibold my-10'>
         Choose your favorite photo, pick a template, and add <br /> a message to
         create your unique postcard.
       </h1>
@@ -105,7 +105,9 @@ export default function PostcardCreator() {
                 key={entry.id}
                 onClick={() => updateField('selectedImage', entry.image)}
                 className={`relative w-full h-[100px] cursor-pointer ${
-                  selectedImage === entry.image ? 'ring-4 ring-[#4B0082]' : ''
+                  selectedImage === entry.image
+                    ? 'ring-4 rounded-md ring-[#b759fb]'
+                    : ''
                 }`}
               >
                 <Image
@@ -200,6 +202,14 @@ export default function PostcardCreator() {
           onClick={resetFields}
         >
           Cancel
+        </button>
+      </div>
+      <div className='flex justify-start mt-4'>
+        <button
+          className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <ChevronUp className='size-6' />
         </button>
       </div>
     </div>
