@@ -140,7 +140,7 @@ export default function PostcardCreator() {
         {/* Template Selector */}
         <div id='template-section' className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
-          <div className='grid grid-cols-3 gap-4 w-full md:w-[50%]'>
+          <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
             {postcardTemplates.map((template) => (
               <div
                 key={template.id}
@@ -148,10 +148,10 @@ export default function PostcardCreator() {
                 className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
                     ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
-                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+                    : 'border-2 border-[#4B0082] hover:bg-[#4B0082]/30 '
                 }`}
               >
-                <p>{template.name}</p>
+                <p className=' text-center'>{template.name}</p>
               </div>
             ))}
           </div>
