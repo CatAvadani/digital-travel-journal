@@ -108,9 +108,9 @@ export default function SavedPostcards() {
         {postcards.map((postcard) => (
           <div
             key={postcard.id}
-            className='rounded-md border border-white/10 bg-black/30 overflow-hidden shadow-lg flex flex-col p-2'
+            className='rounded-md border border-white/10 overflow-hidden shadow-lg flex flex-col p-2'
           >
-            <div className=' w-full h-[200px] md:h-[300px] relative md:mb-4 -mt-10'>
+            <div className=' w-full h-[200px] md:h-[300px] relative  -mt-10'>
               <Image
                 id={`postcard-${postcard.id}`}
                 src={postcard.image || '/globe-img.jpeg'}
@@ -123,13 +123,13 @@ export default function SavedPostcards() {
             <div className='p-4 flex justify-between items-center gap-2'>
               <SimpleButton
                 text='Share on Facebook'
-                backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+                backgroundColor='border border-[#4B0082] hover:bg-[#4B0082]/20'
                 className='flex-1 text-sm md:text-base'
                 onClick={() => handleShare(postcard.id)}
               />
               <SimpleButton
                 text='Delete Postcard'
-                backgroundColor='border-4 border-[#4B0082] hover:bg-[#4B0082]/20'
+                backgroundColor='border border-white/20 hover:bg-[#4B0082]/20'
                 className='flex-1 text-sm md:text-base'
                 onClick={() => removePost(postcard.id)}
               />
