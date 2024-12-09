@@ -168,32 +168,27 @@ export default function PostcardCreator() {
         <div
           ref={postcardRef}
           id='postcard-preview'
-          className={`w-full flex justify-center items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
+          className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
             styles[
               postcardTemplates.find((t) => t.id === selectedTemplate)
                 ?.className || ''
             ]
           }`}
         >
-          {' '}
-          <>
-            <Image
-              src={selectedImage || '/default-img.jpg'}
-              alt='Selected'
-              width={100}
-              height={100}
-              priority={true}
-              className='w-full h-48 object-cover rounded-md'
-            />
-
-            <textarea
-              value={message}
-              rows={2}
-              onChange={(e) => updateField('message', e.target.value)}
-              placeholder='Write your message here...'
-              className='absolute bottom-6 bg-black/30 backdrop-blur-lg text-white p-2 rounded-md w-[90%] resize-none border-none outline-none placeholder:text-white/80 text-base'
-            />
-          </>
+          <Image
+            src={selectedImage || '/default-img.jpg'}
+            alt='Selected'
+            className={`postcard-image ${styles['postcard-image']}`}
+            width={300}
+            height={200}
+          />
+          <textarea
+            value={message}
+            rows={3}
+            onChange={(e) => updateField('message', e.target.value)}
+            placeholder='Write your message here...'
+            className={`postcard-text text-white/80 ${styles['postcard-text']}`}
+          />
         </div>
       </div>
 
