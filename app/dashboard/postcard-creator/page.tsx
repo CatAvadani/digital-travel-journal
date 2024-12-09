@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
-import './styles.css';
+import styles from './postcard.module.scss';
 
 interface PostcardData {
   selectedImage: string | null;
@@ -168,8 +168,11 @@ export default function PostcardCreator() {
         <div
           ref={postcardRef}
           id='postcard-preview'
-          className={`w-full flex justify-center items-center max-w-md mb-16 p-4 bg-white rounded-md shadow-lg relative ${
-            postcardTemplates.find((t) => t.id === selectedTemplate)?.className
+          className={`w-full flex justify-center items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
+            styles[
+              postcardTemplates.find((t) => t.id === selectedTemplate)
+                ?.className || ''
+            ]
           }`}
         >
           {' '}

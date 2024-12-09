@@ -9,7 +9,6 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import './styles.css';
 
 interface Postcard {
   id: string;
