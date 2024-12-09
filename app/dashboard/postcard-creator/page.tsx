@@ -110,8 +110,8 @@ export default function PostcardCreator() {
                 <Image
                   src={entry.image}
                   alt={entry.title}
-                  width={100}
-                  height={100}
+                  fill
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                   className='rounded-md shadow-md h-full w-full object-cover'
                 />
                 <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
@@ -125,7 +125,7 @@ export default function PostcardCreator() {
         {/* Template Selector */}
         <div className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
-          <div className='grid grid-cols-3 gap-2 w-full md:w-[50%]'>
+          <div className='grid grid-cols-3 gap-4 w-full md:w-[50%]'>
             {postcardTemplates.map((template) => (
               <div
                 key={template.id}
@@ -133,7 +133,7 @@ export default function PostcardCreator() {
                 className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
                   selectedTemplate === template.id
                     ? 'ring-4 ring-[#4B0082]'
-                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
+                    : 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
                 }`}
               >
                 <p>{template.name}</p>
@@ -169,7 +169,7 @@ export default function PostcardCreator() {
               rows={2}
               onChange={(e) => updateField('message', e.target.value)}
               placeholder='Write your message here...'
-              className='absolute bottom-6 left-8 bg-black/10 backdrop-blur-lg text-white p-2 rounded-md w-[70%] resize-none border-none outline-none placeholder:text-white/80 text-base'
+              className='absolute bottom-6 bg-black/30 backdrop-blur-lg text-white p-2 rounded-md w-[90%] resize-none border-none outline-none placeholder:text-white/80 text-base'
             />
           </>
         </div>
@@ -179,10 +179,10 @@ export default function PostcardCreator() {
         <SimpleButton
           text='Save Postcard'
           onClick={handleSavePostcard}
-          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
+          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
         <button
-          className='border-4 border-[#4B0082] px-4 py-2 rounded-md'
+          className='border-4 border-[#4B0082] hover:bg-[#4B0082]/20 px-4 py-2 rounded-md'
           onClick={resetFields}
         >
           Cancel
