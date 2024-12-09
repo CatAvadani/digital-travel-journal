@@ -105,10 +105,7 @@ export default function SavedPostcards() {
       <h1 className='text-xl font-bold mb-4 text-white'>My Saved Postcards</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-10'>
         {postcards.map((postcard) => (
-          <div
-            key={postcard.id}
-            className='bg-black/30 rounded-md overflow-hidden flex flex-col'
-          >
+          <div key={postcard.id} className='flex flex-col'>
             {/* Image Section */}
             <div className='relative w-full h-48'>
               <Image
@@ -116,6 +113,7 @@ export default function SavedPostcards() {
                 src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
+                sizes='100%'
                 className='object-contain'
               />
             </div>

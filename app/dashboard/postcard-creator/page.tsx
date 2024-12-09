@@ -23,7 +23,7 @@ export default function PostcardCreator() {
   const postcardRef = useRef<HTMLDivElement>(null);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
-    selectedImage: null,
+    selectedImage: '',
     selectedTemplate: 0,
     message: '',
   });
@@ -85,6 +85,9 @@ export default function PostcardCreator() {
     value: PostcardData[Key]
   ) => {
     setPostcardData((prev) => ({ ...prev, [field]: value }));
+    document
+      .getElementById('template-section')
+      ?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const { selectedImage, selectedTemplate, message } = postcardData;
