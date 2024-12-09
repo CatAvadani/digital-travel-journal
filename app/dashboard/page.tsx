@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Image as ImageIcon } from 'react-feather';
 
 export default function DashboardHome() {
   return (
@@ -7,15 +8,15 @@ export default function DashboardHome() {
       <p>Select an option from the sidebar to get started.</p>
       <div className='px-4 py-8 flex flex-col gap-2 bg-black/30 w-full  md:w-[50%] rounded-md shadow-lg text-white mt-11 border border-white/10'>
         <h2 className='text-lg font-bold mb-2'>Create a Postcard</h2>
-        <p className='text-sm mb-4'>
+        <p className='text-base mb-4 text-white/80'>
           Use your saved trip images to create beautiful postcards and share
           them with friends!
         </p>
         <Link
           href='/dashboard/postcard-creator'
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white text-sm md:text-lg px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition-all duration-300 ease-in-out'
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white text-sm md:text-lg px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition-all duration-300 ease-in-out flex items-start gap-2'
         >
-          Start Creating
+          <ImageIcon /> Start Creating
         </Link>
       </div>
     </div>
