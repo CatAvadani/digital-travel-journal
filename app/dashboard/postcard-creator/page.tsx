@@ -21,6 +21,7 @@ export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
   const postcardRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: '',
@@ -50,7 +51,7 @@ export default function PostcardCreator() {
       toast.error('You need to log in to save postcards.');
       return;
     }
-
+    setLoading(true);
     try {
       const dataUrl = await htmlToImage.toPng(postcardRef.current!);
 
@@ -73,6 +74,8 @@ export default function PostcardCreator() {
     } catch (error) {
       toast.error('Failed to save postcard. Please try again later.');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -164,7 +167,7 @@ export default function PostcardCreator() {
       {/* Postcard Preview */}
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
-        {!selectedImage && !selectedTemplate ? (
+        {!selectedImage || !selectedTemplate ? (
           <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed max-w-xl'>
             Select an image and template to see the preview here.
           </div>
@@ -199,7 +202,7 @@ export default function PostcardCreator() {
 
       <div className='my-6 flex gap-4'>
         <SimpleButton
-          text='Save Postcard'
+          text={loading ? 'Saving...' : 'Save Postcard'}
           onClick={handleSavePostcard}
           backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
         />
