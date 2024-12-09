@@ -191,7 +191,7 @@ export default function PostcardCreator() {
               rows={3}
               onChange={(e) => updateField('message', e.target.value)}
               placeholder='Write your message here...'
-              className={`postcard-text text-white/80 ${styles['postcard-text']}`}
+              className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
             />
           </div>
         )}

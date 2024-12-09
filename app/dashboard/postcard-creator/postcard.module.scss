@@ -1,7 +1,6 @@
 .template-classic {
   font-family: 'Times New Roman', serif;
   font-weight: bold;
-  font-size: 1.2rem;
   border-radius: 1rem;
   border: 5px solid rgb(255, 255, 255);
   background: #ffffff;
@@ -19,9 +18,9 @@
     left: 0;
     height: 100%;
     width: 50%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(240, 240, 240, 0.1);
     backdrop-filter: blur(5px);
-    color: #ffff;
+    color: rgb(51, 51, 51, 0.8);
     padding: 0.5rem;
     text-align: center;
     font-size: 2rem;
@@ -29,6 +28,13 @@
     padding-top: 5rem;
     border-right: #fff 10px solid;
     border-radius: 1rem 30rem 30rem 1rem;
+
+    &::placeholder {
+      color: rgba(80, 68, 68, 0.6);
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -41,7 +47,8 @@
 
   .postcard-image {
     width: 100%;
-    height: auto;
+    max-height: 300px;
+
     clip-path: polygon(10% 0, 100% 10%, 90% 100%, 0% 90%);
     margin-bottom: 1rem;
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
@@ -59,26 +66,37 @@
 }
 .template-elegant {
   font-family: 'Georgia', serif;
-  background: linear-gradient(to top, #ffffff, #f5f9f9);
-  padding: 2rem;
-  border: 0.2rem solid #ddd;
+  background: #f1dff7;
+  border: 1.3rem solid #f1dff7;
   color: #333;
   text-align: center;
 
   .postcard-image {
-    width: 80%;
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 1rem;
+    width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   }
 
   .postcard-text {
-    background: rgba(240, 240, 240, 0.8);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    backdrop-filter: blur(5px);
+    text-align: center;
+    font-size: 2rem;
+    background: rgba(240, 240, 240, 0.4);
     padding: 1rem;
-    border-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     color: #333;
     font-style: italic;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    &::placeholder {
+      color: rgba(80, 68, 68, 0.6);
+    }
   }
 }
