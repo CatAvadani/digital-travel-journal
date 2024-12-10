@@ -3,7 +3,7 @@
 import SimpleButton from '@/app/components/ui/SimpleButton';
 import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
-import * as htmlToImage from 'html-to-image';
+import html2canvas from 'html2canvas';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -51,9 +51,16 @@ export default function PostcardCreator() {
       toast.error('You need to log in to save postcards.');
       return;
     }
+
     setLoading(true);
     try {
-      const dataUrl = await htmlToImage.toPng(postcardRef.current!);
+      const canvas = await html2canvas(postcardRef.current!, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: 'white',
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
 
       const uploadedUrl = await uploadToFirebase(dataUrl);
 
@@ -143,7 +150,6 @@ export default function PostcardCreator() {
           </div>
         </div>
 
-        {/* Template Selector */}
         <div id='template-section' className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
           <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
