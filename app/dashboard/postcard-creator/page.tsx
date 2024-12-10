@@ -3,7 +3,7 @@
 import SimpleButton from '@/app/components/ui/SimpleButton';
 import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
@@ -57,31 +57,39 @@ export default function PostcardCreator() {
       const element = postcardRef.current;
       if (!element) return;
 
-      // Compute the actual dimensions
-      const styles = window.getComputedStyle(element);
-      const width = element.offsetWidth;
-      const height = element.offsetHeight;
+      // Wait for images to load
+      const images = element.getElementsByTagName('img');
+      await Promise.all(
+        Array.from(images).map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+        })
+      );
 
-      const canvas = await html2canvas(element, {
-        scale: 2, // Higher scale for better quality
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null, // This ensures transparency where needed
-        width: width,
-        height: height,
-        onclone: (clonedDoc) => {
-          // Get the cloned element
-          const clonedElement = clonedDoc.getElementById('postcard-preview');
-          if (clonedElement) {
-            // Apply computed styles to cloned element
-            clonedElement.style.transform = 'none';
-            clonedElement.style.width = `${width}px`;
-            clonedElement.style.height = `${height}px`;
-          }
-        },
+      // Add a delay to ensure everything is rendered
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const dataUrl = await htmlToImage.toPng(element, {
+        quality: 0.95, // Slightly reduce quality to decrease file size
+        pixelRatio: 1, // Reduce resolution to decrease file size
+        skipAutoScale: true,
+        cacheBust: true,
       });
 
-      const dataUrl = canvas.toDataURL('image/png', 1.0);
+      // Convert dataUrl to Blob with specific type
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], 'postcard.png', { type: 'image/png' });
+
+      // Check file size
+      if (file.size > 5 * 1024 * 1024) {
+        // If larger than 5MB
+        toast.error('Image is too large. Please try with a smaller image.');
+        return;
+      }
 
       const uploadedUrl = await uploadToFirebase(dataUrl);
 
@@ -210,6 +218,7 @@ export default function PostcardCreator() {
             }`}
           >
             <Image
+              key={selectedImage}
               src={selectedImage || '/default-img.jpg'}
               alt='Selected'
               className={`postcard-image ${styles['postcard-image']}`}

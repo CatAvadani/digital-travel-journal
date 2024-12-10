@@ -26,8 +26,6 @@ export const handleSharePostcard = async (
     // Wait for any animations/transitions to complete
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // Get computed styles
-    const styles = window.getComputedStyle(element);
     const width = element.offsetWidth;
     const height = element.offsetHeight;
 
