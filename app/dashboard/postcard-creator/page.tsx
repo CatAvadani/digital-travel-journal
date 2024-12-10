@@ -17,6 +17,12 @@ interface PostcardData {
   message: string;
 }
 
+export const postcardTemplates = [
+  { id: 1, name: 'Classic', className: 'template-classic' },
+  { id: 2, name: 'Modern', className: 'template-modern' },
+  { id: 3, name: 'Elegant', className: 'template-elegant' },
+];
+
 export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
@@ -28,12 +34,6 @@ export default function PostcardCreator() {
     selectedTemplate: 0,
     message: '',
   });
-
-  const postcardTemplates = [
-    { id: 1, name: 'Classic', className: 'template-classic' },
-    { id: 2, name: 'Modern', className: 'template-modern' },
-    { id: 3, name: 'Elegant', className: 'template-elegant' },
-  ];
 
   useEffect(() => {
     if (user) fetchEntries(user.uid);
@@ -54,13 +54,34 @@ export default function PostcardCreator() {
 
     setLoading(true);
     try {
-      const canvas = await html2canvas(postcardRef.current!, {
-        scale: 2,
+      const element = postcardRef.current;
+      if (!element) return;
+
+      // Compute the actual dimensions
+      const styles = window.getComputedStyle(element);
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+
+      const canvas = await html2canvas(element, {
+        scale: 2, // Higher scale for better quality
         useCORS: true,
-        backgroundColor: 'white',
+        allowTaint: true,
+        backgroundColor: null, // This ensures transparency where needed
+        width: width,
+        height: height,
+        onclone: (clonedDoc) => {
+          // Get the cloned element
+          const clonedElement = clonedDoc.getElementById('postcard-preview');
+          if (clonedElement) {
+            // Apply computed styles to cloned element
+            clonedElement.style.transform = 'none';
+            clonedElement.style.width = `${width}px`;
+            clonedElement.style.height = `${height}px`;
+          }
+        },
       });
 
-      const dataUrl = canvas.toDataURL('image/png');
+      const dataUrl = canvas.toDataURL('image/png', 1.0);
 
       const uploadedUrl = await uploadToFirebase(dataUrl);
 
@@ -79,8 +100,8 @@ export default function PostcardCreator() {
       toast.success('Postcard saved successfully!');
       resetFields();
     } catch (error) {
+      console.error('Error saving postcard:', error);
       toast.error('Failed to save postcard. Please try again later.');
-      console.error(error);
     } finally {
       setLoading(false);
     }

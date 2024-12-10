@@ -112,8 +112,8 @@ export default function SavedPostcards() {
                 src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
-                sizes='100%'
-                className='object-contain'
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                className='object-fit'
               />
             </div>
 
