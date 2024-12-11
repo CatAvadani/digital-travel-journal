@@ -80,8 +80,8 @@ export default function MyTrips() {
         />
       )}
       {entries.length === 0 ? (
-        <div className='text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold mt-10'>
-          No trips found. Add a trip to get started!
+        <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+          No trips added yet. Start by adding a new trip.
         </div>
       ) : (
         <>

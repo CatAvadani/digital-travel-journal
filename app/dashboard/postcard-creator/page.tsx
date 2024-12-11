@@ -136,30 +136,37 @@ export default function PostcardCreator() {
       <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
-          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[270px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
-            {entries.map((entry) => (
-              <div
-                key={entry.id}
-                onClick={() => updateField('selectedImage', entry.image)}
-                className={`relative w-full h-[100px] cursor-pointer ${
-                  selectedImage === entry.image
-                    ? 'ring-4 rounded-md ring-[#b759fb]'
-                    : ''
-                }`}
-              >
-                <Image
-                  src={entry.image}
-                  alt={entry.title}
-                  fill
-                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                  className='rounded-md shadow-md h-full w-full object-cover'
-                />
-                <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
-                  {entry.title}
+          {entries.length === 0 ? (
+            <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+              No images found. Add some trips to get started.
+            </div>
+          ) : (
+            <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[270px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
+              {entries.map((entry) => (
+                <div
+                  key={entry.id}
+                  onClick={() => updateField('selectedImage', entry.image)}
+                  className={`relative w-full h-[100px] cursor-pointer ${
+                    selectedImage === entry.image
+                      ? 'ring-4 rounded-md ring-[#b759fb]'
+                      : ''
+                  }`}
+                >
+                  <Image
+                    src={entry.image}
+                    alt={entry.title}
+                    fill
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    className='rounded-md shadow-md h-full w-full object-cover'
+                  />
+                  <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
+                    {entry.title}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+
           <div className='flex justify-start mt-4'>
             <button
               className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
