@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   ChevronLeft,
@@ -22,6 +22,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const params = useParams();
   const [isExpanded, setIsExpanded] = useState(false);
   const { user, loading } = useAuthStore();
   const router = useRouter();
@@ -64,7 +65,17 @@ export default function DashboardLayout({
   const breadcrumbs = [
     { name: 'Dashboard', href: '/dashboard' },
     ...(pathname.includes('/myTrips')
-      ? [{ name: 'My Trips', href: '/dashboard/myTrips' }]
+      ? [
+          { name: 'My Trips', href: '/dashboard/myTrips' },
+          ...(params.id
+            ? [
+                {
+                  name: `Trip Details`,
+                  href: undefined,
+                },
+              ]
+            : []),
+        ]
       : []),
     ...(pathname.includes('/dashboard/postcard-creator')
       ? [{ name: 'Postcard Creator', href: '/dashboard/postcard-creator' }]
