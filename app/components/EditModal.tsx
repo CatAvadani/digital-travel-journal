@@ -133,7 +133,7 @@ export default function EditModal({
       className='fixed inset-0 top-20
        flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
     >
-      <div className='bg-[#30193A] px-2 py-4 sm:px-10 sm:py-6 rounded-md shadow-md w-[90%] sm:w-[500px]'>
+      <div className='bg-[#2C1735] px-2 py-4 sm:px-10 sm:py-6 rounded-md shadow-md w-[90%] sm:w-[500px]'>
         <form
           onSubmit={handleSubmit}
           className='relative flex flex-col gap-2 sm:gap-4 w-full'
@@ -219,7 +219,7 @@ export default function EditModal({
               value={formData.description || ''}
               placeholder='Write your experience here...'
               onChange={handleChange}
-              className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
+              className='block w-full p-2 bg-[#110915]/50 text-white/80 rounded-md'
               rows={3}
               maxLength={500}
             />

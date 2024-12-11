@@ -46,8 +46,8 @@ export default function Login() {
   return (
     <div
       aria-label='Sign In or Sign Up Form'
-      className='bg-white bg-opacity-5 border border-white border-opacity-10 
-      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)] w-[90%] sm:w-auto'
+      className='bg-black/10 border border-white/10
+      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full w-[90%] sm:w-auto'
     >
       <div className='flex flex-col items-center justify-center gap-4'>
         <h2 className='text-2xl font-bold text-white'>
@@ -104,7 +104,7 @@ export default function Login() {
                   message: 'Invalid email address',
                 },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33] border border-white/10'
+              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
             />
             {errors.email && (
               <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -135,7 +135,7 @@ export default function Login() {
                   message: 'Password cannot contain spaces',
                 },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33] border border-white/10'
+              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
             />
             {errors.password && (
               <p className='text-red-500 text-sm'>{errors.password.message}</p>

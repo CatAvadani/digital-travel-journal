@@ -61,7 +61,7 @@ export default function Home() {
       {/* Play/Pause Button */}
       <button
         onClick={toggleVideoPlayback}
-        className='absolute bottom-8 right-4 sm:right-10 bg-[#110915] border border-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base p-4 rounded-full z-20 '
+        className='absolute bottom-8 right-4 sm:right-10 hover:scale-110 transition-all text-white text-sm md:text-base p-4 rounded-full z-20 '
         aria-label={isVideoPlaying ? 'Pause video icon' : 'Play video icon'}
       >
         {isVideoPlaying ? <Pause size={24} /> : <Play size={24} />}

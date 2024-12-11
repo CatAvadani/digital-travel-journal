@@ -58,7 +58,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onEdit(entry);
             }}
-            className='px-4 py-2 text-[#d8b0f5] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+            className='px-4 py-2 text-[#d8b0f5] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <SquarePen className='size-4 sm:size-6' />
           </button>
@@ -67,7 +67,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onDelete(entry.id);
             }}
-            className='px-4 py-2 text-[#ed859f] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+            className='px-4 py-2 text-[#ed859f] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <Trash2 className='size-4 sm:size-6' />
           </button>

@@ -162,7 +162,7 @@ export default function PostcardCreator() {
           </div>
           <div className='flex justify-start mt-4'>
             <button
-              className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+              className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
               onClick={() =>
                 document
                   .getElementById('template-section')
@@ -246,7 +246,7 @@ export default function PostcardCreator() {
       </div>
       <div className='flex justify-start mt-4'>
         <button
-          className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+          className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <ChevronUp className='size-6' />

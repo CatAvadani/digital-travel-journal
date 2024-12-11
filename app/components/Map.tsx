@@ -241,7 +241,7 @@ export default function Map() {
           Click on the map to select a new entry location
         </p>
         {isMapLoading && <LoadingSpinner />}
-        <div className='absolute top-2 left-3 lg:top-8 lg:left-8 flex flex-col gap-3 z-50'>
+        <div className='absolute top-2 left-3 lg:top-6 lg:left-5 flex flex-col gap-3 z-50'>
           <p className='hidden sm:block bg-white p-3 rounded-md shadow-md w-[480px]'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}

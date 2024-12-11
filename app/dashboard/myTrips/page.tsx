@@ -85,7 +85,7 @@ export default function MyTrips() {
         </div>
       ) : (
         <>
-          <div className='flex mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+          <div className='flex mb-4 text-base font-bold text-white bg-[#2C1735] p-2 rounded-md'>
             <div className='w-1/2 items-start'>
               <p>
                 Trips <span className='text-white/80'> ({entries.length})</span>

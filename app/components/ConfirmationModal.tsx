@@ -19,7 +19,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black/20  backdrop-blur-sm z-50'>
-      <div className='bg-[#30193A] py-4 sm:py-8 px-4 sm:px-6 rounded-md shadow-md flex flex-col justify-center items-center'>
+      <div className='bg-[#2C1735] py-4 sm:py-8 px-4 sm:px-6 rounded-md shadow-md flex flex-col justify-center items-center'>
         <AlertTriangle className=' text-[#E91E63] cursor-pointer size-8 sm:size-12' />
         <p className='text-white my-6 sm:my-10 text-center max-w-64 sm:max-w-full'>
           {message}
