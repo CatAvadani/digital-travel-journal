@@ -130,15 +130,16 @@ export default function EditModal({
       role='dialog'
       aria-label='Edit Entry Form'
       aria-hidden={!isOpen}
-      className='fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
+      className='fixed inset-0 top-20
+       flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
     >
-      <div className='bg-[#30193A] px-2 py-4 sm:p-10 rounded-md shadow-md w-[90%] sm:w-[500px]'>
+      <div className='bg-[#30193A] px-2 py-4 sm:px-10 sm:py-6 rounded-md shadow-md w-[90%] sm:w-[500px]'>
         <form
           onSubmit={handleSubmit}
           className='relative flex flex-col gap-4 w-full'
         >
           <h2 className='text-xl font-bold mb-2 sm:mb-4 text-white'>
-            Edit Entry
+            Edit Trip Details
           </h2>
           <button
             onClick={() => {
@@ -146,7 +147,7 @@ export default function EditModal({
               setFormData(entry || {});
               setErrors({});
             }}
-            className='absolute top-0 right-0 text-white/80 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
+            className='absolute top-0 right-0 text-white/80 hover:scale-110 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
           >
             <X size={24} />
           </button>

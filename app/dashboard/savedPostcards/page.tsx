@@ -8,6 +8,7 @@ import { handleSharePostcard } from '@/app/utils/handleSharePostcard';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { Facebook } from 'react-feather';
 import toast from 'react-hot-toast';
 
 interface Postcard {
@@ -123,7 +124,9 @@ export default function SavedPostcards() {
                   onClick={() => handleShare(postcard.id)}
                   className='flex-1 bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition duration-300'
                 >
-                  Share on Facebook
+                  <div className='flex justify-center items-center gap-2'>
+                    <Facebook className='h-5 w-5' /> Share
+                  </div>
                 </button>
                 <button
                   onClick={() => removePost(postcard.id)}

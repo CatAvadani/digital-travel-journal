@@ -96,7 +96,7 @@ export default function MyTrips() {
             </div>
           </div>
           {/* Scrollable List */}
-          <div className='max-h-[650px] overflow-y-auto rounded-md bg-black/30 '>
+          <div className='max-h-[650px] overflow-y-auto rounded-md bg-black/10 '>
             {entries.map((entry) => (
               <EntryCard
                 key={entry.id}

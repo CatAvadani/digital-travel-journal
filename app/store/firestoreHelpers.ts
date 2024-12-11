@@ -94,26 +94,17 @@ export const uploadToFirebase = async (
   const storageRef = ref(storage, `postcards/${Date.now()}.png`);
 
   try {
-    // Convert dataUrl to Blob
     const response = await fetch(dataUrl);
     const blob = await response.blob();
 
-    // Create a File from the Blob
     const file = new File([blob], 'postcard.png', { type: 'image/png' });
 
-    // Upload the file
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
 
     return url;
   } catch (error) {
     console.error('Failed to upload image:', error);
-
-    // Log more detailed error information
-    if (error instanceof Error) {
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
-    }
 
     return null;
   }

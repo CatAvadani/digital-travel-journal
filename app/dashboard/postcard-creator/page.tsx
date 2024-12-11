@@ -17,7 +17,7 @@ interface PostcardData {
   message: string;
 }
 
-export const postcardTemplates = [
+const postcardTemplates = [
   { id: 1, name: 'Classic', className: 'template-classic' },
   { id: 2, name: 'Modern', className: 'template-modern' },
   { id: 3, name: 'Elegant', className: 'template-elegant' },
@@ -57,7 +57,6 @@ export default function PostcardCreator() {
       const element = postcardRef.current;
       if (!element) return;
 
-      // Wait for images to load
       const images = element.getElementsByTagName('img');
       await Promise.all(
         Array.from(images).map((img) => {
@@ -69,24 +68,20 @@ export default function PostcardCreator() {
         })
       );
 
-      // Add a delay to ensure everything is rendered
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       const dataUrl = await htmlToImage.toPng(element, {
-        quality: 0.95, // Slightly reduce quality to decrease file size
-        pixelRatio: 1, // Reduce resolution to decrease file size
+        quality: 0.95,
+        pixelRatio: 1,
         skipAutoScale: true,
         cacheBust: true,
       });
 
-      // Convert dataUrl to Blob with specific type
       const res = await fetch(dataUrl);
       const blob = await res.blob();
       const file = new File([blob], 'postcard.png', { type: 'image/png' });
 
-      // Check file size
       if (file.size > 5 * 1024 * 1024) {
-        // If larger than 5MB
         toast.error('Image is too large. Please try with a smaller image.');
         return;
       }
@@ -203,7 +198,7 @@ export default function PostcardCreator() {
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
         {!selectedImage || !selectedTemplate ? (
-          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed max-w-xl'>
+          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
             Select an image and template to see the preview here.
           </div>
         ) : (

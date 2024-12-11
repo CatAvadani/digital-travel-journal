@@ -138,7 +138,7 @@ export default function AddNewEntryForm() {
 
   return (
     <div className='bg-transparent my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
-      <h2 className='text-xl font-bold'>Add New Entry</h2>
+      <h2 className='text-xl font-bold'>Add New Location</h2>
       <form
         onSubmit={handleSubmit}
         className='flex flex-col gap-4 mx-auto  text-white w-full'
@@ -231,7 +231,7 @@ export default function AddNewEntryForm() {
             'Saving...'
           ) : (
             <div className='flex justify-center items-center gap-2'>
-              <Plus size={20} /> Add Entry
+              <Plus size={20} /> Add Location
             </div>
           )}
         </button>
