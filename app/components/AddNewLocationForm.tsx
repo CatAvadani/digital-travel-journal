@@ -1,6 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { ArrowRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -237,17 +237,10 @@ export default function AddNewEntryForm() {
         </button>
       </form>
       <Link
-        href='/'
+        href='/dashboard'
         className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
       >
-        Home
-      </Link>
-      <Link
-        href='/dashboard'
-        className=' flex justify-center items-center gap-2 text-white  mt-4'
-      >
-        <p className=' font-semibold hover:underline'>Dashboard</p>
-        <ArrowRight size={20} className=' hover:translate-x-1 transition-all' />
+        Dashboard
       </Link>
     </div>
   );

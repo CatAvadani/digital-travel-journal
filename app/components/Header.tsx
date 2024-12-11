@@ -102,7 +102,7 @@ export default function Header() {
                 }}
                 className='w-full border border-black px-4 py-2 rounded-md text-white hover:bg-gray-800 transition-colors'
               >
-                Logout
+                Sign Out
               </button>
             ) : (
               <Link
@@ -110,7 +110,7 @@ export default function Header() {
                 className='w-full block text-center border border-black px-4 py-2 rounded-md text-white hover:bg-gray-800'
                 onClick={() => setIsMenuOpen(false)}
               >
-                Login
+                Sign In
               </Link>
             )}
           </div>
@@ -145,14 +145,14 @@ export default function Header() {
             onClick={logout}
             className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0'
           >
-            Logout
+            Sign Out
           </button>
         ) : (
           <Link
             href='/login'
             className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
           >
-            Login
+            Sign In
           </Link>
         )}
       </nav>

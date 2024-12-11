@@ -9,7 +9,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import { handleLocationSearch } from '../utils/handleLocationSearch';
 import truncateText from '../utils/truncateText';
-import AddNewEntryForm from './AddNewEntryForm';
+import AddNewEntryForm from './AddNewLocationForm';
 import SearchLocation from './SearchLocation';
 import LoadingSpinner from './ui/LoadingSpinner';
 
