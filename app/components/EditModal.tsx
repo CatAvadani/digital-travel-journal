@@ -136,9 +136,9 @@ export default function EditModal({
       <div className='bg-[#30193A] px-2 py-4 sm:px-10 sm:py-6 rounded-md shadow-md w-[90%] sm:w-[500px]'>
         <form
           onSubmit={handleSubmit}
-          className='relative flex flex-col gap-4 w-full'
+          className='relative flex flex-col gap-2 sm:gap-4 w-full'
         >
-          <h2 className='text-xl font-bold mb-2 sm:mb-4 text-white'>
+          <h2 className='text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-white'>
             Edit Trip Details
           </h2>
           <button
@@ -149,7 +149,7 @@ export default function EditModal({
             }}
             className='absolute top-0 right-0 text-white/80 hover:scale-110 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
           >
-            <X size={24} />
+            <X className='size-4 sm:size-6' />
           </button>
           <FormInput
             id='title'
@@ -220,7 +220,7 @@ export default function EditModal({
               placeholder='Write your experience here...'
               onChange={handleChange}
               className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
-              rows={4}
+              rows={3}
               maxLength={500}
             />
             {errors.description && (
