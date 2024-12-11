@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { Pause, Play } from 'react-feather';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -60,10 +61,10 @@ export default function Home() {
       {/* Play/Pause Button */}
       <button
         onClick={toggleVideoPlayback}
-        className='absolute bottom-8 right-4 sm:right-10 bg-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base px-4 py-2 rounded-full z-50 w-32 '
-        aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
+        className='absolute bottom-8 right-4 sm:right-10 bg-[#110915] border border-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base p-4 rounded-full z-20 '
+        aria-label={isVideoPlaying ? 'Pause video icon' : 'Play video icon'}
       >
-        {isVideoPlaying ? 'Pause Video' : 'Play Video'}
+        {isVideoPlaying ? <Pause size={24} /> : <Play size={24} />}
       </button>
     </div>
   );
