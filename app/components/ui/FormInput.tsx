@@ -19,6 +19,23 @@ export default function FormInput({
   disabled = false,
   maxLength,
 }: FormInputProps) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (type === 'text' && e.key === ' ') {
+      if (id !== 'description' && id !== 'title') {
+        e.preventDefault();
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    if (type === 'text' && id !== 'description' && id !== 'title') {
+      e.target.value = newValue.trim();
+    }
+    onChange(e);
+  };
+
   return (
     <>
       <label htmlFor={id} className='block text-base font-medium text-white'>
@@ -29,7 +46,8 @@ export default function FormInput({
         type={type}
         value={value}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         disabled={disabled}
         maxLength={maxLength}
         className='text-white block w-full p-2 h-12 rounded-md bg-white/10 '
