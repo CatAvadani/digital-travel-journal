@@ -35,9 +35,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <SimpleButton
             text='Confirm'
             onClick={onConfirm}
-            backgroundColor='bg-[#E91E63]'
+            backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] '
             textColor='text-white'
-            className='hover:bg-[#eb3473]'
+            className=' hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
           />
         </div>
       </div>

@@ -242,9 +242,9 @@ export default function EditModal({
             <SimpleButton
               type='submit'
               text={isUploading ? 'Saving...' : 'Save'}
-              backgroundColor='bg-[#E91E63]'
+              backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] '
               textColor='text-white'
-              className='hover:bg-[#eb3473] w-full'
+              className=' hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 w-full'
               disabled={isUploading}
             />
           </div>
