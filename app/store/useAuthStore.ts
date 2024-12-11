@@ -55,7 +55,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       await createUserDoc(userCredential.user);
 
       set({ user: userCredential.user, loading: false });
-      router.push('/mapView');
+      router.push('/dashboard');
     } catch (error) {
       if (error instanceof FirebaseError) {
         set({ error: error.code, loading: false });
@@ -75,7 +75,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       );
 
       set({ user: userCredential.user, loading: false });
-      router.push('/mapView');
+      router.push('/dashboard');
     } catch (error) {
       if (error instanceof FirebaseError) {
         set({ error: error.code, loading: false });

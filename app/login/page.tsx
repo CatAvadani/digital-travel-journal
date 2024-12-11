@@ -92,6 +92,11 @@ export default function Login() {
               id='email'
               placeholder='johndoe@mail.com'
               aria-invalid={!!errors.email}
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                }
+              }}
               {...register('email', {
                 required: 'Email is required',
                 pattern: {
@@ -99,7 +104,7 @@ export default function Login() {
                   message: 'Invalid email address',
                 },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
+              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33] border border-white/10'
             />
             {errors.email && (
               <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -114,26 +119,34 @@ export default function Login() {
               type='password'
               id='password'
               placeholder='Minimum 6 characters'
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                }
+              }}
               {...register('password', {
                 required: 'Password is required',
                 minLength: {
                   value: 6,
                   message: 'Password must be at least 6 characters long',
                 },
+                pattern: {
+                  value: /^\S*$/,
+                  message: 'Password cannot contain spaces',
+                },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
+              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33] border border-white/10'
             />
             {errors.password && (
               <p className='text-red-500 text-sm'>{errors.password.message}</p>
             )}
           </div>
-
           <button
             type='submit'
             disabled={!isValid || loading}
-            className={`w-full py-2 rounded ${
+            className={`w-full py-2 rounded font-bold ${
               !isValid || loading
-                ? 'bg-gradient-to-r from-[#D92F91]/40 to-[#800080]/40 hover:from-[#C71585]/40 hover:to-[#4B0082]/40 text-white/70 cursor-not-allowed'
+                ? 'bg-gradient-to-r from-[#f6a5c1]/30 to-[#4B0082]/30 text-white/50 cursor-not-allowed border border-white/10'
                 : 'bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] text-white'
             }`}
           >
