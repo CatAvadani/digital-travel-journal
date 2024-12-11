@@ -144,7 +144,7 @@ export default function Login() {
           <button
             type='submit'
             disabled={!isValid || loading}
-            className={`w-full py-2 rounded font-bold ${
+            className={`w-full py-2 rounded-md font-bold ${
               !isValid || loading
                 ? 'bg-gradient-to-r from-[#f6a5c1]/30 to-[#4B0082]/30 text-white/50 cursor-not-allowed border border-white/10'
                 : 'bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] text-white'
