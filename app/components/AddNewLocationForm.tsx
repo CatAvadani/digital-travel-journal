@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { db, storage } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
@@ -15,11 +15,12 @@ export default function AddNewEntryForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuthStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     id: '',
     title: '',
-    date: '',
+    date: new Date().toISOString().split('T')[0],
     city: '',
     country: '',
     image: null as File | null,
@@ -122,12 +123,16 @@ export default function AddNewEntryForm() {
       setFormData({
         id: '',
         title: '',
-        date: '',
+        date: new Date().toISOString().split('T')[0],
         city: '',
         country: '',
         image: null,
         description: '',
       });
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (error) {
       console.error('Error adding entry:', error);
       toast.error('An error occurred. Please try again later.');
@@ -198,6 +203,7 @@ export default function AddNewEntryForm() {
             type='file'
             onChange={handleImageChange}
             disabled={isLoading}
+            ref={fileInputRef}
           />
           {errors.image && <p className='text-red-500'>{errors.image}</p>}
         </div>

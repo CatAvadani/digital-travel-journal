@@ -7,6 +7,7 @@ interface FormInputProps {
   maxLength?: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  ref?: React.RefObject<HTMLInputElement>;
 }
 
 export default function FormInput({
@@ -18,6 +19,7 @@ export default function FormInput({
   onChange,
   disabled = false,
   maxLength,
+  ref,
 }: FormInputProps) {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (type === 'text' && e.key === ' ') {
@@ -50,6 +52,7 @@ export default function FormInput({
         onKeyDown={handleKeyDown}
         disabled={disabled}
         maxLength={maxLength}
+        ref={ref}
         className='text-white block w-full p-2 h-12 rounded-md bg-white/10 '
       />
     </>
