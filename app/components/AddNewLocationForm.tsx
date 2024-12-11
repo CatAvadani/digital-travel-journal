@@ -221,7 +221,7 @@ export default function AddNewEntryForm() {
             onChange={handleChange}
             disabled={isLoading}
             maxLength={500}
-            className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm '
+            className='block w-full p-2 text-white bg-white/10 border border-white/10 rounded-md shadow-sm '
             rows={4}
           />
           {errors.description && (

@@ -53,7 +53,7 @@ export default function FormInput({
         disabled={disabled}
         maxLength={maxLength}
         ref={ref}
-        className='text-white block w-full p-2 h-12 rounded-md bg-white/10 '
+        className='text-white block w-full p-2 h-12 rounded-md bg-white/10 border border-white/10 '
       />
     </>
   );

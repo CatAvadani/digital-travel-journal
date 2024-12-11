@@ -25,11 +25,10 @@ export default function Map() {
   const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
     useEntryStore();
   const [mapInitialized, setMapInitialized] = useState(false);
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
-  const [mapStyle, setMapStyle] = useState<string>(
-    'mapbox://styles/mapbox/streets-v11'
-  );
   const [isMapLoading, setIsMapLoading] = useState(true);
 
   const onSearchLocation = async (searchQuery: string) => {
@@ -54,7 +53,7 @@ export default function Map() {
           container: mapContainerRef.current,
           center: [longitude, latitude],
           zoom: INITIAL_ZOOM,
-          style: mapStyle,
+          style: 'mapbox://styles/mapbox/streets-v11',
         });
 
         mapRef.current.addControl(
@@ -163,7 +162,7 @@ export default function Map() {
         mapRef.current = null;
       }
     };
-  }, [mapStyle, setSelectedCoordinates]);
+  }, [setSelectedCoordinates]);
 
   const handlePopupClick = useCallback(
     (id: string) => {
@@ -248,34 +247,6 @@ export default function Map() {
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <div className=' flex gap-2 justify-start items-center'>
-            <select
-              id='mapStyle'
-              value={mapStyle}
-              onChange={(e) => {
-                const newStyle = e.target.value;
-                setMapStyle(newStyle);
-                mapRef.current?.setStyle(newStyle);
-                toast.success(
-                  `Switched to ${
-                    newStyle.includes('satellite') ? 'Satellite' : 'Standard'
-                  } Map`
-                );
-              }}
-              className='hidden sm:block bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md shadow-md focus:outline-none focus:ring focus:ring-purple-300 max-w-44'
-            >
-              <option
-                value='mapbox://styles/mapbox/streets-v11'
-                className='text-base'
-              >
-                Standard Map
-              </option>
-              <option
-                value='mapbox://styles/mapbox/satellite-v9'
-                className='text-base'
-              >
-                Satellite Map
-              </option>
-            </select>
             <SearchLocation onSearch={onSearchLocation} />
           </div>
         </div>
