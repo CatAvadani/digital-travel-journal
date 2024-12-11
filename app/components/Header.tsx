@@ -3,31 +3,82 @@ import { AlignRight, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Eye,
+  Grid,
+  Image as ImageIcon,
+  MapPin,
+  Settings,
+  TrendingUp,
+} from 'react-feather';
 import { useAuthStore } from '../store/useAuthStore';
-
-const links = [
-  { href: '/mapView', label: 'Map View' },
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/howToUse', label: 'How to Use' },
-];
 
 export default function Header() {
   const { user, logout } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const isMapViewPage = pathname === '/mapView';
+  const isHomePage = pathname === '/';
+
+  const desktopLinks = [
+    { href: '/mapView', label: 'Map View' },
+    { href: '/dashboard', label: 'Dashboard' },
+    { href: '/howToUse', label: 'How to Use' },
+  ];
+
+  const mainLinks = [
+    { href: '/mapView', label: 'Map View' },
+    { href: '/howToUse', label: 'How to Use' },
+  ];
+
+  const dashboardLinks = [
+    {
+      name: 'Dashboard',
+      href: '/dashboard',
+      icon: <Grid className='size-6' />,
+    },
+    { name: 'My Trips', href: '/dashboard/myTrips', icon: <MapPin /> },
+    {
+      name: 'Postcard Creator',
+      href: '/dashboard/postcard-creator',
+      icon: <ImageIcon />,
+    },
+    {
+      name: 'View Your Postcards',
+      href: '/dashboard/savedPostcards',
+      icon: <Eye />,
+    },
+    { name: 'Statistics', href: '/dashboard/statistics', icon: <TrendingUp /> },
+    { name: 'Settings', href: '/dashboard/settings', icon: <Settings /> },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isMapViewPage = pathname === '/mapView';
-  const isHomePage = pathname === '/';
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
+        isMenuOpen
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
 
   return (
     <header
@@ -50,77 +101,110 @@ export default function Header() {
           alt='logo'
         />
         {!isMapViewPage && !isHomePage && (
-          <span className=' tracking-wider  font-normal'>
+          <span className='hidden md:flex tracking-wider font-normal'>
             Digital Travel Journal
           </span>
         )}
       </Link>
 
-      {/* Mobile Menu Icon */}
-      <button className='lg:hidden'>
+      <button ref={buttonRef} className='lg:hidden z-50'>
         {isMenuOpen ? (
           <X
-            className='cursor-pointer'
+            className='cursor-pointer hover:scale-110 transition-all'
             size={28}
             onClick={() => setIsMenuOpen(false)}
           />
         ) : (
           <AlignRight
-            className='cursor-pointer'
+            className='cursor-pointer hover:scale-110 transition-all'
             size={28}
             onClick={() => setIsMenuOpen(true)}
           />
         )}
       </button>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <nav className='absolute top-16 right-4 bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter shadow-lg rounded-md w-64 p-5 z-50 lg:hidden'>
-          <ul className='space-y-4'>
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`block text-white p-2 rounded-md ${
-                    pathname.startsWith(link.href)
-                      ? 'bg-gray-400/10 font-bold text-white/80'
-                      : 'hover:bg-gray-400/10'
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className='mt-4'>
+      <div
+        ref={menuRef}
+        className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] backdrop-blur-lg transform transition-transform duration-300 ease-in-out lg:hidden ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        } z-40`}
+      >
+        <div className='h-full overflow-y-auto pt-24 pb-8 px-6'>
+          {/* Main Navigation */}
+          <div className='mb-8 pb-8 border-b border-white/20 '>
+            <ul className='space-y-4'>
+              {mainLinks.map((link) => (
+                <li key={link.href} className='w-full'>
+                  <Link
+                    href={link.href}
+                    className={`block p-2 rounded-md ${
+                      pathname.startsWith(link.href)
+                        ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] font-bold'
+                        : 'hover:bg-[#4B0082]/30'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Dashboard Navigation */}
+          {user && (
+            <div className='my-8'>
+              <ul className='space-y-4'>
+                {dashboardLinks.map((link) => (
+                  <li key={link.href} className='w-full'>
+                    <Link
+                      href={link.href}
+                      className={`flex items-center gap-3 p-2 rounded-md ${
+                        pathname === link.href
+                          ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] font-bold'
+                          : 'hover:bg-[#4B0082]/30'
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.icon}
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div
+            className='mt-16
+           px-2'
+          >
             {user ? (
               <button
                 onClick={() => {
                   logout();
                   setIsMenuOpen(false);
                 }}
-                className='w-full border border-black px-4 py-2 rounded-md text-white hover:bg-gray-800 transition-colors'
+                className='w-full border-2 border-[#4B0082] px-4 py-2 rounded-md hover:bg-[#4B0082]/30 transition-colors'
               >
-                Logout
+                Sign Out
               </button>
             ) : (
               <Link
                 href='/login'
-                className='w-full block text-center border border-black px-4 py-2 rounded-md text-white hover:bg-gray-800'
+                className='block w-full text-center border-2 border-[#4B0082] px-4 py-2 rounded-md hover:bg-[#4B0082]/30'
                 onClick={() => setIsMenuOpen(false)}
               >
-                Login
+                Sign In
               </Link>
             )}
           </div>
-        </nav>
-      )}
-
+        </div>
+      </div>
       {/* Desktop Menu */}
-      <nav className='hidden lg:flex items-center gap-8'>
+      <nav className='hidden lg:flex items-center gap-8 '>
         <ul className='flex items-center gap-6'>
-          {links.map((link) => (
+          {desktopLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -143,16 +227,16 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0'
+            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0 hover:scale-105 transition-all'
           >
-            Logout
+            Sign Out
           </button>
         ) : (
           <Link
             href='/login'
-            className='bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center'
+            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center hover:scale-105 transition-all'
           >
-            Login
+            Sign In
           </Link>
         )}
       </nav>

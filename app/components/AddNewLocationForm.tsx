@@ -1,8 +1,8 @@
 import { addDoc, collection } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { ArrowRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { db, storage } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
@@ -15,11 +15,12 @@ export default function AddNewEntryForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuthStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     id: '',
     title: '',
-    date: '',
+    date: new Date().toISOString().split('T')[0],
     city: '',
     country: '',
     image: null as File | null,
@@ -122,12 +123,16 @@ export default function AddNewEntryForm() {
       setFormData({
         id: '',
         title: '',
-        date: '',
+        date: new Date().toISOString().split('T')[0],
         city: '',
         country: '',
         image: null,
         description: '',
       });
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (error) {
       console.error('Error adding entry:', error);
       toast.error('An error occurred. Please try again later.');
@@ -138,7 +143,7 @@ export default function AddNewEntryForm() {
 
   return (
     <div className='bg-transparent my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
-      <h2 className='text-xl font-bold'>Add New Entry</h2>
+      <h2 className='text-xl font-bold'>Add New Location</h2>
       <form
         onSubmit={handleSubmit}
         className='flex flex-col gap-4 mx-auto  text-white w-full'
@@ -198,6 +203,7 @@ export default function AddNewEntryForm() {
             type='file'
             onChange={handleImageChange}
             disabled={isLoading}
+            ref={fileInputRef}
           />
           {errors.image && <p className='text-red-500'>{errors.image}</p>}
         </div>
@@ -215,7 +221,7 @@ export default function AddNewEntryForm() {
             onChange={handleChange}
             disabled={isLoading}
             maxLength={500}
-            className='block w-full p-2 text-white bg-white/10 rounded-md shadow-sm '
+            className='block w-full p-2 text-white bg-[#110915]/50 border border-white/10 rounded-md shadow-sm '
             rows={4}
           />
           {errors.description && (
@@ -231,23 +237,16 @@ export default function AddNewEntryForm() {
             'Saving...'
           ) : (
             <div className='flex justify-center items-center gap-2'>
-              <Plus size={20} /> Add Entry
+              <Plus size={20} /> Add Location
             </div>
           )}
         </button>
       </form>
       <Link
-        href='/'
+        href='/dashboard'
         className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
       >
-        Home
-      </Link>
-      <Link
-        href='/dashboard'
-        className=' flex justify-center items-center gap-2 text-white  mt-4'
-      >
-        <p className=' font-semibold hover:underline'>Dashboard</p>
-        <ArrowRight size={20} className=' hover:translate-x-1 transition-all' />
+        Dashboard
       </Link>
     </div>
   );

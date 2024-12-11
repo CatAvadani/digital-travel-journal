@@ -24,7 +24,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2 hover:bg-[#4B0082]/20 transition-all duration-300 ease-in-out rounded-md py-2 cursor-pointer'
+      className='flex sm:flex-row border-b border-white/10 justify-between items-center mb-2 hover:bg-[#4B0082]/10 transition-all duration-300 ease-in-out rounded-md py-2 cursor-pointer'
     >
       {/* Left: Trip Image and Description */}
       <div className='w-1/2 flex justify-start items-center gap-2 sm:gap-4'>
@@ -58,7 +58,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onEdit(entry);
             }}
-            className='px-4 py-2 text-[#d8b0f5] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+            className='px-4 py-2 text-[#d8b0f5] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <SquarePen className='size-4 sm:size-6' />
           </button>
@@ -67,7 +67,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onDelete(entry.id);
             }}
-            className='px-4 py-2 text-[#ed859f] rounded-md bg-white/10 backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
+            className='px-4 py-2 text-[#ed859f] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <Trash2 className='size-4 sm:size-6' />
           </button>

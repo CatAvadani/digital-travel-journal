@@ -17,6 +17,12 @@ interface PostcardData {
   message: string;
 }
 
+const postcardTemplates = [
+  { id: 1, name: 'Classic', className: 'template-classic' },
+  { id: 2, name: 'Modern', className: 'template-modern' },
+  { id: 3, name: 'Elegant', className: 'template-elegant' },
+];
+
 export default function PostcardCreator() {
   const { entries, fetchEntries } = useEntryStore();
   const { user } = useAuthStore();
@@ -28,12 +34,6 @@ export default function PostcardCreator() {
     selectedTemplate: 0,
     message: '',
   });
-
-  const postcardTemplates = [
-    { id: 1, name: 'Classic', className: 'template-classic' },
-    { id: 2, name: 'Modern', className: 'template-modern' },
-    { id: 3, name: 'Elegant', className: 'template-elegant' },
-  ];
 
   useEffect(() => {
     if (user) fetchEntries(user.uid);
@@ -51,9 +51,40 @@ export default function PostcardCreator() {
       toast.error('You need to log in to save postcards.');
       return;
     }
+
     setLoading(true);
     try {
-      const dataUrl = await htmlToImage.toPng(postcardRef.current!);
+      const element = postcardRef.current;
+      if (!element) return;
+
+      const images = element.getElementsByTagName('img');
+      await Promise.all(
+        Array.from(images).map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+        })
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const dataUrl = await htmlToImage.toPng(element, {
+        quality: 0.95,
+        pixelRatio: 1,
+        skipAutoScale: true,
+        cacheBust: true,
+      });
+
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], 'postcard.png', { type: 'image/png' });
+
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Image is too large. Please try with a smaller image.');
+        return;
+      }
 
       const uploadedUrl = await uploadToFirebase(dataUrl);
 
@@ -72,8 +103,8 @@ export default function PostcardCreator() {
       toast.success('Postcard saved successfully!');
       resetFields();
     } catch (error) {
+      console.error('Error saving postcard:', error);
       toast.error('Failed to save postcard. Please try again later.');
-      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -105,33 +136,40 @@ export default function PostcardCreator() {
       <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
           <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
-          <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[270px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
-            {entries.map((entry) => (
-              <div
-                key={entry.id}
-                onClick={() => updateField('selectedImage', entry.image)}
-                className={`relative w-full h-[100px] cursor-pointer ${
-                  selectedImage === entry.image
-                    ? 'ring-4 rounded-md ring-[#b759fb]'
-                    : ''
-                }`}
-              >
-                <Image
-                  src={entry.image}
-                  alt={entry.title}
-                  fill
-                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                  className='rounded-md shadow-md h-full w-full object-cover'
-                />
-                <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
-                  {entry.title}
+          {entries.length === 0 ? (
+            <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+              No images found. Add some trips to get started.
+            </div>
+          ) : (
+            <div className='grid gap-3 grid-cols-[repeat(auto-fill,minmax(100px,1fr))] max-h-[270px] overflow-y-scroll rounded-md bg-black/30 p-4 max-w-3xl'>
+              {entries.map((entry) => (
+                <div
+                  key={entry.id}
+                  onClick={() => updateField('selectedImage', entry.image)}
+                  className={`relative w-full h-[100px] cursor-pointer ${
+                    selectedImage === entry.image
+                      ? 'ring-4 rounded-md ring-[#b759fb]'
+                      : ''
+                  }`}
+                >
+                  <Image
+                    src={entry.image}
+                    alt={entry.title}
+                    fill
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    className='rounded-md shadow-md h-full w-full object-cover'
+                  />
+                  <div className='absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center p-4 text-sm font-semibold'>
+                    {entry.title}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+
           <div className='flex justify-start mt-4'>
             <button
-              className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+              className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
               onClick={() =>
                 document
                   .getElementById('template-section')
@@ -143,7 +181,6 @@ export default function PostcardCreator() {
           </div>
         </div>
 
-        {/* Template Selector */}
         <div id='template-section' className='py-4'>
           <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
           <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
@@ -168,7 +205,7 @@ export default function PostcardCreator() {
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
         {!selectedImage || !selectedTemplate ? (
-          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed max-w-xl'>
+          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
             Select an image and template to see the preview here.
           </div>
         ) : (
@@ -183,6 +220,7 @@ export default function PostcardCreator() {
             }`}
           >
             <Image
+              key={selectedImage}
               src={selectedImage || '/default-img.jpg'}
               alt='Selected'
               className={`postcard-image ${styles['postcard-image']}`}
@@ -215,7 +253,7 @@ export default function PostcardCreator() {
       </div>
       <div className='flex justify-start mt-4'>
         <button
-          className='p-2 text-white rounded-full bg-white/10 hover:scale-105 transition-all mt-4'
+          className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <ChevronUp className='size-6' />

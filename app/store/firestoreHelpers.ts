@@ -10,12 +10,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadString,
-} from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { db } from '../firebase/firebase';
 
 export const createUserDoc = async (user: User) => {
@@ -99,12 +94,18 @@ export const uploadToFirebase = async (
   const storageRef = ref(storage, `postcards/${Date.now()}.png`);
 
   try {
-    await uploadString(storageRef, dataUrl, 'data_url');
+    const response = await fetch(dataUrl);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'postcard.png', { type: 'image/png' });
+
+    await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
-    console.log('Uploaded Image URL:', url);
+
     return url;
   } catch (error) {
     console.error('Failed to upload image:', error);
+
     return null;
   }
 };

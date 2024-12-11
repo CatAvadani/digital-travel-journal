@@ -5,7 +5,7 @@ import {
   ref,
   uploadString,
 } from 'firebase/storage';
-import * as htmlToImage from 'html-to-image';
+import html2canvas from 'html2canvas';
 import toast from 'react-hot-toast';
 import { Postcard } from '../store/firestoreHelpers';
 
@@ -14,7 +14,7 @@ export const handleSharePostcard = async (
   user: User,
   updatePostcard: (id: string, data: Partial<Postcard>) => Promise<void>
 ) => {
-  // Target the entire postcard container (including image, template, and message)
+  // Get the postcard container
   const element = document.getElementById(`postcard-${postcardId}`);
 
   if (!element) {
@@ -23,25 +23,51 @@ export const handleSharePostcard = async (
   }
 
   try {
-    // Generate the image of the entire postcard
-    const dataUrl = await htmlToImage.toPng(element, {
-      backgroundColor: 'white', // Add a consistent background if needed
-      quality: 1,
-      pixelRatio: 2,
+    // Wait for any animations/transitions to complete
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const width = element.offsetWidth;
+    const height = element.offsetHeight;
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: null,
+      width: width,
+      height: height,
+      logging: true,
+      onclone: (clonedDoc) => {
+        const clonedElement = clonedDoc.getElementById(
+          `postcard-${postcardId}`
+        );
+        if (clonedElement) {
+          // Ensure all styles are properly applied to the clone
+          clonedElement.style.transform = 'none';
+          clonedElement.style.width = `${width}px`;
+          clonedElement.style.height = `${height}px`;
+          // Make sure the element is visible
+          clonedElement.style.opacity = '1';
+          clonedElement.style.visibility = 'visible';
+        }
+      },
     });
 
-    // Upload the generated image to Firebase Storage
+    const dataUrl = canvas.toDataURL('image/png', 1.0);
+
     const storage = getStorage();
-    const storageRef = ref(storage, `shared_postcards/${postcardId}.png`);
+    const storageRef = ref(
+      storage,
+      `shared_postcards/${postcardId}_${Date.now()}.png`
+    );
     await uploadString(storageRef, dataUrl, 'data_url');
 
-    // Get the shareable URL
     const shareableURL = await getDownloadURL(storageRef);
 
-    // Save the shareable URL in Firestore
+    // Update the specific postcard's shareable URL
     await updatePostcard(postcardId, { shareableURL });
 
-    // Open the Facebook share dialog
+    // Open Facebook share dialog with the new URL
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       shareableURL
     )}`;

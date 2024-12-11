@@ -28,6 +28,10 @@ body {
   background-attachment: fixed;
 }
 
+/* .overlay {
+  @apply bg-black/80 absolute top-0 left-0 z-50 w-full h-full;
+} */
+
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
 }

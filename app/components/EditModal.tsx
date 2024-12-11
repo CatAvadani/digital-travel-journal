@@ -130,15 +130,16 @@ export default function EditModal({
       role='dialog'
       aria-label='Edit Entry Form'
       aria-hidden={!isOpen}
-      className='fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
+      className='fixed inset-0 top-20
+       flex items-center justify-center bg-black/20 backdrop-blur-sm z-50'
     >
-      <div className='bg-[#30193A] px-2 py-4 sm:p-10 rounded-md shadow-md w-[90%] sm:w-[500px]'>
+      <div className='bg-[#2C1735] px-2 py-4 sm:px-10 sm:py-6 rounded-md shadow-md w-[90%] sm:w-[500px]'>
         <form
           onSubmit={handleSubmit}
-          className='relative flex flex-col gap-4 w-full'
+          className='relative flex flex-col gap-2 sm:gap-4 w-full'
         >
-          <h2 className='text-xl font-bold mb-2 sm:mb-4 text-white'>
-            Edit Entry
+          <h2 className='text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-white'>
+            Edit Trip Details
           </h2>
           <button
             onClick={() => {
@@ -146,9 +147,9 @@ export default function EditModal({
               setFormData(entry || {});
               setErrors({});
             }}
-            className='absolute top-0 right-0 text-white/80 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
+            className='absolute top-0 right-0 text-white/80 hover:scale-110 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
           >
-            <X size={24} />
+            <X className='size-4 sm:size-6' />
           </button>
           <FormInput
             id='title'
@@ -218,8 +219,8 @@ export default function EditModal({
               value={formData.description || ''}
               placeholder='Write your experience here...'
               onChange={handleChange}
-              className='block w-full p-2 bg-white/10 text-white/80 rounded-md'
-              rows={4}
+              className='block w-full p-2 bg-[#110915]/50 text-white/80 rounded-md'
+              rows={3}
               maxLength={500}
             />
             {errors.description && (
@@ -241,9 +242,9 @@ export default function EditModal({
             <SimpleButton
               type='submit'
               text={isUploading ? 'Saving...' : 'Save'}
-              backgroundColor='bg-[#E91E63]'
+              backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] '
               textColor='text-white'
-              className='hover:bg-[#eb3473] w-full'
+              className=' hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 w-full'
               disabled={isUploading}
             />
           </div>

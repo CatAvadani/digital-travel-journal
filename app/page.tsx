@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { Pause, Play } from 'react-feather';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -24,14 +25,6 @@ export default function Home() {
       <div className='absolute hidden sm:block z-50 top-1/2 -ml-[7%]  transform -translate-y-1/2 -rotate-90 text-white text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest opacity-80'>
         Digital Travel Journal
       </div>
-      {/* Fallback Image for Mobile */}
-      {/* <div className='absolute top-0 left-0 w-full h-full bg-cover bg-center sm:hidden'>
-        <img
-          src='/globe-img.jpeg'
-          alt='Globe Background'
-          className='w-full h-full object-cover'
-        />
-      </div> */}
       <video
         ref={videoRef}
         className='absolute top-0 left-0 w-full h-full object-cover '
@@ -68,10 +61,10 @@ export default function Home() {
       {/* Play/Pause Button */}
       <button
         onClick={toggleVideoPlayback}
-        className='absolute bottom-8 right-4 sm:right-10 bg-white/10 backdrop-blur-lg backdrop-filter text-white text-sm md:text-base px-4 py-2 rounded-full z-50 w-32 '
-        aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
+        className='absolute bottom-8 right-4 sm:right-10 hover:scale-110 transition-all text-white text-sm md:text-base p-4 rounded-full z-20 '
+        aria-label={isVideoPlaying ? 'Pause video icon' : 'Play video icon'}
       >
-        {isVideoPlaying ? 'Pause Video' : 'Play Video'}
+        {isVideoPlaying ? <Pause size={24} /> : <Play size={24} />}
       </button>
     </div>
   );

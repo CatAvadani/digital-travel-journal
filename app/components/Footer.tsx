@@ -8,7 +8,7 @@ interface FooterProps {
 export default function Footer({ positionClass = '' }: FooterProps) {
   return (
     <footer
-      className={`absolute flex justify-between gap-1 sm:gap-8 items-center text-white z-50 ${positionClass}`}
+      className={`absolute flex justify-between gap-1 sm:gap-8 items-center text-white z-40 ${positionClass}`}
     >
       <div className='w-8 ml-4 sm:ml-0 lg:w-32 h-[0.1px] border-b border-white'></div>
       <ul className='flex justify-center items-center gap-2 sm:gap-5 rounded-full'>

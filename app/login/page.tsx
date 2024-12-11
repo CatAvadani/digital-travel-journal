@@ -1,7 +1,6 @@
 'use client';
 
 import { FirebaseError } from 'firebase/app';
-import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,7 +12,7 @@ interface FormData {
 }
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
   const { signIn, signUp, error, loading } = useAuthStore();
   const router = useRouter();
 
@@ -27,7 +26,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
-      if (isLogin) {
+      if (isSignIn) {
         await signIn(email, password, router);
       } else {
         await signUp(email, password, router);
@@ -35,8 +34,8 @@ export default function Login() {
     } catch (err) {
       if (err instanceof FirebaseError) {
         console.error('Firebase Error:', err.message);
-        if (!isLogin && err.code === 'auth/email-already-in-use') {
-          setIsLogin(true);
+        if (!isSignIn && err.code === 'auth/email-already-in-use') {
+          setIsSignIn(true);
         }
       } else {
         console.error('Unexpected Error:', err);
@@ -46,18 +45,18 @@ export default function Login() {
 
   return (
     <div
-      aria-label='Login or Sign Up Form'
-      className='bg-white bg-opacity-5 border border-white border-opacity-10 
-      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full shadow-[0_0_15px_rgba(255,255,255,0.2)] w-[90%] sm:w-auto'
+      aria-label='Sign In or Sign Up Form'
+      className='bg-black/10 border border-white/10
+      backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full w-[90%] sm:w-auto'
     >
       <div className='flex flex-col items-center justify-center gap-4'>
         <h2 className='text-2xl font-bold text-white'>
-          {isLogin ? 'Sign In' : 'Sign Up'}
+          {isSignIn ? 'Sign In' : 'Sign Up'}
         </h2>
         <p className='text-white px-2 text-center'>
-          {isLogin
+          {isSignIn
             ? 'Welcome back! Please sign in to continue.'
-            : 'Create an account to start your travel journal.'}
+            : 'Sign up to start your travel journal.'}
         </p>
 
         <form
@@ -93,6 +92,11 @@ export default function Login() {
               id='email'
               placeholder='johndoe@mail.com'
               aria-invalid={!!errors.email}
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                }
+              }}
               {...register('email', {
                 required: 'Email is required',
                 pattern: {
@@ -100,7 +104,7 @@ export default function Login() {
                   message: 'Invalid email address',
                 },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
+              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
             />
             {errors.email && (
               <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -115,47 +119,52 @@ export default function Login() {
               type='password'
               id='password'
               placeholder='Minimum 6 characters'
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                }
+              }}
               {...register('password', {
                 required: 'Password is required',
                 minLength: {
                   value: 6,
                   message: 'Password must be at least 6 characters long',
                 },
+                pattern: {
+                  value: /^\S*$/,
+                  message: 'Password cannot contain spaces',
+                },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#BC93EA33]'
+              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
             />
             {errors.password && (
               <p className='text-red-500 text-sm'>{errors.password.message}</p>
             )}
           </div>
-
           <button
             type='submit'
             disabled={!isValid || loading}
-            className={`w-full py-2 rounded ${
+            className={`w-full py-2 rounded-md font-bold ${
               !isValid || loading
-                ? 'bg-gradient-to-r from-[#D92F91]/40 to-[#800080]/40 hover:from-[#C71585]/40 hover:to-[#4B0082]/40 text-white/70 cursor-not-allowed'
+                ? 'bg-gradient-to-r from-[#f6a5c1]/30 to-[#4B0082]/30 text-white/50 cursor-not-allowed border border-white/10'
                 : 'bg-gradient-to-r from-[#D92F91] to-[#800080] hover:from-[#C71585] hover:to-[#4B0082] text-white'
             }`}
           >
-            {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Sign Up'}
+            {loading ? 'Processing...' : isSignIn ? 'Sign In' : 'Sign Up'}
           </button>
 
           <p className='mt-4 text-center text-white'>
-            {isLogin ? "Don't have an account? " : 'Already have an account? '}
+            {isSignIn ? "Don't have an account? " : 'Already have an account? '}
             <button
               type='button'
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => setIsSignIn(!isSignIn)}
               aria-controls='login-form'
-              className='text-pink-500 hover:underline text-lg font-bold '
+              className='text-pink-500 hover:underline text-lg font-bold'
             >
-              {isLogin ? 'Sign Up' : 'Sign In'}
+              {isSignIn ? 'Sign Up' : 'Sign In'}
             </button>
           </p>
         </form>
-      </div>
-      <div className='absolute left-1/2 -bottom-2 -translate-x-1/2 translate-y-1/2 sm:right-6 sm:-bottom-6 sm:translate-y-0 sm:left-auto bg-white/10 backdrop-blur-sm rounded-md p-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]'>
-        <MapPin className='w-10 h-10 sm:w-16 sm:h-16 text-[#D92F91]' />
       </div>
     </div>
   );

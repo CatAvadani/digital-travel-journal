@@ -8,6 +8,7 @@ import { handleSharePostcard } from '@/app/utils/handleSharePostcard';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { Facebook } from 'react-feather';
 import toast from 'react-hot-toast';
 
 interface Postcard {
@@ -102,7 +103,7 @@ export default function SavedPostcards() {
   return (
     <div className='p-4'>
       <h1 className='text-xl font-bold mb-4 text-white'>My Saved Postcards</h1>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-10'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 sm:gap-y-20 gap-x-10'>
         {postcards.map((postcard) => (
           <div key={postcard.id} className='flex flex-col'>
             {/* Image Section */}
@@ -112,8 +113,8 @@ export default function SavedPostcards() {
                 src={postcard.image || '/globe-img.jpeg'}
                 alt='Postcard'
                 fill
-                sizes='100%'
-                className='object-contain'
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                className='object-fit'
               />
             </div>
 
@@ -123,7 +124,9 @@ export default function SavedPostcards() {
                   onClick={() => handleShare(postcard.id)}
                   className='flex-1 bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition duration-300'
                 >
-                  Share on Facebook
+                  <div className='flex justify-center items-center gap-2'>
+                    <Facebook className='h-5 w-5' /> Share
+                  </div>
                 </button>
                 <button
                   onClick={() => removePost(postcard.id)}

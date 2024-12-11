@@ -80,12 +80,12 @@ export default function MyTrips() {
         />
       )}
       {entries.length === 0 ? (
-        <div className='text-white flex justify-center items-center h-32 border border-dashed border-white/30 text-base sm:text-lg tracking-wide font-semibold'>
-          No trips found. Add a trip to get started!
+        <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+          No trips added yet. Start by adding a new trip.
         </div>
       ) : (
         <>
-          <div className='flex mb-4 text-base font-bold text-white bg-white/10 p-2 rounded-md'>
+          <div className='flex mb-4 text-base font-bold text-white bg-[#2C1735] p-2 rounded-md'>
             <div className='w-1/2 items-start'>
               <p>
                 Trips <span className='text-white/80'> ({entries.length})</span>
@@ -96,7 +96,7 @@ export default function MyTrips() {
             </div>
           </div>
           {/* Scrollable List */}
-          <div className='max-h-[650px] overflow-y-auto rounded-md bg-black/30 '>
+          <div className='max-h-[650px] overflow-y-auto rounded-md bg-black/10 '>
             {entries.map((entry) => (
               <EntryCard
                 key={entry.id}

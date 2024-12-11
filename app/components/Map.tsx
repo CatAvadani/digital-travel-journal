@@ -9,7 +9,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import { handleLocationSearch } from '../utils/handleLocationSearch';
 import truncateText from '../utils/truncateText';
-import AddNewEntryForm from './AddNewEntryForm';
+import AddNewEntryForm from './AddNewLocationForm';
 import SearchLocation from './SearchLocation';
 import LoadingSpinner from './ui/LoadingSpinner';
 
@@ -25,11 +25,10 @@ export default function Map() {
   const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
     useEntryStore();
   const [mapInitialized, setMapInitialized] = useState(false);
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
-  const [mapStyle, setMapStyle] = useState<string>(
-    'mapbox://styles/mapbox/streets-v11'
-  );
   const [isMapLoading, setIsMapLoading] = useState(true);
 
   const onSearchLocation = async (searchQuery: string) => {
@@ -54,7 +53,7 @@ export default function Map() {
           container: mapContainerRef.current,
           center: [longitude, latitude],
           zoom: INITIAL_ZOOM,
-          style: mapStyle,
+          style: 'mapbox://styles/mapbox/streets-v11',
         });
 
         mapRef.current.addControl(
@@ -163,7 +162,7 @@ export default function Map() {
         mapRef.current = null;
       }
     };
-  }, [mapStyle, setSelectedCoordinates]);
+  }, [setSelectedCoordinates]);
 
   const handlePopupClick = useCallback(
     (id: string) => {
@@ -242,40 +241,12 @@ export default function Map() {
           Click on the map to select a new entry location
         </p>
         {isMapLoading && <LoadingSpinner />}
-        <div className='absolute top-2 left-3 lg:top-8 lg:left-8 flex flex-col gap-3 z-50'>
+        <div className='absolute top-2 left-3 lg:top-6 lg:left-5 flex flex-col gap-3 z-50'>
           <p className='hidden sm:block bg-white p-3 rounded-md shadow-md w-[480px]'>
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
           <div className=' flex gap-2 justify-start items-center'>
-            <select
-              id='mapStyle'
-              value={mapStyle}
-              onChange={(e) => {
-                const newStyle = e.target.value;
-                setMapStyle(newStyle);
-                mapRef.current?.setStyle(newStyle);
-                toast.success(
-                  `Switched to ${
-                    newStyle.includes('satellite') ? 'Satellite' : 'Standard'
-                  } Map`
-                );
-              }}
-              className='hidden sm:block bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md shadow-md focus:outline-none focus:ring focus:ring-purple-300 max-w-44'
-            >
-              <option
-                value='mapbox://styles/mapbox/streets-v11'
-                className='text-base'
-              >
-                Standard Map
-              </option>
-              <option
-                value='mapbox://styles/mapbox/satellite-v9'
-                className='text-base'
-              >
-                Satellite Map
-              </option>
-            </select>
             <SearchLocation onSearch={onSearchLocation} />
           </div>
         </div>
