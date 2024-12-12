@@ -1,9 +1,12 @@
 'use client';
 
-import { fetchImages } from '@/app/api/apiImagesRequest';
+import { fetchImages, getCorrectCoordinates } from '@/app/api/apiImagesRequest';
+import { getWeatherData } from '@/app/api/apiOpenWeatherMap';
 import EntryMap from '@/app/components/EntryMap';
 import ImagesGrid from '@/app/components/ImagesGrid';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import { Entry } from '@/app/interfaces/entryData';
+import { WeatherData } from '@/app/interfaces/weatherData';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -11,7 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, MapPin } from 'react-feather';
-import useEntryStore, { Entry } from '../../../store/useEntryStore';
+import useEntryStore from '../../../store/useEntryStore';
 
 export default function EntryDetailsPage({
   params,
@@ -24,6 +27,7 @@ export default function EntryDetailsPage({
   const { user, loading } = useAuthStore();
   const navigate = useRouter();
   const [images, setImages] = useState<string[]>([]);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   useEffect(() => {
     const fetchImagesByLocation = async () => {
@@ -34,6 +38,23 @@ export default function EntryDetailsPage({
     };
 
     fetchImagesByLocation();
+  }, [entry]);
+
+  useEffect(() => {
+    const getWeatherByCoordinates = async () => {
+      if (entry && entry.coordinates) {
+        const [lat, lon] = getCorrectCoordinates(entry.coordinates);
+        try {
+          const data = await getWeatherData(lat, lon);
+          setWeatherData(data);
+        } catch (error) {
+          console.error('Error fetching weather data:', error);
+          setWeatherData(null);
+        }
+      }
+    };
+
+    getWeatherByCoordinates();
   }, [entry]);
 
   useEffect(() => {
@@ -126,7 +147,19 @@ export default function EntryDetailsPage({
             <MapPin className='text-[#E91E63]' /> {entry.city}, {entry.country}
           </p>
           <p className='mt-4'>{entry.description}</p>
-          <p className='mt-4 text-sm text-white/80'>Weather: Sunny, 22°C</p>
+          {weatherData ? (
+            <div className='mt-4 flex items-center justify-start gap-4 text-lg text-white/80'>
+              <p className=' font-bold'>Weather:</p>
+              <p className='capitalize'>{weatherData.weather[0].description}</p>
+              <p className='font-normal'>
+                {Math.floor(weatherData.main.temp)}°C
+              </p>
+            </div>
+          ) : (
+            <p className='mt-4 text-sm text-white/80'>
+              Weather data unavailable
+            </p>
+          )}
         </motion.div>
 
         {/* Right: Map */}

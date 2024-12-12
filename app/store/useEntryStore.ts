@@ -11,17 +11,7 @@ import {
 } from 'firebase/firestore';
 import { create } from 'zustand';
 import { db } from '../firebase/firebase';
-
-export interface Entry {
-  id: string;
-  title: string;
-  date: string;
-  city: string;
-  country: string;
-  coordinates: [number, number];
-  image: string;
-  description: string;
-}
+import { Entry } from '../interfaces/entryData';
 
 interface EntryStore {
   entries: Entry[];
