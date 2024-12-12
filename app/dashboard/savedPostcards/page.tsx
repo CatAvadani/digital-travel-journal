@@ -102,7 +102,9 @@ export default function SavedPostcards() {
 
   return (
     <div className='p-4'>
-      <h1 className='text-xl font-bold mb-4 text-white'>My Saved Postcards</h1>
+      <h1 className='text-xl font-bold mb-4 sm:mt-10 text-white'>
+        My Saved Postcards
+      </h1>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 sm:gap-y-20 gap-x-10'>
         {postcards.map((postcard) => (
           <div key={postcard.id} className='flex flex-col'>

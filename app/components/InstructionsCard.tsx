@@ -17,7 +17,6 @@ export default function InstructionsCard({
       key={id}
       className='relative group w-full lg:w-[416px] sm:w-[330px] h-[300px] md:h-[350px] rounded-md shadow-lg overflow-hidden cursor-pointer'
     >
-      {/* Background Image */}
       <Image
         src={image}
         alt={title}
@@ -25,7 +24,6 @@ export default function InstructionsCard({
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         className='group-hover:scale-110 transition-transform duration-300 object-cover'
       />
-      {/* Overlay */}
       <div className='absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-white'>
         <h3 className='text-lg sm:text-xl md:text-2xl font-bold mb-2'>
           {title}

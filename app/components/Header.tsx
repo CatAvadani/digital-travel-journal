@@ -106,7 +106,7 @@ export default function Header() {
         className='flex justify-center items-center gap-6 text-base md:text-3xl font-bold text-white'
       >
         <Image
-          src='/Zantic.svg'
+          src='/app-logo.svg'
           className='object-cover size-10 sm:size-12 ml-2'
           width={40}
           height={40}
