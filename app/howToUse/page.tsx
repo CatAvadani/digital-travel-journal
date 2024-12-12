@@ -162,20 +162,12 @@ export default function HowToUse() {
           ))}
         </div>
 
-        <motion.div
-          whileHover={{
-            scale: 1.05,
-            transition: { duration: 0.2 },
-          }}
-          whileTap={{ scale: 0.95 }}
+        <Link
+          href='/login'
+          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center'
         >
-          <Link
-            href='/login'
-            className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center'
-          >
-            Sign Up Now <ArrowRight className='size-6 inline' />
-          </Link>
-        </motion.div>
+          Sign Up Now <ArrowRight className='size-6 inline' />
+        </Link>
       </motion.section>
 
       <Footer positionClass='left-1/2 -translate-x-1/2 bottom-10' />

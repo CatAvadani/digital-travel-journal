@@ -1,12 +1,10 @@
 export const instructionsData = [
   {
     id: 1,
-    title: 'Explore Trips on a Dynamic Map',
-    description:
-      'Easily navigate and relive your adventures with a detailed map view.',
-    image: '/map.png',
+    title: 'Create & Save Markers',
+    description: 'Mark and revisit your favorite travel spots anytime.',
+    image: '/map-1.png',
   },
-
   {
     id: 2,
     title: 'Detailed Journal Entries',
@@ -16,8 +14,8 @@ export const instructionsData = [
   },
   {
     id: 3,
-    title: 'Create & Save Markers',
-    description: 'Mark and revisit your favorite travel spots anytime.',
-    image: '/markers-img.png',
+    title: 'Create Custom Postcards',
+    description: 'Turn your photos into shareable digital postcards',
+    image: '/postcards.png',
   },
 ];
