@@ -96,10 +96,11 @@ export default function Header() {
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
         isScrolled && !isMenuOpen
           ? 'bg-black/30 backdrop-blur-lg backdrop-filter'
+          : isMenuOpen
+          ? 'bg-transparent'
           : 'bg-transparent'
       }`}
     >
-      {/* Logo */}
       <Link
         href='/'
         className='flex justify-center items-center gap-6 text-base md:text-3xl font-bold text-white'
@@ -118,25 +119,29 @@ export default function Header() {
         )}
       </Link>
 
-      <button ref={buttonRef} className='lg:hidden z-50'>
+      <button
+        ref={buttonRef}
+        className='lg:hidden z-50'
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+      >
         {isMenuOpen ? (
           <X
             className='cursor-pointer hover:scale-110 transition-all'
             size={28}
-            onClick={() => setIsMenuOpen(false)}
           />
         ) : (
           <AlignRight
             className='cursor-pointer hover:scale-110 transition-all'
             size={28}
-            onClick={() => setIsMenuOpen(true)}
           />
         )}
       </button>
 
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
-          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 transition-opacity duration-300 lg:hidden ${
+          isMenuOpen
+            ? 'opacity-100 bg-black/60 backdrop-blur-sm'
+            : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsMenuOpen(false)}
       />
@@ -169,9 +174,8 @@ export default function Header() {
             </ul>
           </div>
 
-          {/* Dashboard Navigation */}
           {user && (
-            <div className='my-8'>
+            <div className='my-4'>
               <ul className='space-y-4'>
                 {dashboardLinks.map((link) => (
                   <li key={link.href} className='w-full'>
@@ -217,8 +221,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Desktop Menu */}
-      <nav className='hidden lg:flex items-center gap-8 '>
+      <nav className='hidden lg:flex items-center gap-8'>
         <ul className='flex items-center gap-6'>
           {desktopLinks.map((link) => (
             <li key={link.href}>
