@@ -100,16 +100,10 @@ export default function HowToUse() {
         viewport={{ once: true }}
         className='flex justify-center items-center gap-10 py-10 sm:py-16'
       >
-        <motion.div
-          whileHover={{
-            scale: 1.05,
-            transition: { duration: 0.2 },
-          }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <motion.div>
           <Link
             href='/mapView'
-            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#eb3473] hover:to-[#800080] px-4 sm:px-16 py-2 sm:py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 px-4 sm:px-16 py-2 sm:py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
           >
             Get Started
           </Link>
