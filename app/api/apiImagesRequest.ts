@@ -18,3 +18,11 @@ export const fetchImages = async (location: string): Promise<string[]> => {
     return [];
   }
 };
+
+// return the correct order of the coordinates
+export const getCorrectCoordinates = (
+  coordinates: [number, number]
+): [number, number] => {
+  const [lon, lat] = coordinates;
+  return [lat, lon];
+};

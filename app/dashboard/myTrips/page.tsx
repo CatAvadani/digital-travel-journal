@@ -1,4 +1,5 @@
 'use client';
+import { Entry } from '@/app/interfaces/entryData';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -6,7 +7,7 @@ import ConfirmationModal from '../../components/ConfirmationModal';
 import EditModal from '../../components/EditModal';
 import EntryCard from '../../components/EntryCard';
 import { useAuthStore } from '../../store/useAuthStore';
-import useEntryStore, { Entry } from '../../store/useEntryStore';
+import useEntryStore from '../../store/useEntryStore';
 
 export default function MyTrips() {
   const { user, loading } = useAuthStore();
