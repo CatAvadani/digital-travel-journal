@@ -1,23 +1,58 @@
+import { Image, MapPin } from 'lucide-react';
 import Link from 'next/link';
-import { Image as ImageIcon } from 'react-feather';
 
-export default function DashboardHome() {
+export default function Dashboard() {
   return (
-    <div>
-      <h1 className='text-2xl font-bold mb-4 '>Welcome to Your Dashboard</h1>
-      <p>Select an option from the sidebar to get started.</p>
-      <div className='px-4 py-8 flex flex-col gap-2 bg-black/30 w-full  md:w-[50%] rounded-md shadow-lg text-white mt-11 border border-white/10'>
-        <h2 className='text-lg font-bold mb-2'>Create a Postcard</h2>
-        <p className='text-base mb-4 text-white/80'>
-          Use your saved trip images to create beautiful postcards and share
-          them with friends!
+    <div className='min-h-screen bg-black/10 p-8'>
+      <div className='mb-12'>
+        <h1 className='text-3xl font-bold text-white mb-4'>
+          Welcome to Your Dashboard
+        </h1>
+        <p className='text-gray-400'>
+          Select an option from the sidebar to get started.
         </p>
-        <Link
-          href='/dashboard/postcard-creator'
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white text-sm md:text-lg px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition-all duration-300 ease-in-out flex items-start gap-2'
-        >
-          <ImageIcon /> Start Creating
-        </Link>
+      </div>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className='bg-black/20 backdrop-blur-lg rounded-md p-6 border border-white/5 hover:border-white/10 transition-all duration-300 group'>
+          <div className='flex items-start justify-between mb-4'>
+            <h2 className='text-xl font-semibold text-white'>
+              Add a New Location
+            </h2>
+            <MapPin className='text-pink-500 group-hover:scale-110 transition-transform duration-300' />
+          </div>
+          <p className='text-gray-400 mb-6'>
+            Add a new location to your saved trips and make your travel memories
+            last forever.
+          </p>
+          <Link
+            href='/mapView'
+            className='inline-flex items-center gap-2 px-6 py-3   rounded-md text-white font-medium  transition-all duration-300 bg-gradient-to-r from-[#E91E63] to-[#4B0082]  hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+          >
+            <MapPin className='w-5 h-5' />
+            Add Location
+          </Link>
+        </div>
+
+        <div className='bg-black/20 backdrop-blur-lg rounded-md p-6 border border-white/5 hover:border-white/10 transition-all duration-300 group'>
+          <div className='flex items-start justify-between mb-4'>
+            <h2 className='text-xl font-semibold text-white'>
+              Create a Postcard
+            </h2>
+            <Image className='text-pink-500 group-hover:scale-110 transition-transform duration-300' />
+          </div>
+          <p className='text-gray-400 mb-6'>
+            Use your saved trip images to create beautiful postcards and share
+            them with friends!
+          </p>
+          <Link
+            href='/dashboard/postcard-creator'
+            className='inline-flex items-center gap-2 px-6 py-3 rounded-md text-white font-medium  transition-all duration-300 bg-gradient-to-r from-[#E91E63] to-[#4B0082]  hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+          >
+            <Image className='w-5 h-5' />
+            Start Creating
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -35,6 +35,17 @@ export default function EditModal({
     }
   }, [entry]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const validateForm = () => {
     const result = PartialValidationEntrySchema.safeParse(formData);
 
@@ -147,7 +158,7 @@ export default function EditModal({
               setFormData(entry || {});
               setErrors({});
             }}
-            className='absolute top-0 right-0 text-white/80 hover:scale-110 hover:text-white bg-white/10 backdrop-blur-lg p-2 rounded-full'
+            className='absolute top-0 right-0 text-white/80 hover:scale-110 hover:text-white bg-[#110915]/50 border border-white/20 backdrop-blur-lg p-2 rounded-full'
           >
             <X className='size-4 sm:size-6' />
           </button>
