@@ -4,7 +4,6 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 import useEntryStore from '../store/useEntryStore';
 import { handleLocationSearch } from '../utils/handleLocationSearch';
@@ -14,6 +13,10 @@ import SearchLocation from './SearchLocation';
 import LoadingSpinner from './ui/LoadingSpinner';
 
 const INITIAL_ZOOM = 14;
+const DEFAULT_LOCATION = {
+  latitude: 57.7035,
+  longitude: 11.9669,
+};
 
 export default function Map() {
   const { user } = useAuthStore();
@@ -25,11 +28,10 @@ export default function Map() {
   const { entries, fetchEntries, setSelectedCoordinates, clearEntries } =
     useEntryStore();
   const [mapInitialized, setMapInitialized] = useState(false);
-
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [center, setCenter] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   const [isMapLoading, setIsMapLoading] = useState(true);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   const onSearchLocation = async (searchQuery: string) => {
     await handleLocationSearch(searchQuery, mapRef);
@@ -88,8 +90,6 @@ export default function Map() {
         // Handle map clicks to place draggable markers
         mapRef.current.on('click', (event) => {
           const target = event.originalEvent.target as HTMLElement;
-
-          // Check if clicking on an existing marker
           if (target.closest('.mapboxgl-marker')) return;
 
           const coordinates: [number, number] = [
@@ -100,12 +100,10 @@ export default function Map() {
             4
           )}`;
 
-          // Check if marker already exists at these coordinates
           if (markersRef.current.has(key)) return;
 
           setSelectedCoordinates(coordinates);
 
-          // Create a draggable marker
           const marker = new mapboxgl.Marker({
             color: '#4748FD',
             draggable: true,
@@ -113,19 +111,15 @@ export default function Map() {
             .setLngLat(coordinates)
             .addTo(mapRef.current!);
 
-          // Add click event listener to remove the marker
           marker.getElement().addEventListener('click', () => {
             marker.remove();
             markersRef.current.delete(key);
             setSelectedCoordinates(null);
           });
 
-          // Update marker coordinates when dragged
           marker.on('dragend', () => {
             const newCoordinates = marker.getLngLat();
             setSelectedCoordinates([newCoordinates.lng, newCoordinates.lat]);
-
-            // Update the marker's key in the Set
             const newKey = `${newCoordinates.lng.toFixed(
               4
             )},${newCoordinates.lat.toFixed(4)}`;
@@ -133,27 +127,32 @@ export default function Map() {
             markersRef.current.add(newKey);
           });
 
-          // Store the marker's coordinates in the Set
           markersRef.current.add(key);
         });
         setMapInitialized(true);
       }
     };
 
+    // Fallback to Gothenburg, Sweden if location services are disabled
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setCenter([longitude, latitude]);
+          setLocationError(null);
           initializeMap(latitude, longitude);
         },
-        (error) => {
-          console.error('Error retrieving user location:', error);
-          toast.error('Error retrieving user location');
+        () => {
+          setLocationError(
+            'Showing Gothenburg, City Center. Enable location services to see your current position.'
+          );
+          setCenter([DEFAULT_LOCATION.longitude, DEFAULT_LOCATION.latitude]);
+          initializeMap(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
         }
       );
     } else {
-      toast.error('Geolocation is not supported by this browser.');
+      setCenter([DEFAULT_LOCATION.longitude, DEFAULT_LOCATION.latitude]);
+      initializeMap(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
     }
 
     return () => {
@@ -171,13 +170,11 @@ export default function Map() {
     [router]
   );
 
-  // Update markers when `entries` change
+  // Update markers when entries change
   useEffect(() => {
     if (mapInitialized && mapRef.current) {
-      // Clear previous markers
       markersRef.current.clear();
 
-      // Add markers for entries
       entries.forEach((entry) => {
         const key = `${entry.coordinates[0].toFixed(
           4
@@ -185,7 +182,6 @@ export default function Map() {
         if (!markersRef.current.has(key)) {
           const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false });
 
-          // Create a container element for the popup
           const popupContainer = document.createElement('div');
           popupContainer.className =
             'rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out';
@@ -202,15 +198,12 @@ export default function Map() {
             <p class="mt-4"><b>Date:</b> ${entry.date}</p>
           `;
 
-          // Add a click event listener to the popup
           popupContainer.addEventListener('click', () => {
             handlePopupClick(entry.id);
           });
 
-          // Set the popup's content
           popup.setDOMContent(popupContainer);
 
-          // Add the marker with the popup
           new mapboxgl.Marker({ color: '#2222bb', draggable: false })
             .setLngLat(entry.coordinates)
             .setPopup(popup)
@@ -224,12 +217,15 @@ export default function Map() {
 
   return (
     <main className='grid grid-cols-1 lg:grid-cols-4 sm:h-[100vh] w-[100%] mt-8 lg:mt-0'>
-      {/* Map Section */}
       <section
         aria-label='Interactive map to view and add travel entries'
         className='relative col-span-1 lg:col-span-3 flex justify-center items-center'
       >
-        {' '}
+        {locationError && (
+          <div className='absolute top-2 right-3 lg:top-6 lg:right-5 z-50 bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-3 text-base rounded-md max-w-[300px]'>
+            {locationError}
+          </div>
+        )}
         <div
           ref={mapContainerRef}
           className='relative w-[98%] h-[60vh] lg:h-[96%] rounded-md'
@@ -246,7 +242,7 @@ export default function Map() {
             Longitude: {center ? center[0].toFixed(4) : 'N/A'} | Latitude:{' '}
             {center ? center[1].toFixed(4) : 'N/A'} | Zoom: {zoom.toFixed(2)}
           </p>
-          <div className=' flex gap-2 justify-start items-center'>
+          <div className='flex gap-2 justify-start items-center'>
             <SearchLocation onSearch={onSearchLocation} />
           </div>
         </div>
