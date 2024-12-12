@@ -3,6 +3,7 @@
 import { FirebaseError } from 'firebase/app';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Eye, EyeOff } from 'react-feather';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthStore } from '../store/useAuthStore';
 
@@ -14,6 +15,7 @@ interface FormData {
 export default function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
   const { signIn, signUp, error, loading } = useAuthStore();
+  const [showPassword, setShowpPassword] = useState(false);
   const router = useRouter();
 
   const {
@@ -115,28 +117,40 @@ export default function Login() {
             <label htmlFor='password' className='block'>
               Password
             </label>
-            <input
-              type='password'
-              id='password'
-              placeholder='Minimum 6 characters'
-              onKeyDown={(e) => {
-                if (e.key === ' ') {
-                  e.preventDefault();
-                }
-              }}
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters long',
-                },
-                pattern: {
-                  value: /^\S*$/,
-                  message: 'Password cannot contain spaces',
-                },
-              })}
-              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
-            />
+            <div className='relative'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id='password'
+                placeholder='Minimum 6 characters'
+                onKeyDown={(e) => {
+                  if (e.key === ' ') {
+                    e.preventDefault();
+                  }
+                }}
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters long',
+                  },
+                  pattern: {
+                    value: /^\S*$/,
+                    message: 'Password cannot contain spaces',
+                  },
+                })}
+                className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
+              />
+              <button
+                onClick={() => setShowpPassword(!showPassword)}
+                className='text-white/80 absolute right-5 top-1/2 -translate-y-1/2'
+              >
+                {showPassword ? (
+                  <EyeOff className='size-5' aria-label='Hide password' />
+                ) : (
+                  <Eye className='size-5' aria-label='Show password' />
+                )}
+              </button>
+            </div>
             {errors.password && (
               <p className='text-red-500 text-sm'>{errors.password.message}</p>
             )}
