@@ -1,5 +1,5 @@
-import { Image, MapPin } from 'lucide-react';
 import Link from 'next/link';
+import { Image as ImageIcon, MapPin } from 'react-feather';
 
 export default function Dashboard() {
   return (
@@ -39,7 +39,7 @@ export default function Dashboard() {
             <h2 className='text-xl font-semibold text-white'>
               Create a Postcard
             </h2>
-            <Image className='text-pink-500 group-hover:scale-110 transition-transform duration-300' />
+            <ImageIcon className='text-pink-500 group-hover:scale-110 transition-transform duration-300' />
           </div>
           <p className='text-gray-400 mb-6'>
             Use your saved trip images to create beautiful postcards and share
@@ -49,7 +49,7 @@ export default function Dashboard() {
             href='/dashboard/postcard-creator'
             className='inline-flex items-center gap-2 px-6 py-3 rounded-md text-white font-medium  transition-all duration-300 bg-gradient-to-r from-[#E91E63] to-[#4B0082]  hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
           >
-            <Image className='w-5 h-5' />
+            <ImageIcon className='w-5 h-5' />
             Start Creating
           </Link>
         </div>
