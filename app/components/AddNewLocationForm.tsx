@@ -142,7 +142,7 @@ export default function AddNewEntryForm() {
   };
 
   return (
-    <div className='bg-transparent my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
+    <div className='bg-transparent border border-white/10 my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
       <h2 className='text-xl font-bold'>Add New Location</h2>
       <form
         onSubmit={handleSubmit}
@@ -231,7 +231,7 @@ export default function AddNewEntryForm() {
         <button
           type='submit'
           disabled={isLoading}
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#e87da2] hover:to-[#800080] px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out mb-2 '
+          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082]  hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out mb-2 '
         >
           {isLoading ? (
             'Saving...'

@@ -80,6 +80,17 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   return (
     <header
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
@@ -124,8 +135,15 @@ export default function Header() {
       </button>
 
       <div
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      <div
         ref={menuRef}
-        className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] backdrop-blur-lg transform transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } z-40`}
       >
@@ -175,10 +193,7 @@ export default function Header() {
             </div>
           )}
 
-          <div
-            className='mt-16
-           px-2'
-          >
+          <div className='mt-16 px-2'>
             {user ? (
               <button
                 onClick={() => {
@@ -201,6 +216,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       {/* Desktop Menu */}
       <nav className='hidden lg:flex items-center gap-8 '>
         <ul className='flex items-center gap-6'>
