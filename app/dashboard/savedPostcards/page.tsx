@@ -1,5 +1,6 @@
 'use client';
 
+import ConfirmationModal from '@/app/components/ConfirmationModal';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { db } from '@/app/firebase/firebase';
 import { fetchSavedPostcards } from '@/app/store/firestoreHelpers';
@@ -23,6 +24,10 @@ export default function SavedPostcards() {
   const { user } = useAuthStore();
   const [postcards, setPostcards] = useState<Postcard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedPostcardId, setSelectedPostcardId] = useState<string | null>(
+    null
+  );
 
   const updatePostcard = async (
     postcardId: string,
@@ -97,6 +102,19 @@ export default function SavedPostcards() {
     } catch (error) {
       console.error('Failed to delete postcard:', error);
       toast.error('Failed to delete postcard. Please try again.');
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const handleDelete = (postcardId: string) => {
+    setSelectedPostcardId(postcardId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedPostcardId) {
+      removePost(selectedPostcardId);
     }
   };
 
@@ -131,7 +149,7 @@ export default function SavedPostcards() {
                   </div>
                 </button>
                 <button
-                  onClick={() => removePost(postcard.id)}
+                  onClick={() => handleDelete(postcard.id)}
                   className='flex-1 border-2 border-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:bg-[#4B0082]/30 transition duration-300'
                 >
                   Delete Postcard
@@ -141,6 +159,12 @@ export default function SavedPostcards() {
           </div>
         ))}
       </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        message='Are you sure you want to delete this postcard?'
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 }
