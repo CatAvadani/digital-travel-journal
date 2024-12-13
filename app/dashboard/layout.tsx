@@ -111,14 +111,6 @@ export default function DashboardLayout({
         </ul>
       </aside>
 
-      {/* {isExpanded && (
-        <div
-          className='fixed inset-0 bg-black/50 z-30 md:hidden'
-          onClick={() => setIsExpanded(false)}
-          aria-hidden='true'
-        />
-      )} */}
-
       <section className='col-span-6 p-4 min-h-screen bg-black/10 rounded-md md:relative z-10'>
         <BreadcrumbsNavigation paths={breadcrumbs} />
         {children}

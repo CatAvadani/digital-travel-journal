@@ -242,10 +242,10 @@ export default function PostcardCreator() {
         <SimpleButton
           text={loading ? 'Saving...' : 'Save Postcard'}
           onClick={handleSavePostcard}
-          backgroundColor='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+          backgroundColor='primary-btn'
         />
         <button
-          className='border-2 border-[#4B0082] hover:bg-[#4B0082]/30 px-4 py-2 rounded-md'
+          className='secondary-btn px-4 py-2 rounded-md'
           onClick={resetFields}
         >
           Cancel

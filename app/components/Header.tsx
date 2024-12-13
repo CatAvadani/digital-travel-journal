@@ -91,6 +91,25 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      const firstMenuItem = document.querySelector('#mobile-menu a');
+      (firstMenuItem as HTMLElement)?.focus();
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMenuOpen]);
+
   return (
     <header
       className={`fixed z-50 w-full flex justify-between items-center p-5 pb-8 text-white md:px-10 transition-all duration-300 ${
@@ -110,7 +129,7 @@ export default function Header() {
           className='object-cover size-10 sm:size-12 ml-2'
           width={40}
           height={40}
-          alt='logo'
+          alt='App Logo'
         />
         {!isMapViewPage && !isHomePage && (
           <span className='hidden md:flex tracking-wider font-normal drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
@@ -123,6 +142,9 @@ export default function Header() {
         ref={buttonRef}
         className='lg:hidden z-50'
         onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-expanded={isMenuOpen}
+        aria-controls='mobile-menu'
+        aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
       >
         {isMenuOpen ? (
           <X
@@ -148,6 +170,9 @@ export default function Header() {
 
       <div
         ref={menuRef}
+        id='mobile-menu'
+        role='menu'
+        inert={!isMenuOpen}
         className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } z-40`}
@@ -229,8 +254,8 @@ export default function Header() {
                 href={link.href}
                 className={`relative px-4 py-2 rounded-full transition-colors text-base lg:text-lg ${
                   pathname.startsWith(link.href)
-                    ? 'font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
-                    : 'text-white/90 hover:text-white hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
+                    ? 'font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0,8)]'
+                    : 'text-white hover:text-white/80 hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
                 }`}
               >
                 {link.label}

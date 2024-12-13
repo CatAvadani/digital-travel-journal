@@ -1,7 +1,7 @@
 import { SquarePen, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Entry } from '../interfaces/entryData';
+import { Entry } from '../interfaces/entry';
 import { formatDate } from '../utils/formatDate';
 
 interface EntryCardProps {

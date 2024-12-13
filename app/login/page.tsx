@@ -52,9 +52,9 @@ export default function Login() {
       backdrop-blur-3xl backdrop-filter py-8 rounded-md sm:p-20 sm:rounded-full w-[90%] sm:w-auto'
     >
       <div className='flex flex-col items-center justify-center gap-4'>
-        <h2 className='text-2xl font-bold text-white'>
+        <h1 className='text-2xl font-bold text-white'>
           {isSignIn ? 'Sign In' : 'Sign Up'}
-        </h2>
+        </h1>
         <p className='text-white px-2 text-center'>
           {isSignIn
             ? 'Welcome back! Please sign in to continue.'

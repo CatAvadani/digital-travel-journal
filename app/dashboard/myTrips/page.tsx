@@ -1,5 +1,5 @@
 'use client';
-import { Entry } from '@/app/interfaces/entryData';
+import { Entry } from '@/app/interfaces/entry';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
