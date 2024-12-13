@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { storage } from '../firebase/firebase';
-import { Entry } from '../interfaces/entryData';
+import { Entry } from '../interfaces/entry';
 import { ValidationEntrySchema } from '../validationSchemas/validationEntrySchema';
 import FormInput from './ui/FormInput';
 import SimpleButton from './ui/SimpleButton';

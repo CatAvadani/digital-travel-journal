@@ -5,7 +5,7 @@ import { getWeatherData } from '@/app/api/apiOpenWeatherMap';
 import EntryMap from '@/app/components/EntryMap';
 import ImagesGrid from '@/app/components/ImagesGrid';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
-import { Entry } from '@/app/interfaces/entryData';
+import { Entry } from '@/app/interfaces/entry';
 import { WeatherData } from '@/app/interfaces/weatherData';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import { motion } from 'framer-motion';

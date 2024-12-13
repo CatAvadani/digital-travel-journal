@@ -48,7 +48,7 @@ export default function SearchLocation({ onSearch }: SearchLocationProps) {
           </button>
           <button
             onClick={handleSearch}
-            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-r-md'
+            className='primary-btn text-white p-4 rounded-r-md'
           >
             <Search size={20} />
           </button>
@@ -56,7 +56,7 @@ export default function SearchLocation({ onSearch }: SearchLocationProps) {
       ) : (
         <button
           onClick={handleExpand}
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white p-4 rounded-md flex items-center justify-center shadow-md'
+          className='primary-btn text-white p-4 rounded-md flex items-center justify-center shadow-md'
           aria-label='Expand search input'
         >
           <Search size={20} />

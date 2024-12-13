@@ -231,7 +231,7 @@ export default function AddNewEntryForm() {
         <button
           type='submit'
           disabled={isLoading}
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082]  hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out mb-2 '
+          className='primary-btn px-16 py-3 rounded-md text-white shadow-lg mb-2 '
         >
           {isLoading ? (
             'Saving...'
@@ -244,7 +244,7 @@ export default function AddNewEntryForm() {
       </form>
       <Link
         href='/dashboard'
-        className=' border-2 border-[#4B0082]  hover:bg-[#4B0082]/30 px-16 py-3 rounded-md text-white shadow-lg transition-all duration-300 ease-in-out text-center'
+        className='secondary-btn px-16 py-3 rounded-md text-white shadow-lg text-center'
       >
         Dashboard
       </Link>

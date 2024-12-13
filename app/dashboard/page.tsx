@@ -27,7 +27,7 @@ export default function Dashboard() {
           </p>
           <Link
             href='/mapView'
-            className='inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base text-white font-medium transition-all duration-300 bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+            className='inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base text-white font-medium primary-btn'
           >
             <MapPin className='w-4 h-4 sm:w-5 sm:h-5' />
             Add Location
@@ -47,7 +47,7 @@ export default function Dashboard() {
           </p>
           <Link
             href='/dashboard/postcard-creator'
-            className='inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base text-white font-medium transition-all duration-300 bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80'
+            className='inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base text-white font-medium primary-btn'
           >
             <ImageIcon className='w-4 h-4 sm:w-5 sm:h-5' />
             Start Creating

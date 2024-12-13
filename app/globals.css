@@ -28,6 +28,14 @@ body {
   background-attachment: fixed;
 }
 
+.primary-btn {
+  @apply bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition-all duration-300 ease-in-out;
+}
+
+.secondary-btn {
+  @apply border-2 border-[#4B0082]  hover:bg-[#4B0082]/30 transition-all duration-300 ease-in-out;
+}
+
 /* .overlay {
   @apply bg-black/80 absolute top-0 left-0 z-50 w-full h-full;
 } */

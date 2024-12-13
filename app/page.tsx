@@ -55,7 +55,7 @@ export default function Home() {
         </h1>
         <Link
           href='/mapView'
-          className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 px-4 sm:px-16 py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out text-base lg:text-lg inline-block drop-shadow-md'
+          className='primary-btn px-4 sm:px-16 py-3 rounded-full text-white shadow-lg   text-base lg:text-lg inline-block drop-shadow-md'
         >
           Begin Your Journey
         </Link>

@@ -142,7 +142,7 @@ export default function SavedPostcards() {
               <div className='flex gap-2'>
                 <button
                   onClick={() => handleShare(postcard.id)}
-                  className='flex-1 bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 transition duration-300'
+                  className='flex-1 primary-btn text-white py-2 rounded-md text-sm font-medium'
                 >
                   <div className='flex justify-center items-center gap-2'>
                     <Facebook className='h-5 w-5' /> Share
@@ -150,7 +150,7 @@ export default function SavedPostcards() {
                 </button>
                 <button
                   onClick={() => handleDelete(postcard.id)}
-                  className='flex-1 border-2 border-[#4B0082] text-white py-2 rounded-md text-sm font-medium hover:bg-[#4B0082]/30 transition duration-300'
+                  className='flex-1 text-white py-2 rounded-md text-sm font-medium secondary-btn'
                 >
                   Delete Postcard
                 </button>

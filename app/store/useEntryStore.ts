@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { create } from 'zustand';
 import { db } from '../firebase/firebase';
-import { Entry } from '../interfaces/entryData';
+import { Entry } from '../interfaces/entry';
 
 interface EntryStore {
   entries: Entry[];
