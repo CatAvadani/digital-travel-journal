@@ -16,6 +16,8 @@ export default function Footer({ positionClass = '' }: FooterProps) {
           <li key={link.href}>
             <Link
               href={link.href}
+              target='_blank'
+              rel='noopener noreferrer'
               className='font-normal text-white/70 hover:text-white transition-all'
               aria-label={link.label}
             >
