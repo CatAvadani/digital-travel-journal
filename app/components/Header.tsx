@@ -113,7 +113,7 @@ export default function Header() {
           alt='logo'
         />
         {!isMapViewPage && !isHomePage && (
-          <span className='hidden md:flex tracking-wider font-normal'>
+          <span className='hidden md:flex tracking-wider font-normal drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
             Digital Travel Journal
           </span>
         )}
@@ -229,13 +229,13 @@ export default function Header() {
                 href={link.href}
                 className={`relative px-4 py-2 rounded-full transition-colors text-base lg:text-lg ${
                   pathname.startsWith(link.href)
-                    ? 'font-bold text-white/80 '
-                    : 'hover:text-gray-200'
+                    ? 'font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
+                    : 'text-white/90 hover:text-white hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
                 }`}
               >
                 {link.label}
                 <span
-                  className={`absolute left-0 bottom-[-2px] w-full h-[2px] bg-white/80 transform transition-all duration-300 ${
+                  className={`absolute left-0 bottom-[-2px] w-full h-[2px] bg-white shadow-sm transform transition-all duration-300 ${
                     pathname.startsWith(link.href) ? 'scale-x-110' : 'scale-x-0'
                   }`}
                 />
@@ -246,14 +246,14 @@ export default function Header() {
         {user ? (
           <button
             onClick={logout}
-            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0 hover:scale-105 transition-all'
+            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-4 py-2 flex items-center justify-center m-0 hover:scale-105 transition-all text-white/95 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
           >
             Sign Out
           </button>
         ) : (
           <Link
             href='/login'
-            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center hover:scale-105 transition-all'
+            className='bg-[#110915] border border-white/20 backdrop-blur-lg backdrop-filter rounded-full shadow-lg px-6 py-2 flex items-center justify-center hover:scale-105 transition-all text-white/95 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
           >
             Sign In
           </Link>
