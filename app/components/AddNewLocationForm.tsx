@@ -142,8 +142,13 @@ export default function AddNewEntryForm() {
   };
 
   return (
-    <div className='bg-transparent border border-white/10 my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'>
-      <h2 className='text-xl font-bold'>Add New Location</h2>
+    <section
+      aria-label='Add New Location Form'
+      className='bg-transparent border border-white/10 my-4 text-white px-4 py-4 flex flex-col gap-2  sm:h-[96vh]'
+    >
+      <h1 className='text-xl font-bold  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
+        Add New Location
+      </h1>
       <form
         onSubmit={handleSubmit}
         className='flex flex-col gap-4 mx-auto  text-white w-full'
@@ -210,7 +215,7 @@ export default function AddNewEntryForm() {
         <div>
           <label
             htmlFor='description'
-            className='block text-base font-medium text-white'
+            className='block text-base font-medium text-white  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
           >
             Description
           </label>
@@ -231,6 +236,7 @@ export default function AddNewEntryForm() {
         <button
           type='submit'
           disabled={isLoading}
+          aria-disabled={isLoading}
           className='primary-btn px-16 py-3 rounded-md text-white shadow-lg mb-2 '
         >
           {isLoading ? (
@@ -244,10 +250,11 @@ export default function AddNewEntryForm() {
       </form>
       <Link
         href='/dashboard'
-        className='secondary-btn px-16 py-3 rounded-md text-white shadow-lg text-center'
+        aria-label='Link to Dashboard'
+        className='secondary-btn px-16 py-3 rounded-md text-white shadow-lg text-center  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
       >
         Dashboard
       </Link>
-    </div>
+    </section>
   );
 }

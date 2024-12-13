@@ -231,6 +231,7 @@ export default function PostcardCreator() {
             <textarea
               value={message}
               rows={3}
+              aria-label='Postcard message'
               onChange={(e) => updateField('message', e.target.value)}
               placeholder='Write your message here...'
               className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
