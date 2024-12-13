@@ -40,7 +40,10 @@ export default function FormInput({
 
   return (
     <>
-      <label htmlFor={id} className='block text-base font-medium text-white'>
+      <label
+        htmlFor={id}
+        className='block text-base font-medium text-white  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
+      >
         {label}
       </label>
       <input

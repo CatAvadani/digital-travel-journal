@@ -54,18 +54,18 @@ export default function HowToUse() {
       >
         <motion.h1
           variants={itemVariants}
-          className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide'
+          className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Easily Document Your Travel <br /> Adventures
         </motion.h1>
 
-        <motion.p
+        <motion.h2
           variants={itemVariants}
-          className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4'
+          className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Creating and managing your travel entries is simple and intuitive.
           Capture your experiences with photos, locations, and personal notes.
-        </motion.p>
+        </motion.h2>
 
         <motion.div
           variants={itemVariants}
@@ -135,11 +135,11 @@ export default function HowToUse() {
           Discover Your Travel Adventures <br /> Like Never Before
         </h1>
 
-        <p className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
+        <h2 className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
           Our platform allows you to visualize your travel experiences on a map,
           making it easy to see where you&apos;ve been and what you&apos;ve
           done.
-        </p>
+        </h2>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:mx-auto gap-3 mb-6'>
           {instructionsData.map((card, index) => (

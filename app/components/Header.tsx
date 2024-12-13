@@ -171,7 +171,6 @@ export default function Header() {
       <div
         ref={menuRef}
         id='mobile-menu'
-        role='menu'
         inert={!isMenuOpen}
         className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -254,8 +253,8 @@ export default function Header() {
                 href={link.href}
                 className={`relative px-4 py-2 rounded-full transition-colors text-base lg:text-lg ${
                   pathname.startsWith(link.href)
-                    ? 'font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0,8)]'
-                    : 'text-white hover:text-white/80 hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
+                    ? 'font-bold text-[#E8E8E8] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
+                    : 'text-[#D3D3D3] hover:text-[#FFFFFF] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
                 }`}
               >
                 {link.label}

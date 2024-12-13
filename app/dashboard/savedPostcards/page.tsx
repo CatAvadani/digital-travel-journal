@@ -131,7 +131,7 @@ export default function SavedPostcards() {
               <Image
                 id={`postcard-${postcard.id}`}
                 src={postcard.image || '/globe-img.jpeg'}
-                alt='Postcard'
+                alt=''
                 fill
                 sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                 className='object-fit'

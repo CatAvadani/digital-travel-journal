@@ -31,7 +31,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
         <div className='flex-shrink-0 w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]'>
           <Image
             src={entry.image}
-            alt={entry.title}
+            alt=''
             className='rounded-md object-cover w-full h-full'
             width={100}
             height={100}
@@ -58,6 +58,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onEdit(entry);
             }}
+            aria-label='Edit Trip'
             className='px-4 py-2 text-[#d8b0f5] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <SquarePen className='size-4 sm:size-6' />
@@ -67,6 +68,7 @@ export default function EntryCard({ entry, onDelete, onEdit }: EntryCardProps) {
               handleButtonClick(e);
               onDelete(entry.id);
             }}
+            aria-label='Delete Trip'
             className='px-4 py-2 text-[#ed859f] rounded-md bg-[#2C1735] backdrop:blur-lg cursor-pointer hover:scale-105 transition-all'
           >
             <Trash2 className='size-4 sm:size-6' />

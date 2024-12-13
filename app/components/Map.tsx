@@ -248,9 +248,7 @@ export default function Map() {
         </div>
       </section>
 
-      <section aria-labelledby='add-entry-form'>
-        <AddNewEntryForm />
-      </section>
+      <AddNewEntryForm />
     </main>
   );
 }

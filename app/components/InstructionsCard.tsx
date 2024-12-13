@@ -19,7 +19,7 @@ export default function InstructionsCard({
     >
       <Image
         src={image}
-        alt={title}
+        alt=''
         fill
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         className='group-hover:scale-110 transition-transform duration-300 object-cover'
