@@ -3,6 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { Upload } from 'react-feather';
 import toast from 'react-hot-toast';
 import { db, storage } from '../firebase/firebase';
 import { useAuthStore } from '../store/useAuthStore';
@@ -28,7 +29,6 @@ export default function AddNewEntryForm() {
   });
 
   useEffect(() => {
-    // Update the location field when coordinates change
     setFormData((prev) => ({
       ...prev,
       location: selectedCoordinates
@@ -111,15 +111,12 @@ export default function AddNewEntryForm() {
         coordinates: selectedCoordinates,
       };
 
-      // Add document to Firestore and get its ID
       const docRef = await addDoc(collection(db, 'entries'), newEntry);
 
-      // Use the Firestore document ID as the `id` field
       addEntry({ ...newEntry, id: docRef.id });
 
       toast.success('Entry added successfully!');
 
-      // Reset the form
       setFormData({
         id: '',
         title: '',
@@ -201,7 +198,11 @@ export default function AddNewEntryForm() {
             {errors.country && <p className='text-red-500'>{errors.country}</p>}
           </div>
         </div>
-        <div>
+        <div className='relative'>
+          <Upload
+            size={20}
+            className='absolute text-white right-4 top-3/4 transform -translate-y-3/4  mb-1 pointer-events-none'
+          />
           <FormInput
             id='upload'
             label='Upload Image'
@@ -212,6 +213,7 @@ export default function AddNewEntryForm() {
           />
           {errors.image && <p className='text-red-500'>{errors.image}</p>}
         </div>
+
         <div>
           <label
             htmlFor='description'

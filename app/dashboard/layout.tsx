@@ -91,7 +91,7 @@ export default function DashboardLayout({
   return (
     <main className='text-white flex flex-col md:grid md:grid-cols-8 w-full min-h-screen mt-28 mx-6 relative'>
       <aside
-        className={`hidden md:flex top-30 w-full md:top-0 left-0 z-40 md:col-span-2 bg-black md:bg-black/30 rounded-md h-screen transition-transform duration-300 ease-in-out md:translate-x-0 px-6`}
+        className={`hidden md:flex top-30 w-full md:top-0 left-0 z-40 md:col-span-2 md:bg-black/30 rounded-md min-h-screen transition-transform duration-300 ease-in-out md:translate-x-0 px-6`}
       >
         <ul className='w-full'>
           {menuItems.map((item) => (

@@ -16,7 +16,6 @@ export default function EntryMap({ coordinates }: EntryMapProps) {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
     if (mapContainerRef.current) {
-      // Initialize map
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         center: coordinates,
