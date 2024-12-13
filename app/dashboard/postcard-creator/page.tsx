@@ -154,7 +154,7 @@ export default function PostcardCreator() {
                 >
                   <Image
                     src={entry.image}
-                    alt={entry.title}
+                    alt=''
                     fill
                     sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                     className='rounded-md shadow-md h-full w-full object-cover'
@@ -175,6 +175,7 @@ export default function PostcardCreator() {
                   .getElementById('template-section')
                   ?.scrollIntoView({ behavior: 'smooth' })
               }
+              aria-label='Scroll to templates'
             >
               <ChevronDown className='size-6' />
             </button>
@@ -255,6 +256,7 @@ export default function PostcardCreator() {
         <button
           className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label='Scroll to top'
         >
           <ChevronUp className='size-6' />
         </button>
