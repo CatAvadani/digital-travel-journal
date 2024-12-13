@@ -103,7 +103,7 @@ export default function HowToUse() {
         <motion.div>
           <Link
             href='/mapView'
-            className='bg-gradient-to-r from-[#E91E63] to-[#4B0082] hover:from-[#E91E63]/80 hover:to-[#4B0082]/80 px-4 sm:px-16 py-2 sm:py-3 rounded-full text-white shadow-lg transition-all duration-300 ease-in-out'
+            className='primary-btn px-4 sm:px-16 py-2 sm:py-3 rounded-full text-white shadow-lg '
           >
             Get Started
           </Link>
@@ -111,7 +111,7 @@ export default function HowToUse() {
 
         <Link
           href='#bottom-section'
-          className='text-white/80 block hover:underline text-base'
+          className='text-white/80 block hover:underline text-base drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Learn More <ArrowRight className='size-6 inline' />
         </Link>
@@ -131,11 +131,11 @@ export default function HowToUse() {
         id='bottom-section'
         className='w-full max-w-[90%] sm:max-w-full mx-auto text-center flex flex-col gap-4 sm:gap-10 mt-28 text-white'
       >
-        <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide'>
+        <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
           Discover Your Travel Adventures <br /> Like Never Before
         </h1>
 
-        <p className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4'>
+        <p className='text-normal sm:text-lg sm:max-w-3xl text-center mx-auto text-white/80 max-w-sm mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
           Our platform allows you to visualize your travel experiences on a map,
           making it easy to see where you&apos;ve been and what you&apos;ve
           done.
@@ -164,7 +164,7 @@ export default function HowToUse() {
 
         <Link
           href='/login'
-          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center'
+          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Sign Up Now <ArrowRight className='size-6 inline' />
         </Link>
