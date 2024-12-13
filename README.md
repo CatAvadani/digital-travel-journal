@@ -6,17 +6,13 @@ A web application that transforms travel experiences into digital memories. Buil
 
   ## Preview
 
-<div align="center">
-  <img src="public/landing-page.png" alt="Landing page with 3D globe" width="800"/>
+<div align="left">
+  <img src="public/landing-page.png" alt="Landing page with 3D globe" width="300"/>
+    <img src="public/map-view.png" alt="Interactive Map View" width="300"/>
 </div>
-
-### Key Features Preview
-
-<div align="center">
-  <img src="public/map-view.png" alt="Interactive Map View" width="400"/>
-  <img src="public/postcard-creator.png" alt="Postcard Creator" width="400"/>
-  <img src="public/dashboard.png" alt="User Dashboard" width="400"/>
-  <img src="public/trip-details.png" alt="Trip Details View" width="400"/>
+<div align="left">
+  <img src="public/postcard-creator.png" alt="Postcard Creator" width="300" height="320"/>
+  <img src="public/trip-details.png" alt="Trip Details View" width="300" height="320"/>
 </div>
 
 ## Features ✨
