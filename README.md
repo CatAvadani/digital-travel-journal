@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Digital Travel Journal 🌎
 
-## Getting Started
+A web application that transforms travel experiences into digital memories. Built with modern web technologies, this application allows users to document their journeys through an interactive map interface, create custom digital postcards, and manage their travel memories in an intuitive way.
 
-First, run the development server:
+  <a href="digital-travel-journal-wnb8.vercel.app/" target="_blank">View Live Demo</a>
 
+  ## Preview
+
+<div align="center">
+  <img src="public/landing-page.png" alt="Landing page with 3D globe" width="800"/>
+</div>
+
+### Key Features Preview
+
+<div align="center">
+  <img src="public/map-view.png" alt="Interactive Map View" width="400"/>
+  <img src="public/postcard-creator.png" alt="Postcard Creator" width="400"/>
+  <img src="public/dashboard.png" alt="User Dashboard" width="400"/>
+  <img src="public/trip-details.png" alt="Trip Details View" width="400"/>
+</div>
+
+## Features ✨
+
+### Core Functionality
+
+- **Interactive Map Integration**
+
+  - Real-time location tracking
+  - Custom marker placement
+  - Location search functionality
+  - Detailed location information with weather data
+  - Trip photo geo-tagging
+  - Offline functionality
+
+- **Custom Postcard Creator** 
+
+  - Multiple design templates
+  - Personal message integration
+  - Social media sharing
+
+- **User Experience** 
+  - Secure authentication system
+  - Personalized dashboard
+
+
+## Technologies 
+
+- **Next.js 14** 
+- **TypeScript**
+- **Tailwind CSS**
+- **SCSS**
+- **Framer Motion** 
+
+- **Firebase**
+  - Authentication
+  - Firestore Database
+  - Storage
+- **Zustand** - State management
+- **Mapbox API** - Map functionality
+- **Weather API** - Real-time weather data
+- **Unsplash API** - Images
+
+## Accessibility 
+
+The application follows WCAG 2.1 guidelines:
+
+- Semantic HTML structure
+- ARIA labels where needed
+- Keyboard navigation support
+- Color contrast compliance
+- Screen reader compatibility
+
+## Design  
+
+The application follows a modern, clean design approach:
+
+- Dark theme with carefully chosen purple/pink accents
+- Consistent visual hierarchy
+- Responsive layouts for all devices
+- Attention to accessibility (WCAG 2.1 compliance)
+- Smooth transitions and interactions
+
+## Getting Started 
+
+### Installation
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/CatAvadani/digital-travel-journal.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure environment variables
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_API_KEY_AUTH=your_api_key
+NEXT_PUBLIC_API_KEY_ID=your_api_key
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_token
+NEXT_PUBLIC_UNSPLASH_ACCESS_KEY=your_api_key
+NEXT_PUBLIC_API_OPENWEATHERMAP_KEY=your_api_key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start development server
+```bash
+npm run dev
+```
+## Acknowledgments 
 
-## Learn More
+- Built as final project for Frontend Development course
+- Inspired by personal experiences from cruise ship work
 
-To learn more about Next.js, take a look at the following resources:
+## Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Catalina Avadani**
