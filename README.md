@@ -2,7 +2,7 @@
 
 A web application that transforms travel experiences into digital memories. Built with modern web technologies, this application allows users to document their journeys through an interactive map interface, create custom digital postcards, and manage their travel memories in an intuitive way.
 
-  <a href="digital-travel-journal-wnb8.vercel.app/" target="_blank">View Live Demo</a>
+  <a href="digital-travel-journal-wnb8.vercel.app" target="_blank">View Live Demo</a>
 
   ## Preview
 
