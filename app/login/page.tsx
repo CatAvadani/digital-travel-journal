@@ -15,7 +15,7 @@ interface FormData {
 export default function Login() {
   const [isSignIn, setIsSignIn] = useState(false);
   const { signIn, signUp, error, loading } = useAuthStore();
-  const [showPassword, setShowpPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const {
@@ -28,10 +28,15 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
+      const accessedRoute = localStorage.getItem('accessedRoute');
+
       if (isSignIn) {
-        await signIn(email, password, router);
+        await signIn(email, password);
+        router.push(accessedRoute || '/dashboard');
+        localStorage.removeItem('accessedRoute');
       } else {
-        await signUp(email, password, router);
+        await signUp(email, password);
+        router.push('/dashboard');
       }
     } catch (err) {
       if (err instanceof FirebaseError) {
@@ -141,7 +146,7 @@ export default function Login() {
                 className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
               />
               <button
-                onClick={() => setShowpPassword(!showPassword)}
+                onClick={() => setShowPassword(!showPassword)}
                 className='text-white/80 absolute right-5 top-1/2 -translate-y-1/2'
               >
                 {showPassword ? (

@@ -5,7 +5,6 @@ import {
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import { create } from 'zustand';
 import { auth } from '../firebase/firebase';
 import { createUserDoc } from './firestoreHelpers';
@@ -19,16 +18,8 @@ interface AuthState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 
-  signUp: (
-    email: string,
-    password: string,
-    router: ReturnType<typeof useRouter>
-  ) => Promise<void>;
-  signIn: (
-    email: string,
-    password: string,
-    router: ReturnType<typeof useRouter>
-  ) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 
   initializeAuth: () => void;
@@ -43,7 +34,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setLoading: (loading: boolean) => set({ loading }),
   setError: (error: string | null) => set({ error }),
 
-  signUp: async (email, password, router) => {
+  signUp: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -55,7 +46,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       await createUserDoc(userCredential.user);
 
       set({ user: userCredential.user, loading: false });
-      router.push('/dashboard');
     } catch (error) {
       if (error instanceof FirebaseError) {
         set({ error: error.code, loading: false });
@@ -65,7 +55,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  signIn: async (email, password, router) => {
+  signIn: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -75,7 +65,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       );
 
       set({ user: userCredential.user, loading: false });
-      router.push('/dashboard');
     } catch (error) {
       if (error instanceof FirebaseError) {
         set({ error: error.code, loading: false });

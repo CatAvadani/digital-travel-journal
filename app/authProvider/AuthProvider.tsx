@@ -34,15 +34,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(user);
         setError(null);
 
-        if (pathname === '/login') {
-          router.push('/mapView');
+        const accessedRoute = sessionStorage.getItem('accessedRoute');
+        if (pathname === '/login' && accessedRoute) {
+          router.push(accessedRoute);
+          localStorage.removeItem('accessedRoute');
+        } else if (pathname === '/login') {
+          router.push('/dashboard');
         }
       } else {
         setUser(null);
         clearEntries();
 
-        // Redirect unauthenticated users if they are trying to access authenticated pages
         if (AUTHENTICATED_ROUTES.includes(pathname)) {
+          localStorage.setItem('accessedRoute', pathname);
           router.push('/login');
         }
       }
