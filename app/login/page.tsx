@@ -111,7 +111,7 @@ export default function Login() {
                   message: 'Invalid email address',
                 },
               })}
-              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
+              className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10 text-white'
             />
             {errors.email && (
               <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -146,8 +146,13 @@ export default function Login() {
                 className='w-full px-3 py-2 rounded-md bg-[#110915]/50 border border-white/10'
               />
               <button
-                onClick={() => setShowPassword(!showPassword)}
-                className='text-white/80 absolute right-5 top-1/2 -translate-y-1/2'
+                type='button'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowPassword(!showPassword);
+                }}
+                className='text-white/80 absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer'
               >
                 {showPassword ? (
                   <EyeOff className='size-5' aria-label='Hide password' />

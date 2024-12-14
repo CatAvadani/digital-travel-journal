@@ -43,3 +43,17 @@ body {
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
 }
+input:-webkit-autofill {
+  background-color: #110915 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
+  -webkit-text-fill-color: white !important;
+  color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover {
+  background-color: #110915 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
+  -webkit-text-fill-color: white !important;
+}
