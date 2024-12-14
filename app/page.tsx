@@ -54,7 +54,7 @@ export default function Home() {
           Turn Your Journeys into Timeless Stories
         </h1>
         <Link
-          href='/mapView'
+          href='/dashboard'
           className='primary-btn px-4 sm:px-16 py-3 rounded-full text-white shadow-lg   text-base lg:text-lg inline-block drop-shadow-md'
         >
           Begin Your Journey

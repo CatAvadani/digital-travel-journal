@@ -1,10 +1,10 @@
-# Digital Travel Journal 🌎
+# Digital Travel Journal
 
 A web application that transforms travel experiences into digital memories. Built with modern web technologies, this application allows users to document their journeys through an interactive map interface, create custom digital postcards, and manage their travel memories in an intuitive way.
 
-  <a href="https://digital-travel-journal-wnb8.vercel.app/" target="_blank">View Live Demo</a>
+<a href="https://digital-travel-journal-wnb8.vercel.app/" target="_blank">View Live Demo</a>
 
-  ## Preview
+## Preview
 
 <div align="left">
   <img src="public/landing-page.png" alt="Landing page with 3D globe" width="300"/>
@@ -28,24 +28,23 @@ A web application that transforms travel experiences into digital memories. Buil
   - Trip photo geo-tagging
   - Offline functionality
 
-- **Custom Postcard Creator** 
+- **Custom Postcard Creator**
 
   - Multiple design templates
   - Personal message integration
   - Social media sharing
 
-- **User Experience** 
+- **User Experience**
   - Secure authentication system
   - Personalized dashboard
 
+## Technologies
 
-## Technologies 
-
-- **Next.js 14** 
+- **Next.js 14**
 - **TypeScript**
 - **Tailwind CSS**
 - **SCSS**
-- **Framer Motion** 
+- **Framer Motion**
 
 - **Firebase**
   - Authentication
@@ -56,7 +55,7 @@ A web application that transforms travel experiences into digital memories. Buil
 - **Weather API** - Real-time weather data
 - **Unsplash API** - Images
 
-## Accessibility 
+## Accessibility
 
 The application follows WCAG 2.1 guidelines:
 
@@ -66,7 +65,7 @@ The application follows WCAG 2.1 guidelines:
 - Color contrast compliance
 - Screen reader compatibility
 
-## Design  
+## Design
 
 The application follows a modern, clean design approach:
 
@@ -76,22 +75,25 @@ The application follows a modern, clean design approach:
 - Attention to accessibility (WCAG 2.1 compliance)
 - Smooth transitions and interactions
 
-## Getting Started 
+## Getting Started
 
 ### Installation
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/CatAvadani/digital-travel-journal.git
 ```
 
 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 3. Configure environment variables
-Create a `.env.local` file:
+   Create a `.env.local` file:
+
 ```env
 NEXT_PUBLIC_API_KEY_AUTH=your_api_key
 NEXT_PUBLIC_API_KEY_ID=your_api_key
@@ -101,14 +103,12 @@ NEXT_PUBLIC_API_OPENWEATHERMAP_KEY=your_api_key
 ```
 
 4. Start development server
+
 ```bash
 npm run dev
 ```
-## Acknowledgments 
+
+## Acknowledgments
 
 - Built as final project for Frontend Development course
 - Inspired by personal experiences from cruise ship work
-
-## Author
-
-**Catalina Avadani**

@@ -2,7 +2,7 @@
 import { AlignRight, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import {
   Eye,
@@ -21,6 +21,17 @@ export default function Header() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const router = useRouter();
+
+  const handleProtectedNavigation = (href: string) => {
+    if (!user && href !== '/howToUse' && href !== '/') {
+      localStorage.setItem('accessedRoute', href);
+      router.push('/login');
+    } else {
+      router.push(href);
+    }
+  };
 
   const isMapViewPage = pathname === '/mapView';
   const isHomePage = pathname === '/';
@@ -189,7 +200,11 @@ export default function Header() {
                         ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] font-bold'
                         : 'hover:bg-[#4B0082]/30'
                     }`}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleProtectedNavigation(link.href);
+                      setIsMenuOpen(false);
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -210,7 +225,11 @@ export default function Header() {
                           ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] font-bold'
                           : 'hover:bg-[#4B0082]/30'
                       }`}
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleProtectedNavigation(link.href);
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {link.icon}
                       {link.name}
@@ -251,6 +270,10 @@ export default function Header() {
             <li key={link.href}>
               <Link
                 href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleProtectedNavigation(link.href);
+                }}
                 className={`relative px-4 py-2 rounded-full transition-colors text-base lg:text-lg ${
                   pathname.startsWith(link.href)
                     ? 'font-bold text-[#E8E8E8] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]'
