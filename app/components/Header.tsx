@@ -70,11 +70,6 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         menuRef.current &&
@@ -86,30 +81,6 @@ export default function Header() {
         setIsMenuOpen(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      const firstMenuItem = document.querySelector('#mobile-menu a');
-      (firstMenuItem as HTMLElement)?.focus();
-    }
-  }, [isMenuOpen]);
-
-  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isMenuOpen) {
         setIsMenuOpen(false);
@@ -117,8 +88,34 @@ export default function Header() {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    const addEventListeners = () => {
+      window.addEventListener('scroll', handleScroll);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    };
+
+    const removeEventListeners = () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+
+    addEventListeners();
+
+    return () => {
+      removeEventListeners();
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      const firstMenuItem = document.querySelector('#mobile-menu a');
+      (firstMenuItem as HTMLElement)?.focus();
+    } else {
+      document.body.style.overflow = 'unset';
+    }
   }, [isMenuOpen]);
 
   return (
@@ -182,13 +179,11 @@ export default function Header() {
       <div
         ref={menuRef}
         id='mobile-menu'
-        inert={!isMenuOpen}
         className={`fixed inset-y-0 right-0 w-[80%] bg-[#110915] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } z-40`}
       >
         <div className='h-full overflow-y-auto pt-24 pb-8 px-6'>
-          {/* Main Navigation */}
           <div className='mb-8 pb-8 border-b border-white/20 '>
             <ul className='space-y-4'>
               {mainLinks.map((link) => (
