@@ -43,7 +43,7 @@ export default function HowToUse() {
   };
 
   return (
-    <main className='relative pb-28 sm:max-w-7xl w-full mt-6 sm:mt-28'>
+    <main className='relative pb-28 sm:max-w-7xl w-full mt-6 sm:mt-28 mx-auto '>
       <motion.section
         ref={ref}
         initial='hidden'
@@ -54,7 +54,7 @@ export default function HowToUse() {
       >
         <motion.h1
           variants={itemVariants}
-          className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
+          className='text-xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide  drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Easily Document Your Travel <br /> Adventures
         </motion.h1>
@@ -98,7 +98,7 @@ export default function HowToUse() {
           transition: { duration: 0.6 },
         }}
         viewport={{ once: true }}
-        className='flex justify-center items-center gap-10 py-10 sm:py-16'
+        className='flex justify-center items-center gap-4 sm:gap-10 py-10 sm:py-16'
       >
         <motion.div>
           <Link
@@ -131,7 +131,7 @@ export default function HowToUse() {
         id='bottom-section'
         className='w-full max-w-[90%] sm:max-w-full mx-auto text-center flex flex-col gap-4 sm:gap-10 mt-28 text-white'
       >
-        <h1 className='text-2xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
+        <h1 className='text-xl sm:text-3xl max-w-sm sm:max-w-3xl mx-auto font-bold leading-relaxed sm:leading-normal tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
           Discover Your Travel Adventures <br /> Like Never Before
         </h1>
 
@@ -164,13 +164,13 @@ export default function HowToUse() {
 
         <Link
           href='/login'
-          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
+          className='text-white block hover:underline font-bold text-base sm:text-lg text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Sign Up Now <ArrowRight className='size-6 inline' />
         </Link>
       </motion.section>
 
-      <Footer positionClass='left-1/2 -translate-x-1/2 bottom-10' />
+      <Footer positionClass='sm:left-1/2 sm:-translate-x-1/2 bottom-10' />
     </main>
   );
 }

@@ -59,16 +59,18 @@ export default function EntryDetailsClient({
           transition={{ duration: 0.6, delay: 0.6 }}
           className='p-6 bg-black/20 md:col-span-2 rounded-md'
         >
-          <h2 className='text-2xl font-semibold mb-4'>Details</h2>
+          <h2 className='text-xl sm:text-2xl font-semibold mb-4'>Details</h2>
           <p className='flex items-center gap-2'>
             <MapPin className='text-[#E91E63]' /> {entry.city}, {entry.country}
           </p>
           <p className='mt-4'>{entry.description}</p>
           {weatherData ? (
             <div className='mt-4 flex items-center justify-start gap-4 text-lg text-white/80'>
-              <h2 className='font-bold'>Weather:</h2>
-              <p className='capitalize'>{weatherData.weather[0].description}</p>
-              <p className='font-normal'>
+              <h2 className='sm:font-bold'>Weather:</h2>
+              <p className='capitalize text-sm sm:text-base'>
+                {weatherData.weather[0].description}
+              </p>
+              <p className='text-sm sm:text-base font-normal'>
                 {Math.floor(weatherData.main.temp)}°C
               </p>
             </div>
@@ -95,7 +97,7 @@ export default function EntryDetailsClient({
         transition={{ duration: 0.6, delay: 1.0 }}
         className='mt-10'
       >
-        <h2 className='text-2xl font-semibold mb-4 pl-6'>
+        <h2 className='text-xl sm:text-2xl font-semibold mb-4  pl-4 sm:pl-6'>
           Photos of {entry.city}
         </h2>
         <ImagesGrid images={images} />

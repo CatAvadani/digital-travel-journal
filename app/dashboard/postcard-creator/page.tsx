@@ -139,15 +139,17 @@ export default function PostcardCreator() {
   const { selectedImage, selectedTemplate, message } = postcardData;
 
   return (
-    <div className='p-1 md:p-4 text-white'>
-      <h1 className='text-base sm:text-lg font-semibold my-10'>
+    <div className=' md:p-4 text-white '>
+      <h1 className='text-base sm:text-lg sm:font-semibold my-10'>
         Choose your favorite photo, pick a template, and add <br /> a message to
         create your unique postcard.
       </h1>
 
       <div className='flex flex-col gap-10'>
         <div className='rounded-md'>
-          <h2 className='text-lg font-semibold py-4'>Choose an Image</h2>
+          <h2 className='text-base sm:text-lg font-semibold py-4'>
+            Choose an Image
+          </h2>
           {entries.length === 0 ? (
             <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
               No images found. Add some trips to get started.
@@ -195,7 +197,9 @@ export default function PostcardCreator() {
         </div>
 
         <div id='template-section' className='py-4'>
-          <h2 className='text-lg font-semibold mb-6'>Choose a Template</h2>
+          <h2 className='text-base sm:text-lg font-semibold py-4'>
+            Choose a Template
+          </h2>
           <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
             {postcardTemplates.map((template) => (
               <div
