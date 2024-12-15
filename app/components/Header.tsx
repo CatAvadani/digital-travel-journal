@@ -183,7 +183,7 @@ export default function Header() {
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } z-40`}
       >
-        <div className='h-full overflow-y-auto pt-24 pb-8 px-6'>
+        <div className='h-full overflow-y-auto pt-10 px-6'>
           <div className='mb-8 pb-8 border-b border-white/20 '>
             <ul className='space-y-4'>
               {mainLinks.map((link) => (

@@ -119,7 +119,7 @@ export default function SavedPostcards() {
   };
 
   return (
-    <div className='p-4'>
+    <div className='py-4 sm:p-4'>
       <h1 className='text-xl font-bold mb-4 sm:mt-10 text-white'>
         My Saved Postcards
       </h1>
