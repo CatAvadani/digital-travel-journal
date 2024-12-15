@@ -1,6 +1,11 @@
 [
   {
-    "origin": ["http://localhost:3000"],
+    "origin": [
+      "http://localhost:3000",
+      "https://digital-travel-journal-wnb8.vercel.app/",
+      "https://digital-travel-journal-wnb8-1x93ckl25.vercel.app/"
+    ],
+
     "method": ["GET", "PUT", "POST", "DELETE", "HEAD"],
     "maxAgeSeconds": 3600,
     "responseHeader": ["Content-Type"]
