@@ -2,29 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type='date']::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --viewport-height: 100vh;
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
+
+body {
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at top, black, #2d1736, black);
+  z-index: -1;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+/* Your other existing styles */
 .glassBackground {
-  @apply bg-white bg-opacity-10 
-  backdrop-blur-lg backdrop-filter;
-}
-.defaultBackground {
-  @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-black via-[#2D1736] to-black;
-  background-size: 130%;
-  background-size: cover;
-  background-attachment: fixed;
+  @apply bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter;
 }
 
 .primary-btn {
@@ -32,37 +58,14 @@ body {
 }
 
 .secondary-btn {
-  @apply border-2 border-[#4B0082]  hover:bg-[#4B0082]/30 transition-all duration-300 ease-in-out;
+  @apply border-2 border-[#4B0082] hover:bg-[#4B0082]/30 transition-all duration-300 ease-in-out;
 }
 
-/* .overlay {
-  @apply bg-black/80 absolute top-0 left-0 z-50 w-full h-full;
-} */
-
-.backdrop-blur-md {
-  backdrop-filter: blur(10px);
-}
-input:-webkit-autofill {
-  background-color: #110915 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
-  -webkit-text-fill-color: white !important;
-  color: white !important;
-  transition: background-color 5000s ease-in-out 0s;
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
-input:-webkit-autofill:focus,
-input:-webkit-autofill:hover {
-  background-color: #110915 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
-  -webkit-text-fill-color: white !important;
-}
-
-/* globals.css */
-.video-loading {
-  opacity: 0;
-  transition: opacity 0.7s ease-in-out;
-}
-
-.video-loaded {
-  opacity: 1;
+/* Remove any previous background classes if they exist */
+.defaultBackground {
+  display: none;
 }

@@ -43,7 +43,7 @@ export default function HowToUse() {
   };
 
   return (
-    <main className='relative pb-28 sm:max-w-7xl w-full mt-6 sm:mt-28'>
+    <main className='relative pb-28 sm:max-w-7xl w-full mt-6 sm:mt-28 mx-auto'>
       <motion.section
         ref={ref}
         initial='hidden'
