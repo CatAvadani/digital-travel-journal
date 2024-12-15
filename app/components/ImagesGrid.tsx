@@ -13,13 +13,13 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
 
   // Predefined height ranges to create masonry effect
   const heightClasses = [
-    'h-64',
-    'h-72',
-    'h-80',
-    'h-96',
-    'h-[400px]',
-    'h-[420px]',
-    'h-[450px]',
+    'h-40 sm:h-64',
+    'h-44 sm:h-72',
+    'h-48 sm:h-80',
+    'h-52 sm:h-96',
+    'h-56 sm:h-[400px]',
+    'h-60 sm:h-[420px]',
+    'h-64 sm:h-[450px]',
   ];
 
   const getRandomHeightClass = () => {
@@ -106,8 +106,8 @@ const ImagesGrid: React.FC<ImagesGridProps> = ({ images }) => {
             <Image
               src={selectedImage}
               alt='Enlarged image'
-              width={1200}
-              height={800}
+              width={800}
+              height={600}
               className='max-w-full max-h-full object-contain'
             />
           </motion.div>
