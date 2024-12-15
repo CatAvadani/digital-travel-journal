@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { db } from '../firebase/firebase';
+import { Postcard } from '../interfaces/postCard';
 
 export const createUserDoc = async (user: User) => {
   const userDocRef = doc(db, 'users', user.uid);
@@ -40,14 +41,6 @@ export const fetchUserFromFirestore = async (uid: string) => {
     console.error('Error fetching user data:', error);
   }
 };
-
-export interface Postcard {
-  userId: string;
-  image: string | null;
-  template: number;
-  message: string;
-  shareableURL?: string;
-}
 
 export const savePostcard = async ({
   userId,

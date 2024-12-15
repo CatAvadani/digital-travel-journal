@@ -1,17 +1,12 @@
 'use client';
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore';
 import { create } from 'zustand';
-import { db } from '../firebase/firebase';
 import { Entry } from '../interfaces/entry';
+import {
+  deleteEntry,
+  fetchEntries,
+  fetchEntryById,
+  updateEntry,
+} from '../services/entryService';
 
 interface EntryStore {
   entries: Entry[];
@@ -40,63 +35,34 @@ const useEntryStore = create<EntryStore>((set) => ({
 
   fetchEntries: async (userId) => {
     try {
-      const q = query(collection(db, 'entries'), where('userId', '==', userId));
-      const querySnapshot = await getDocs(q);
-      const fetchedEntries = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Entry[];
+      const fetchedEntries = await fetchEntries(userId);
       set(() => ({ entries: fetchedEntries }));
     } catch (error) {
       console.error('Error fetching entries:', error);
     }
   },
-
   fetchEntryById: async (entryId) => {
-    try {
-      const entryRef = doc(db, 'entries', entryId);
-      const entryDoc = await getDoc(entryRef);
-      if (entryDoc.exists()) {
-        const entry = { id: entryDoc.id, ...entryDoc.data() } as Entry;
-        set((state) => ({
-          entries: [...state.entries, entry],
-        }));
-        return entry;
-      } else {
-        console.error('No entry found with the given ID');
-        return null;
-      }
-    } catch (error) {
-      console.error('Error fetching entry:', error);
-      return null;
+    const entry = await fetchEntryById(entryId);
+    if (entry) {
+      set((state) => ({
+        entries: [...state.entries, entry],
+      }));
     }
+    return entry;
   },
-
   updateEntry: async (entryId, updatedEntry) => {
-    try {
-      const entryRef = doc(db, 'entries', entryId);
-      await setDoc(entryRef, updatedEntry);
-      set((state) => ({
-        entries: state.entries.map((entry) =>
-          entry.id === entryId ? updatedEntry : entry
-        ),
-      }));
-    } catch (error) {
-      console.error('Error updating entry in Firestore:', error);
-    }
+    await updateEntry(entryId, updatedEntry);
+    set((state) => ({
+      entries: state.entries.map((entry) =>
+        entry.id === entryId ? updatedEntry : entry
+      ),
+    }));
   },
-
   deleteEntry: async (entryId) => {
-    try {
-      const entryRef = doc(db, 'entries', entryId);
-      await deleteDoc(entryRef);
-      set((state) => ({
-        entries: state.entries.filter((entry) => entry.id !== entryId),
-      }));
-    } catch (error) {
-      console.error('Error deleting entry from Firestore:', error);
-    }
+    await deleteEntry(entryId);
+    set((state) => ({
+      entries: state.entries.filter((entry) => entry.id !== entryId),
+    }));
   },
 }));
-
 export default useEntryStore;

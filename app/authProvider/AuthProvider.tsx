@@ -21,10 +21,14 @@ const AUTHENTICATED_ROUTES = [
 ];
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const { setUser, setLoading, setError } = useAuthStore();
+  const { setUser, setLoading, setError, initializeAuth } = useAuthStore();
   const { clearEntries } = useEntryStore();
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     setLoading(true);

@@ -27,7 +27,6 @@ export default function MyTrips() {
   const handleEditSubmit = async (updatedEntry: Entry) => {
     if (entryToEdit) {
       updateEntry(entryToEdit.id, updatedEntry);
-      // setEntryToEdit(null);
       setIsEditModalOpen(false);
       toast.success('Entry updated successfully');
     }

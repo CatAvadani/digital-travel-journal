@@ -11,11 +11,16 @@ interface ClientWrapperProps {
 export default function ClientWrapper({ children }: ClientWrapperProps) {
   const pathname = usePathname();
   const isMapViewPage = pathname === '/mapView';
+  const isHomePage = pathname === '/';
 
   return (
     <>
       {!isMapViewPage && <Header />}
-      <main className='flex flex-grow items-center justify-center'>
+      <main
+        className={`flex flex-grow items-center justify-center ${
+          isHomePage ? '' : 'defaultBackground bg-no-repeat'
+        }`}
+      >
         {children}
       </main>
     </>
