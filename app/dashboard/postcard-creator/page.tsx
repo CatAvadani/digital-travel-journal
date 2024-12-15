@@ -28,6 +28,7 @@ export default function PostcardCreator() {
   const { user } = useAuthStore();
   const postcardRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
+  const [key, setKey] = useState(0);
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: '',
@@ -72,14 +73,20 @@ export default function PostcardCreator() {
 
       const dataUrl = await htmlToImage.toPng(element, {
         quality: 0.95,
-        pixelRatio: 1,
+        pixelRatio: 2,
         skipAutoScale: true,
         cacheBust: true,
+        fetchRequestInit: {
+          mode: 'cors',
+          credentials: 'omit',
+        },
       });
 
-      const res = await fetch(dataUrl);
-      const blob = await res.blob();
-      const file = new File([blob], 'postcard.png', { type: 'image/png' });
+      // Create blob from dataUrl
+      const blob = await fetch(dataUrl).then((res) => res.blob());
+      const file = new File([blob], `postcard-${Date.now()}.png`, {
+        type: 'image/png',
+      });
 
       if (file.size > 5 * 1024 * 1024) {
         toast.error('Image is too large. Please try with a smaller image.');
@@ -102,6 +109,7 @@ export default function PostcardCreator() {
 
       toast.success('Postcard saved successfully!');
       resetFields();
+      setKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error('Error saving postcard:', error);
       toast.error('Failed to save postcard. Please try again later.');
@@ -119,6 +127,10 @@ export default function PostcardCreator() {
     value: PostcardData[Key]
   ) => {
     setPostcardData((prev) => ({ ...prev, [field]: value }));
+
+    if (field === 'selectedImage') {
+      setKey((prevKey) => prevKey + 1);
+    }
     document
       .getElementById('template-section')
       ?.scrollIntoView({ behavior: 'smooth' });
@@ -127,7 +139,7 @@ export default function PostcardCreator() {
   const { selectedImage, selectedTemplate, message } = postcardData;
 
   return (
-    <div className='p-1 md:p-4 text-white h-full'>
+    <div className='p-1 md:p-4 text-white'>
       <h1 className='text-base sm:text-lg font-semibold my-10'>
         Choose your favorite photo, pick a template, and add <br /> a message to
         create your unique postcard.
@@ -213,6 +225,7 @@ export default function PostcardCreator() {
           <div
             ref={postcardRef}
             id='postcard-preview'
+            key={key}
             className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
               styles[
                 postcardTemplates.find((t) => t.id === selectedTemplate)
@@ -221,12 +234,15 @@ export default function PostcardCreator() {
             }`}
           >
             <Image
-              key={selectedImage}
+              key={`${selectedImage}-${key}`}
               src={selectedImage || '/default-img.jpg'}
               alt='Selected'
               className={`postcard-image ${styles['postcard-image']}`}
               width={300}
               height={200}
+              priority={true}
+              unoptimized={true}
+              crossOrigin='anonymous'
             />
             <textarea
               value={message}
