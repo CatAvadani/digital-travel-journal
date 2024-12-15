@@ -164,7 +164,7 @@ export default function HowToUse() {
 
         <Link
           href='/login'
-          className='text-pink-500 block hover:underline font-bold text-base sm:text-lg text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)'
+          className='text-white block hover:underline font-bold text-base sm:text-lg text-center drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'
         >
           Sign Up Now <ArrowRight className='size-6 inline' />
         </Link>
