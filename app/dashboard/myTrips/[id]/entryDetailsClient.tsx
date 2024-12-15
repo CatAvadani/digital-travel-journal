@@ -35,7 +35,7 @@ export default function EntryDetailsClient({
       >
         <Image
           src={entry.image}
-          alt={entry.title}
+          alt=''
           fill
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           priority={true}
@@ -66,7 +66,7 @@ export default function EntryDetailsClient({
           <p className='mt-4'>{entry.description}</p>
           {weatherData ? (
             <div className='mt-4 flex items-center justify-start gap-4 text-lg text-white/80'>
-              <p className='font-bold'>Weather:</p>
+              <h2 className='font-bold'>Weather:</h2>
               <p className='capitalize'>{weatherData.weather[0].description}</p>
               <p className='font-normal'>
                 {Math.floor(weatherData.main.temp)}°C

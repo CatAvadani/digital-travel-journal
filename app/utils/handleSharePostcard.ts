@@ -7,14 +7,12 @@ import {
 } from 'firebase/storage';
 import html2canvas from 'html2canvas';
 import toast from 'react-hot-toast';
-import { Postcard } from '../store/firestoreHelpers';
-
+import { Postcard } from '../interfaces/postCard';
 export const handleSharePostcard = async (
   postcardId: string,
   user: User,
   updatePostcard: (id: string, data: Partial<Postcard>) => Promise<void>
 ) => {
-  // Get the postcard container
   const element = document.getElementById(`postcard-${postcardId}`);
 
   if (!element) {
@@ -23,7 +21,6 @@ export const handleSharePostcard = async (
   }
 
   try {
-    // Wait for any animations/transitions to complete
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const width = element.offsetWidth;
@@ -42,11 +39,9 @@ export const handleSharePostcard = async (
           `postcard-${postcardId}`
         );
         if (clonedElement) {
-          // Ensure all styles are properly applied to the clone
           clonedElement.style.transform = 'none';
           clonedElement.style.width = `${width}px`;
           clonedElement.style.height = `${height}px`;
-          // Make sure the element is visible
           clonedElement.style.opacity = '1';
           clonedElement.style.visibility = 'visible';
         }
@@ -64,10 +59,8 @@ export const handleSharePostcard = async (
 
     const shareableURL = await getDownloadURL(storageRef);
 
-    // Update the specific postcard's shareable URL
     await updatePostcard(postcardId, { shareableURL });
 
-    // Open Facebook share dialog with the new URL
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       shareableURL
     )}`;

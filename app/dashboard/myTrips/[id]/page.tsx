@@ -2,15 +2,15 @@ import { fetchImages, getCorrectCoordinates } from '@/app/api/apiImagesRequest';
 import { getWeatherData } from '@/app/api/apiOpenWeatherMap';
 import { fetchEntryById } from '@/app/services/entryService';
 import { Link } from 'lucide-react';
-import EntryDetailsClient from './entryDetailsClient';
+import EntryDetailsClient from './EntryDetailsClient';
 
-export default async function EntryDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const resolvedParams = await Promise.resolve(params);
-  const entry = await fetchEntryById(resolvedParams.id);
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function EntryDetailsPage({ params }: PageProps) {
+  const { id } = await params;
+  const entry = await fetchEntryById(id);
 
   if (!entry) {
     return (
