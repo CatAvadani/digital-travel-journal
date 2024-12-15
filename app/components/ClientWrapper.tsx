@@ -13,7 +13,7 @@ export default function ClientWrapper({ children }: ClientWrapperProps) {
   const isMapViewPage = pathname === '/mapView';
 
   return (
-    <div className='wrapper'>
+    <div className='defaultBackground'>
       {!isMapViewPage && <Header />}
       <main className='content'>{children}</main>
     </div>

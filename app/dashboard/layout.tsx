@@ -11,7 +11,6 @@ import {
   TrendingUp,
 } from 'react-feather';
 import BreadcrumbsNavigation from '../components/BreadCrumbsNavigation';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { useAuthStore } from '../store/useAuthStore';
 
 export default function DashboardLayout({
@@ -33,10 +32,6 @@ export default function DashboardLayout({
       router.push('/login');
     }
   }, [loading, user, router]);
-
-  if (loading || !user) {
-    return <LoadingSpinner />;
-  }
 
   const menuItems = [
     {
