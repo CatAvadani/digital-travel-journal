@@ -45,7 +45,7 @@ export default function RootLayout({
         <link rel='manifest' href='/site.webmanifest' />
       </Head>
       <body
-        className={`${dmSans.className} antialiased flex flex-col  h-full min-h-screen`}
+        className={`${dmSans.className} antialiased flex flex-col h-full min-h-screen`}
       >
         <Providers>
           <ClientWrapper>

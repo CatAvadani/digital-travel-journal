@@ -16,7 +16,6 @@ body {
   height: 100%;
   margin: 0;
 }
-/*  */
 .glassBackground {
   @apply bg-white bg-opacity-10 
   backdrop-blur-lg backdrop-filter;
