@@ -48,7 +48,6 @@ body::before {
   position: relative;
 }
 
-/* Your other existing styles */
 .glassBackground {
   @apply bg-white bg-opacity-10 backdrop-blur-lg backdrop-filter;
 }
@@ -61,11 +60,25 @@ body::before {
   @apply border-2 border-[#4B0082] hover:bg-[#4B0082]/30 transition-all duration-300 ease-in-out;
 }
 
+.defaultBackground {
+  display: none;
+}
+
 input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-/* Remove any previous background classes if they exist */
-.defaultBackground {
-  display: none;
+input:-webkit-autofill {
+  background-color: #110915 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
+  -webkit-text-fill-color: white !important;
+  color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover {
+  background-color: #110915 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #110915 inset !important;
+  -webkit-text-fill-color: white !important;
 }
