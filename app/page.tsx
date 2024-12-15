@@ -1,12 +1,25 @@
 'use client';
+
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pause, Play } from 'react-feather';
 import Footer from './components/Footer';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      const video = videoRef.current;
+
+      video.addEventListener('loadeddata', () => {
+        setIsVideoLoaded(true);
+      });
+    }
+  }, []);
 
   const toggleVideoPlayback = () => {
     if (videoRef.current) {
@@ -15,13 +28,22 @@ export default function Home() {
       } else {
         videoRef.current.play();
       }
-
       setIsVideoPlaying((prev) => !prev);
     }
   };
 
   return (
     <div className='relative w-full h-screen overflow-hidden bg-black'>
+      {!isVideoLoaded && (
+        <Image
+          src='/globe-3.png'
+          alt='Globe background'
+          fill
+          priority
+          className='object-cover'
+        />
+      )}
+
       <div className='absolute hidden sm:block z-50 top-1/2 -ml-[7%] transform -translate-y-1/2 -rotate-90 text-white/90 text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
         Digital Travel Journal
       </div>
@@ -55,7 +77,7 @@ export default function Home() {
         </h1>
         <Link
           href='/dashboard'
-          className='primary-btn px-4 sm:px-16 py-3 rounded-full text-white shadow-lg   text-base lg:text-lg inline-block drop-shadow-md'
+          className='primary-btn px-4 sm:px-16 py-3 rounded-full text-white shadow-lg text-base lg:text-lg inline-block drop-shadow-md'
         >
           Begin Your Journey
         </Link>
