@@ -230,16 +230,19 @@ export default function PostcardCreator() {
           <Folder className='w-6 h-6' />
           <span className=' text-white'>View Saved Postcards</span>
         </Link>
-        <div className='flex gap-10'>
-          <div className='left-side'>
-            <div id='template-section' className='pb-4 '>
+        <p className='text-white/80'>
+          Customize your postcard with the options below and write your message.
+        </p>
+        <div className='flex justify-between'>
+          <div id='template-section' className='w-1/2'>
+            <div className='pb-4 '>
               <div className='relative w-full md:w-[50%]'>
                 <h2 className='text-base sm:text-lg font-semibold py-4'>
                   Choose a Template
                 </h2>
                 <button
                   onClick={() => setIsTemplateOpen(!isTemplateOpen)}
-                  className='w-full flex items-center justify-between bg-black/30 text-white border border-[#4B0082] rounded-md p-3 hover:bg-black/40 transition-all'
+                  className='w-full flex items-center justify-between text-white secondary-btn rounded-md px-4 py-2'
                 >
                   <span>
                     {selectedTemplate
@@ -276,10 +279,12 @@ export default function PostcardCreator() {
                 )}
               </div>
             </div>
+
             {/* Postcard Preview */}
             <div className='mt-6 '>
+              <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
               {!selectedImage || !selectedTemplate ? (
-                <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+                <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-md text-center my-10 mb-20'>
                   Select an image and template to see the preview here.
                 </div>
               ) : (
@@ -333,8 +338,10 @@ export default function PostcardCreator() {
               )}
             </div>
           </div>
-          <div>
-            <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
+
+          {/* Custom Settings */}
+          <div className='w-1/2'>
+            <h2 className='text-lg font-semibold my-4'>Custom Settings</h2>
             <PostcardControls onSettingsChange={handleCustomSettingsChange} />
           </div>
         </div>

@@ -36,7 +36,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
     <div className='relative w-full max-w-md'>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center gap-2 px-4 py-2 bg-black/30 rounded-md hover:bg-black/40 transition-colors'
+        className='flex items-center gap-2 px-4 py-2 rounded-md secondary-btn'
         aria-expanded={isOpen}
         aria-controls='controls-panel'
       >
@@ -84,7 +84,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
                 type='color'
                 value={settings.borderColor}
                 onChange={(e) => handleChange('borderColor', e.target.value)}
-                className='h-8 w-16 bg-transparent'
+                className='h-8 w-8 bg-transparent'
               />
               <span className='text-sm' aria-label='Selected color value'>
                 {settings.borderColor}
