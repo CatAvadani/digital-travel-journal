@@ -10,8 +10,9 @@ import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp } from 'react-feather';
+import { ChevronDown, ChevronUp, Folder } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import styles from './postcard.module.scss';
@@ -221,8 +222,14 @@ export default function PostcardCreator() {
             </button>
           </div>
         </div>
-
-        <div id='template-section' className='py-4'>
+        <Link
+          href='/dashboard/savedPostcards'
+          className='flex items-center gap-2 px-4 py-2 primary-btn rounded-md w-[fit-content]'
+        >
+          <Folder className='w-6 h-6' />
+          <span className=' text-white'>View Saved Postcards</span>
+        </Link>
+        <div id='template-section' className='pb-4'>
           <h2 className='text-base sm:text-lg font-semibold py-4'>
             Choose a Template
           </h2>
