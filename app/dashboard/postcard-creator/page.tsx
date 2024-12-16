@@ -35,6 +35,7 @@ export default function PostcardCreator() {
   const postcardRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [key, setKey] = useState(0);
+  const [isTemplateOpen, setIsTemplateOpen] = useState(false);
 
   const [customSettings, setCustomSettings] = useState<PostcardCustomSettings>({
     imageFilter: 'none',
@@ -229,85 +230,114 @@ export default function PostcardCreator() {
           <Folder className='w-6 h-6' />
           <span className=' text-white'>View Saved Postcards</span>
         </Link>
-        <div id='template-section' className='pb-4'>
-          <h2 className='text-base sm:text-lg font-semibold py-4'>
-            Choose a Template
-          </h2>
-          <div className='grid grid-cols-3 gap-2 md:gap-4 w-full md:w-[50%]'>
-            {postcardTemplates.map((template) => (
-              <div
-                key={template.id}
-                onClick={() => updateField('selectedTemplate', template.id)}
-                className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
-                  selectedTemplate === template.id
-                    ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
-                    : 'border-2 border-[#4B0082] hover:bg-[#4B0082]/30 '
-                }`}
-              >
-                <p className=' text-center'>{template.name}</p>
+        <div className='flex gap-10'>
+          <div className='left-side'>
+            <div id='template-section' className='pb-4 '>
+              <div className='relative w-full md:w-[50%]'>
+                <h2 className='text-base sm:text-lg font-semibold py-4'>
+                  Choose a Template
+                </h2>
+                <button
+                  onClick={() => setIsTemplateOpen(!isTemplateOpen)}
+                  className='w-full flex items-center justify-between bg-black/30 text-white border border-[#4B0082] rounded-md p-3 hover:bg-black/40 transition-all'
+                >
+                  <span>
+                    {selectedTemplate
+                      ? postcardTemplates.find((t) => t.id === selectedTemplate)
+                          ?.name
+                      : 'Select a template'}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      isTemplateOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {isTemplateOpen && (
+                  <div className='absolute w-full mt-2 bg-[#110915] border border-[#4B0082] rounded-md shadow-xl z-10 overflow-hidden'>
+                    {postcardTemplates.map((template) => (
+                      <div
+                        key={template.id}
+                        onClick={() => {
+                          updateField('selectedTemplate', template.id);
+                          setIsTemplateOpen(false);
+                        }}
+                        className={`px-4 py-3 cursor-pointer transition-colors ${
+                          selectedTemplate === template.id
+                            ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082] text-white'
+                            : 'hover:bg-black/40 text-white/90'
+                        }`}
+                      >
+                        {template.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            ))}
+            </div>
+            {/* Postcard Preview */}
+            <div className='mt-6 '>
+              {!selectedImage || !selectedTemplate ? (
+                <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
+                  Select an image and template to see the preview here.
+                </div>
+              ) : (
+                <div>
+                  <div
+                    ref={postcardRef}
+                    id='postcard-preview'
+                    key={key}
+                    style={postcardStyle}
+                    className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
+                      styles[
+                        postcardTemplates.find((t) => t.id === selectedTemplate)
+                          ?.className || ''
+                      ]
+                    }`}
+                  >
+                    <Image
+                      key={`${selectedImage}-${key}`}
+                      src={selectedImage || '/default-img.jpg'}
+                      alt='Selected'
+                      className={`postcard-image ${styles['postcard-image']}`}
+                      width={300}
+                      height={200}
+                      priority={true}
+                      unoptimized={true}
+                      crossOrigin='anonymous'
+                    />
+                    <textarea
+                      value={message}
+                      rows={3}
+                      aria-label='Postcard message'
+                      onChange={(e) => updateField('message', e.target.value)}
+                      placeholder='Write your message here...'
+                      className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
+                    />
+                  </div>
+                  <div className='my-6 flex gap-4'>
+                    <SimpleButton
+                      text={loading ? 'Saving...' : 'Save Postcard'}
+                      onClick={handleSavePostcard}
+                      backgroundColor='primary-btn'
+                    />
+                    <button
+                      className='secondary-btn px-4 py-2 rounded-md'
+                      onClick={resetFields}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div>
+            <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
+            <PostcardControls onSettingsChange={handleCustomSettingsChange} />
           </div>
         </div>
-      </div>
-
-      {/* Postcard Preview */}
-      <div className='mt-6'>
-        <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
-        <PostcardControls onSettingsChange={handleCustomSettingsChange} />
-        {!selectedImage || !selectedTemplate ? (
-          <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
-            Select an image and template to see the preview here.
-          </div>
-        ) : (
-          <div>
-            <div
-              ref={postcardRef}
-              id='postcard-preview'
-              key={key}
-              style={postcardStyle}
-              className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
-                styles[
-                  postcardTemplates.find((t) => t.id === selectedTemplate)
-                    ?.className || ''
-                ]
-              }`}
-            >
-              <Image
-                key={`${selectedImage}-${key}`}
-                src={selectedImage || '/default-img.jpg'}
-                alt='Selected'
-                className={`postcard-image ${styles['postcard-image']}`}
-                width={300}
-                height={200}
-                priority={true}
-                unoptimized={true}
-                crossOrigin='anonymous'
-              />
-              <textarea
-                value={message}
-                rows={3}
-                aria-label='Postcard message'
-                onChange={(e) => updateField('message', e.target.value)}
-                placeholder='Write your message here...'
-                className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
-              />
-            </div>
-            <div className='my-6 flex gap-4'>
-              <SimpleButton
-                text={loading ? 'Saving...' : 'Save Postcard'}
-                onClick={handleSavePostcard}
-                backgroundColor='primary-btn'
-              />
-              <button
-                className='secondary-btn px-4 py-2 rounded-md'
-                onClick={resetFields}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
       <div className='flex justify-start mt-4'>
