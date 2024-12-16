@@ -1,4 +1,5 @@
-import { ChevronDown, ChevronUp, Settings2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Folder, Settings2 } from 'lucide-react';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import {
   FILTER_OPTIONS,
@@ -33,22 +34,30 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
   };
 
   return (
-    <div className='relative w-full max-w-md'>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center gap-2 px-4 py-2 bg-black/30 rounded-md hover:bg-black/40 transition-colors'
-        aria-expanded={isOpen}
-        aria-controls='controls-panel'
-      >
-        <Settings2 className='w-4 h-4' />
-        <span>Customize Postcard</span>
-        {isOpen ? (
-          <ChevronUp className='w-4 h-4 ml-2' />
-        ) : (
-          <ChevronDown className='w-4 h-4 ml-2' />
-        )}
-      </button>
-
+    <div className='relative w-full max-w-lg'>
+      <div className=' flex items-center gap-4'>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className='flex items-center gap-2 px-4 py-2 rounded-md secondary-btn'
+          aria-expanded={isOpen}
+          aria-controls='controls-panel'
+        >
+          <Settings2 className='w-4 h-4' />
+          <span>Customize Postcard</span>
+          {isOpen ? (
+            <ChevronUp className='w-4 h-4 ml-2' />
+          ) : (
+            <ChevronDown className='w-4 h-4 ml-2' />
+          )}
+        </button>
+        <Link
+          href='/dashboard/savedPostcards'
+          className='flex items-center gap-2 px-4 py-2 primary-btn rounded-md'
+        >
+          <Folder className='w-6 h-6' />
+          <span className=' text-white'>View Saved Postcards</span>
+        </Link>
+      </div>
       <div
         id='controls-panel'
         className={`mt-2 overflow-hidden transition-all duration-300 ease-in-out ${

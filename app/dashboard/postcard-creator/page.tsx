@@ -186,7 +186,7 @@ export default function PostcardCreator() {
                 <div
                   key={entry.id}
                   onClick={() => updateField('selectedImage', entry.image)}
-                  className={`relative w-full h-[100px] cursor-pointer ${
+                  className={`relative w-full h-[100px] cursor-pointer transition-all duration-200 hover:scale-105 ${
                     selectedImage === entry.image
                       ? 'ring-4 rounded-md ring-[#b759fb]'
                       : ''
@@ -231,7 +231,7 @@ export default function PostcardCreator() {
               <div
                 key={template.id}
                 onClick={() => updateField('selectedTemplate', template.id)}
-                className={`px-4 py-2 rounded-md cursor-pointer shadow-md ${
+                className={`px-4 py-2 rounded-md cursor-pointer shadow-md transition-all duration-200 ${
                   selectedTemplate === template.id
                     ? 'bg-gradient-to-r from-[#E91E63] to-[#4B0082]'
                     : 'border-2 border-[#4B0082] hover:bg-[#4B0082]/30 '
@@ -247,7 +247,12 @@ export default function PostcardCreator() {
       {/* Postcard Preview */}
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
+        <p className='text-white/80 mb-6'>
+          Customize your postcard with the options below and write your message.
+        </p>
+
         <PostcardControls onSettingsChange={handleCustomSettingsChange} />
+
         {!selectedImage || !selectedTemplate ? (
           <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
             Select an image and template to see the preview here.
@@ -258,7 +263,7 @@ export default function PostcardCreator() {
             id='postcard-preview'
             key={key}
             style={postcardStyle}
-            className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
+            className={`postcard-preview w-full flex flex-col items-center max-w-md mt-4 mb-16 rounded-md shadow-lg relative ${
               styles[
                 postcardTemplates.find((t) => t.id === selectedTemplate)
                   ?.className || ''
@@ -301,6 +306,7 @@ export default function PostcardCreator() {
           Cancel
         </button>
       </div>
+
       <div className='flex justify-start mt-4'>
         <button
           className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
