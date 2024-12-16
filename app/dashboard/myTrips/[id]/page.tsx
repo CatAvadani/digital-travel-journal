@@ -2,6 +2,7 @@ import { fetchImages, getCorrectCoordinates } from '@/app/api/apiImagesRequest';
 import { getWeatherData } from '@/app/api/apiOpenWeatherMap';
 import { fetchEntryById } from '@/app/services/entryService';
 import { Link } from 'lucide-react';
+import { Suspense } from 'react';
 import EntryDetailsClient from './EntryDetailsClient';
 
 interface PageProps {
@@ -23,16 +24,25 @@ export default async function EntryDetailsPage({ params }: PageProps) {
     );
   }
 
-  const images = entry.city ? await fetchImages(entry.city) : [];
-  const weatherData = entry.coordinates
-    ? await getWeatherData(...getCorrectCoordinates(entry.coordinates))
-    : null;
+  const [images, weatherData] = await Promise.all([
+    entry.city ? fetchImages(entry.city) : [],
+    entry.coordinates
+      ? getWeatherData(...getCorrectCoordinates(entry.coordinates))
+      : null,
+  ]);
+
+  // const images = entry.city ? await fetchImages(entry.city) : [];
+  // const weatherData = entry.coordinates
+  //   ? await getWeatherData(...getCorrectCoordinates(entry.coordinates))
+  //   : null;
 
   return (
-    <EntryDetailsClient
-      entry={entry}
-      images={images}
-      weatherData={weatherData}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <EntryDetailsClient
+        entry={entry}
+        images={images}
+        weatherData={weatherData}
+      />
+    </Suspense>
   );
 }
