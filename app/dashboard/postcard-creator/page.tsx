@@ -1,6 +1,11 @@
 'use client';
 
+import PostcardControls from '@/app/components/PostCardControls';
 import SimpleButton from '@/app/components/ui/SimpleButton';
+import {
+  PostcardCustomSettings,
+  SHADOW_OPTIONS,
+} from '@/app/interfaces/postCard';
 import { savePostcard, uploadToFirebase } from '@/app/store/firestoreHelpers';
 import { useAuthStore } from '@/app/store/useAuthStore';
 import * as htmlToImage from 'html-to-image';
@@ -29,6 +34,15 @@ export default function PostcardCreator() {
   const postcardRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [key, setKey] = useState(0);
+
+  const [customSettings, setCustomSettings] = useState<PostcardCustomSettings>({
+    imageFilter: 'none',
+    borderColor: '#ffffff',
+    borderWidth: 5,
+    borderRadius: 16,
+    shadowIntensity: 'medium',
+    textBackground: 'rgba(240, 240, 240, 0.1)',
+  });
 
   const [postcardData, setPostcardData] = useState<PostcardData>({
     selectedImage: '',
@@ -138,6 +152,18 @@ export default function PostcardCreator() {
 
   const { selectedImage, selectedTemplate, message } = postcardData;
 
+  const handleCustomSettingsChange = (newSettings: PostcardCustomSettings) => {
+    setCustomSettings(newSettings);
+  };
+
+  const postcardStyle = {
+    '--image-filter': customSettings.imageFilter,
+    '--border-color': customSettings.borderColor,
+    '--border-width': `${customSettings.borderWidth}px`,
+    '--border-radius': `${customSettings.borderRadius}px`,
+    '--shadow': SHADOW_OPTIONS[customSettings.shadowIntensity],
+  } as React.CSSProperties;
+
   return (
     <div className=' md:p-4 text-white '>
       <h1 className='text-base sm:text-lg sm:font-semibold my-10'>
@@ -221,6 +247,7 @@ export default function PostcardCreator() {
       {/* Postcard Preview */}
       <div className='mt-6'>
         <h2 className='text-lg font-semibold my-4'>Preview Image</h2>
+        <PostcardControls onSettingsChange={handleCustomSettingsChange} />
         {!selectedImage || !selectedTemplate ? (
           <div className='text-white/80 px-4 py-6 border border-white/20 border-dashed rounded-md max-w-xl text-center my-10 mb-20'>
             Select an image and template to see the preview here.
@@ -230,7 +257,8 @@ export default function PostcardCreator() {
             ref={postcardRef}
             id='postcard-preview'
             key={key}
-            className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 bg-white rounded-md shadow-lg relative ${
+            style={postcardStyle}
+            className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
               styles[
                 postcardTemplates.find((t) => t.id === selectedTemplate)
                   ?.className || ''
