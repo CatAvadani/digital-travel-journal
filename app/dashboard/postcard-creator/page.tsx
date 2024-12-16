@@ -253,54 +253,56 @@ export default function PostcardCreator() {
             Select an image and template to see the preview here.
           </div>
         ) : (
-          <div
-            ref={postcardRef}
-            id='postcard-preview'
-            key={key}
-            style={postcardStyle}
-            className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
-              styles[
-                postcardTemplates.find((t) => t.id === selectedTemplate)
-                  ?.className || ''
-              ]
-            }`}
-          >
-            <Image
-              key={`${selectedImage}-${key}`}
-              src={selectedImage || '/default-img.jpg'}
-              alt='Selected'
-              className={`postcard-image ${styles['postcard-image']}`}
-              width={300}
-              height={200}
-              priority={true}
-              unoptimized={true}
-              crossOrigin='anonymous'
-            />
-            <textarea
-              value={message}
-              rows={3}
-              aria-label='Postcard message'
-              onChange={(e) => updateField('message', e.target.value)}
-              placeholder='Write your message here...'
-              className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
-            />
+          <div>
+            <div
+              ref={postcardRef}
+              id='postcard-preview'
+              key={key}
+              style={postcardStyle}
+              className={`postcard-preview w-full flex flex-col items-center max-w-md mb-16 rounded-md shadow-lg relative ${
+                styles[
+                  postcardTemplates.find((t) => t.id === selectedTemplate)
+                    ?.className || ''
+                ]
+              }`}
+            >
+              <Image
+                key={`${selectedImage}-${key}`}
+                src={selectedImage || '/default-img.jpg'}
+                alt='Selected'
+                className={`postcard-image ${styles['postcard-image']}`}
+                width={300}
+                height={200}
+                priority={true}
+                unoptimized={true}
+                crossOrigin='anonymous'
+              />
+              <textarea
+                value={message}
+                rows={3}
+                aria-label='Postcard message'
+                onChange={(e) => updateField('message', e.target.value)}
+                placeholder='Write your message here...'
+                className={`postcard-text placeholder:text-white/80 ${styles['postcard-text']}`}
+              />
+            </div>
+            <div className='my-6 flex gap-4'>
+              <SimpleButton
+                text={loading ? 'Saving...' : 'Save Postcard'}
+                onClick={handleSavePostcard}
+                backgroundColor='primary-btn'
+              />
+              <button
+                className='secondary-btn px-4 py-2 rounded-md'
+                onClick={resetFields}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      <div className='my-6 flex gap-4'>
-        <SimpleButton
-          text={loading ? 'Saving...' : 'Save Postcard'}
-          onClick={handleSavePostcard}
-          backgroundColor='primary-btn'
-        />
-        <button
-          className='secondary-btn px-4 py-2 rounded-md'
-          onClick={resetFields}
-        >
-          Cancel
-        </button>
-      </div>
       <div className='flex justify-start mt-4'>
         <button
           className='p-2 text-white rounded-full bg-[#110915] border border-white/10 hover:scale-105 transition-all mt-4'
