@@ -87,6 +87,27 @@ export default function PostcardCreator() {
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
+      // This is a workaround to fix the issue with html-to-image library
+      await htmlToImage.toPng(element, {
+        quality: 0.95,
+        pixelRatio: 2,
+        skipAutoScale: true,
+        cacheBust: true,
+        fetchRequestInit: {
+          mode: 'cors',
+          credentials: 'omit',
+        },
+      });
+      await htmlToImage.toPng(element, {
+        quality: 0.95,
+        pixelRatio: 2,
+        skipAutoScale: true,
+        cacheBust: true,
+        fetchRequestInit: {
+          mode: 'cors',
+          credentials: 'omit',
+        },
+      });
       const dataUrl = await htmlToImage.toPng(element, {
         quality: 0.95,
         pixelRatio: 2,
