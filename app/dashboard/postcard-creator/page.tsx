@@ -1,6 +1,5 @@
 'use client';
 
-import PostcardControls from '@/app/components/PostCardControls';
 import SimpleButton from '@/app/components/ui/SimpleButton';
 import {
   PostcardCustomSettings,
@@ -16,6 +15,7 @@ import { ChevronDown, ChevronUp, Folder } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import styles from './postcard.module.scss';
+import PostcardControls from './PostCardControls';
 
 interface PostcardData {
   selectedImage: string | null;
