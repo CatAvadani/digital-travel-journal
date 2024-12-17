@@ -4,7 +4,8 @@ import {
   FILTER_OPTIONS,
   PostcardCustomSettings,
   SHADOW_OPTIONS,
-} from '../interfaces/postCard';
+} from '../../interfaces/postCard';
+import styles from './postcard.module.scss';
 
 interface PostcardControlsProps {
   onSettingsChange: (settings: PostcardCustomSettings) => void;
@@ -55,14 +56,14 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
           isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className='bg-black/30 p-4 rounded-lg space-y-4'>
+        <div className='bg-black/30 p-4 rounded-md space-y-4'>
           <div className='space-y-2'>
             <label htmlFor='image-filter' className='block text-sm font-medium'>
               Image Filter
             </label>
             <select
               id='image-filter'
-              className='w-full bg-black/20 text-white border border-white/10 rounded-md p-2'
+              className={`w-full bg-black/20 text-white border border-white/10 rounded-md p-2 ${styles.select}`}
               value={settings.imageFilter}
               onChange={(e) => handleChange('imageFilter', e.target.value)}
             >
@@ -84,7 +85,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
                 type='color'
                 value={settings.borderColor}
                 onChange={(e) => handleChange('borderColor', e.target.value)}
-                className='h-8 w-8 bg-transparent'
+                className={`h-8 w-8 bg-transparent ${styles.colorPicker}`}
               />
               <span className='text-sm' aria-label='Selected color value'>
                 {settings.borderColor}
@@ -105,7 +106,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
               onChange={(e) =>
                 handleChange('borderWidth', parseInt(e.target.value))
               }
-              className='w-full'
+              className={`w-full ${styles.slider}`}
             />
           </div>
 
@@ -125,7 +126,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
               onChange={(e) =>
                 handleChange('borderRadius', parseInt(e.target.value))
               }
-              className='w-full'
+              className={`w-full ${styles.slider}`}
             />
           </div>
 
@@ -138,7 +139,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
             </label>
             <select
               id='shadow-intensity'
-              className='w-full bg-black/20 text-white border border-white/10 rounded-md p-2'
+              className={`w-full bg-black/20 text-white border border-white/10 rounded-md p-2 ${styles.select}`}
               value={settings.shadowIntensity}
               onChange={(e) =>
                 handleChange(

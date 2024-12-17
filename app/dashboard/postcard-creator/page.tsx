@@ -1,6 +1,5 @@
 'use client';
 
-import PostcardControls from '@/app/components/PostCardControls';
 import SimpleButton from '@/app/components/ui/SimpleButton';
 import {
   PostcardCustomSettings,
@@ -16,6 +15,7 @@ import { ChevronDown, ChevronUp, Folder } from 'react-feather';
 import toast from 'react-hot-toast';
 import useEntryStore from '../../store/useEntryStore';
 import styles from './postcard.module.scss';
+import PostcardControls from './PostCardControls';
 
 interface PostcardData {
   selectedImage: string | null;
@@ -233,10 +233,13 @@ export default function PostcardCreator() {
         <p className='text-white/80'>
           Customize your postcard with the options below and write your message.
         </p>
-        <div className='flex justify-between'>
-          <div id='template-section' className='w-1/2'>
+        <div className='flex flex-col-reverse lg:flex-row gap-8 justify-between'>
+          <div id='template-section' className='sm:w-1/2'>
             <div className='pb-4 '>
-              <div className='relative w-full md:w-[50%]'>
+              <div
+                className='relative w-60
+               sm:w-full md:w-[50%]'
+              >
                 <h2 className='text-base sm:text-lg font-semibold py-4'>
                   Choose a Template
                 </h2>
@@ -248,7 +251,7 @@ export default function PostcardCreator() {
                     {selectedTemplate
                       ? postcardTemplates.find((t) => t.id === selectedTemplate)
                           ?.name
-                      : 'Select a template'}
+                      : 'Select a Template'}
                   </span>
                   <ChevronDown
                     className={`w-5 h-5 transition-transform duration-200 ${
@@ -258,7 +261,7 @@ export default function PostcardCreator() {
                 </button>
 
                 {isTemplateOpen && (
-                  <div className='absolute w-full mt-2 bg-[#110915] border border-[#4B0082] rounded-md shadow-xl z-10 overflow-hidden'>
+                  <div className='absolute w-full mt-2 bg-[#110915] border border-white/10 rounded-md shadow-xl z-10 overflow-hidden'>
                     {postcardTemplates.map((template) => (
                       <div
                         key={template.id}
@@ -340,7 +343,7 @@ export default function PostcardCreator() {
           </div>
 
           {/* Custom Settings */}
-          <div className='w-1/2'>
+          <div className='sm:w-1/2'>
             <h2 className='text-lg font-semibold my-4'>Custom Settings</h2>
             <PostcardControls onSettingsChange={handleCustomSettingsChange} />
           </div>
