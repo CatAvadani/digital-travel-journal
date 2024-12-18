@@ -44,7 +44,7 @@ export default function Home() {
         />
       )}
 
-      <div className='absolute hidden sm:block z-50 top-1/2 -ml-[7%] transform -translate-y-1/2 -rotate-90 text-white/90 text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
+      <div className='absolute hidden sm:block z-50 top-1/2 -ml-[120px] transform -translate-y-1/2 -rotate-90 text-white/90 text-lg md:text-2xl lg:text-3xl font-semibold tracking-widest drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]'>
         Digital Travel Journal
       </div>
 
@@ -67,7 +67,7 @@ export default function Home() {
         style={{
           clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
         }}
-      ></div>
+      />
 
       <Footer positionClass='bottom-10 sm:left-24 md:left-32' />
 
