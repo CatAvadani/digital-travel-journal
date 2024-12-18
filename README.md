@@ -98,6 +98,37 @@ The design is inspired by Glassmorphism and modern trends:
  - Responsive layouts for desktop and mobile devices
  - Smooth transitions and engaging UI interactions
 
+## Checklist: Requirements for G & VG   
+
+### Planning & Research
+- ✅ Target audience analysis.
+- ✅ Github Project link for backlog management.
+
+### Design & Prototyping
+- ✅ Wireframes and prototypes in Figma.
+- ✅ Responsive design for at least two screen sizes.
+- ✅ Adherence to WCAG 2.1 A/AA guidelines.
+
+### Development
+- ✅ Built with Next.js 
+- ✅ State management with Zustand.
+- ✅ Fully functional CRUD operations using Firebase.
+- ✅ Firebase Authentication for secure access.
+- ✅ Integrated APIs: Mapbox, Unsplash, OpenWeatherMap.
+
+### Accessibility
+- ✅ Semantic HTML and ARIA labels.
+- ✅ High contrast and screen reader compatibility.
+
+### Deployment & Version Control
+- ✅ Hosted on Vercel.
+- ✅ GitHub repo with clear commits and feature branches.
+
+### Final 
+- ✅ README file including all required sections.
+- ✅ Slutrapport 
+
+
 ## Getting Started
 
 ### Installation
