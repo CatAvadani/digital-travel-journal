@@ -134,7 +134,7 @@ export default function Header() {
       >
         <Image
           src='/app-logo.svg'
-          className='object-cover size-10 sm:size-12 ml-2'
+          className='object-cover size-6 sm:size-8 ml-2'
           width={40}
           height={40}
           alt='App Logo'
