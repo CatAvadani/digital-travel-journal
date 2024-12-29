@@ -1,0 +1,11 @@
+{
+  "name": "Digital Travel Journal",
+  "short_name": "Travel Journal",
+  "description": "A web application designed for users to document their travel experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007BFF",
+  "orientation": "portrait",
+  "categories": ["travel", "journal", "productivity"]
+}

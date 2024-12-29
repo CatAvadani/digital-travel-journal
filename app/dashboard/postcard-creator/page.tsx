@@ -275,7 +275,7 @@ export default function PostcardCreator() {
                       : 'Select a Template'}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 transition-transform duration-200 ${
+                    className={`w-4 h-4 transition-transform duration-200 ${
                       isTemplateOpen ? 'rotate-180' : ''
                     }`}
                   />
