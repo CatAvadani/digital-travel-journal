@@ -98,36 +98,52 @@ The design is inspired by Glassmorphism and modern trends:
  - Responsive layouts for desktop and mobile devices
  - Smooth transitions and engaging UI interactions
 
-## Checklist: Requirements for G & VG   
+## Checklist: Requirements for G & VG  
 
 ### Planning & Research
-- ✅ Target audience analysis.
-- ✅ Github Project link for backlog management.
+- ✅ **Target Audience Analysis**: Conducted a detailed analysis, identifying user needs and pain points through research and interviews with travelers.
+- ✅ **Project Management Tool**: Used GitHub Projects for backlog management.
 
 ### Design & Prototyping
-- ✅ Wireframes and prototypes in Figma.
-- ✅ Responsive design for at least two screen sizes.
-- ✅ Adherence to WCAG 2.1 A/AA guidelines.
+- ✅ **Wireframes and Prototypes**: Created wireframes and interactive prototypes in Figma, adhering to UX/UI principles.
+- ✅ **Responsive Design**: Ensured the application is responsive for at least two screen sizes (mobile and desktop).
+- ✅ **WCAG 2.1 Compliance**: Followed Level A/AA standards, incorporating semantic HTML, ARIA labels, keyboard navigation, and sufficient color contrast.
 
-### Development
-- ✅ Built with Next.js 
-- ✅ State management with Zustand.
-- ✅ Fully functional CRUD operations using Firebase.
-- ✅ Firebase Authentication for secure access.
-- ✅ Integrated APIs: Mapbox, Unsplash, OpenWeatherMap.
+### Application Development
+- ✅ **Modern JavaScript Framework**: Built the application using **Next.js** and **TypeScript** for a scalable and maintainable codebase.
+- ✅ **Database Integration**: Used **Firebase** for secure storage, authentication, and real-time data retrieval.
+- ✅ **State Management**: Implemented **Zustand** for lightweight and efficient state handling.
+- ✅ **Dynamic Components**: Created interactive features such as a customizable postcard creator and interactive map functionality.
+- ✅ **Accessibility**: Ensured the use of semantic HTML and accessibility features to meet WCAG 2.1 standards.
+- ✅ **Responsiveness**: Designed and tested the application to work seamlessly across different devices (mobile and desktop), adapting the layout for user-friendly experiences.
 
-### Accessibility
-- ✅ Semantic HTML and ARIA labels.
-- ✅ High contrast and screen reader compatibility.
+### Optimization 
+- ✅ **Performance Optimizations**: 
+  - Lazy loading for images and components to improve load times.
+  - Code-splitting with Next.js to reduce the initial bundle size.
+  - Optimized API requests to minimize data transfer.
+- ✅ **Reusable Code**: Developed reusable components and a consistent design system for maintainability.
+
+### CRUD Operations
+- ✅ **Secure Implementation**: 
+  - Used Firebase for CRUD (Create, Read, Update, Delete) operations with strict authentication and security rules.
+  - Ensured only authorized users can manage travel entries, protecting user data.
 
 ### Deployment & Version Control
-- ✅ Hosted on Vercel.
-- ✅ GitHub repo with clear commits and feature branches.
+- ✅ **Version Control with Git**: 
+  - Maintained a GitHub repository with clear commit messages, feature branches, and pull requests for development.
+- ✅ **Hosting on Vercel**: Deployed the application on Vercel with an automated CI/CD pipeline, ensuring a smooth and reliable deployment process.
 
-### Final 
-- ✅ README file including all required sections.
-- ✅ Slutrapport 
-
+### Final Submission
+- ✅ **README File**: Included all required sections:
+  - Tech stack and motivations for tool choices.
+  - Installation and setup instructions.
+  - Overview of features and technologies used.
+- ✅ **Slutrapport**: A detailed report covering:
+  - Planning and research.
+  - Design and prototyping.
+  - Development process and optimizations.
+  - Reflections on challenges, solutions, and lessons learned.
 
 ## Getting Started
 
