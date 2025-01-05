@@ -162,6 +162,14 @@ NEXT_PUBLIC_API_OPENWEATHERMAP_KEY=your_api_key
 npm run dev
 ```
 
+## Credits & Attributions
+
+### Media Assets
+- Landing page video licensed from Vecteezy.com
+  - Created by: motionlantern
+  - License Type: Pro License
+  - Licensed On: 2024-11-21
+
 ## What I Learned
 
 This project gave me valuable hands-on experience with modern web development tools, including: Next.js for building a performant, server-side rendered application,
@@ -172,5 +180,4 @@ Additionally, I gained deeper insights into:
  - Following WCAG 2.1 accessibility standards to make the app usable for everyone.
  - Managing the entire development lifecycle, from planning and prototyping to deployment.
 Beyond technical skills, I learned the importance of adaptability, problem-solving, and attention to detail. This project has strengthened my confidence as a developer and reinforced my belief in continuous growth.
-
 
