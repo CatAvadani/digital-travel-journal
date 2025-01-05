@@ -31,11 +31,6 @@ export default async function EntryDetailsPage({ params }: PageProps) {
       : null,
   ]);
 
-  // const images = entry.city ? await fetchImages(entry.city) : [];
-  // const weatherData = entry.coordinates
-  //   ? await getWeatherData(...getCorrectCoordinates(entry.coordinates))
-  //   : null;
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <EntryDetailsClient

@@ -56,14 +56,14 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
           isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className='bg-black/30 p-4 rounded-md space-y-4'>
+        <div className='bg-black p-4 rounded-md space-y-4'>
           <div className='space-y-2'>
             <label htmlFor='image-filter' className='block text-sm font-medium'>
               Image Filter
             </label>
             <select
               id='image-filter'
-              className={`w-full bg-black/20 text-white border border-white/10 rounded-md p-2 ${styles.select}`}
+              className={`w-full bg-black/20 text-white border border-white/20 rounded-md p-2 ${styles.select}`}
               value={settings.imageFilter}
               onChange={(e) => handleChange('imageFilter', e.target.value)}
             >
@@ -139,7 +139,7 @@ const PostcardControls: React.FC<PostcardControlsProps> = ({
             </label>
             <select
               id='shadow-intensity'
-              className={`w-full bg-black/20 text-white border border-white/10 rounded-md p-2 ${styles.select}`}
+              className={`w-full bg-black/20 text-white border border-white/20 rounded-md p-2 ${styles.select}`}
               value={settings.shadowIntensity}
               onChange={(e) =>
                 handleChange(
