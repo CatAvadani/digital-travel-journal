@@ -9,13 +9,10 @@ Users can explore new destinations, document their journeys with interactive map
 ## Preview
 
 <div align="left">
-  <img src="public/landing-page.png" alt="Landing page with 3D globe" width="200"/>
-    <img src="public/map-view.png" alt="Interactive Map View" width="200"/>
+  <img src="public/Img-1.png" alt="Landing page with 3D globe" width="400"/>
+    <img src="public/Img-2.png" alt="Interactive Map View" width="400"/>
 </div>
-<div align="left">
-  <img src="public/postcard-creator.png" alt="Postcard Creator" width="200" height="220"/>
-  <img src="public/trip-details.png" alt="Trip Details View" width="200" height="220"/>
-</div>
+
 
 ## Features ✨
 
